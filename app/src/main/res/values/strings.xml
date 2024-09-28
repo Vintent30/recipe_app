@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">recipe_app</string>
+    <string name="home">Trang chủ</string>
+    <string name="category">Danh mục</string>
+    <string name="favourite">Yêu thích</string>
+    <string name="user">Cá nhân</string>
+
 </resources>
