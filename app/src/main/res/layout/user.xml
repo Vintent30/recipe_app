@@ -5,18 +5,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/gray"
-        app:itemIconSize="30dp"
-        app:menu="@menu/menu_bottom_nav" />
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        >
 
         <!-- Header -->
         <androidx.appcompat.widget.Toolbar
@@ -180,5 +174,13 @@
             android:text="+"
             android:textSize="50dp"
             android:drawablePadding="8dp" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/gray"
+        app:itemIconSize="30dp"
+        app:itemHorizontalTranslationEnabled="false"
+        app:menu="@menu/menu_bottom_nav"/>
 
 </RelativeLayout>
