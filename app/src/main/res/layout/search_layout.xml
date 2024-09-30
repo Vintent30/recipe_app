@@ -38,24 +38,22 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/banner"
             android:layout_alignParentBottom="true"
             android:layout_margin="15dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="45dp"
+            android:background="@drawable/search_bg"
             android:hint="Search..."
             android:padding="8dp"
-            tools:ignore="TouchTargetSizeCheck"
-            android:background="@drawable/search_bg"/>
+            tools:ignore="TouchTargetSizeCheck" />
 
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/search_bar"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="731dp"
         android:fillViewport="true"
         tools:ignore="MissingConstraints,NotSibling,UnknownId">
 
@@ -258,6 +256,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="148dp"
@@ -319,14 +318,23 @@
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/gray"
-        app:itemHorizontalTranslationEnabled="false"
+        android:layout_marginTop="104dp"
+        android:paddingTop="2dp"
+        app:backgroundTint="@color/gray"
         app:itemIconSize="30dp"
+        app:itemIconTint="@color/black"
+        app:itemRippleColor="@color/black"
+        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
         app:menu="@menu/menu_bottom_nav"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
