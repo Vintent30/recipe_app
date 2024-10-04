@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dish_descrip"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Logo"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/holtwood_one_sc"
+            android:text="Cookease"
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:layout_width="406dp"
+        android:layout_height="534dp"
+        android:src="@drawable/img2_dish_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.473" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/gray"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@color/black"
+        app:itemPaddingBottom="2dp"
+        app:itemRippleColor="@color/black"
+        app:itemTextColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom_nav" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="290dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/img3_dish_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.154"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/img1_dish_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.048"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="33dp"
+                    android:fontFamily="@font/homemade_apple"
+                    android:text="recipe"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.301"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/homemade_apple"
+                android:text="Cách làm bánh mỳ"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+
+                android:layout_marginRight="20dp"
+                android:text="Mô tả: Bánh mì là món ăn truyền thống phổ biến của người Việt Nam.Không chỉ đơn giản mà còn tiện lợi và ngon miệng  "
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:layout_width="411dp"
+                android:layout_height="189dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/img4_dish_description" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="36dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="Thương Nguyễn"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/heart" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="3dp"
+                    android:src="@drawable/calo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="60 - 70 calo"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/search"
+                    android:padding="3dp"
+                    android:text="Món dinh dưỡng"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/homemade_apple"
+                android:text="Nguyên liệu "
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/line"
+                    android:layout_width="21dp"
+                    android:layout_height="500dp"
+                    android:layout_marginLeft="30dp"
+                    app:srcCompat="@drawable/gray_line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. Phần thịt nướng:\n
+  \u2022 500g thịt heo (nạc vai hoặc thịt ba chỉ)\n
+  \u2022 2-3 tép tỏi băm\n
+  \u2022 1 củ hành tím băm\n
+  \u2022 1-2 thìa canh nước mắm\n
+  \u2022 1-2 thìa canh đường\n
+  \u2022 1-2 thìa canh dầu ăn\n
+  \u2022 1 thìa cà phê tiêu xay\n
+  \u2022 1 thìa cà phê ngũ vị hương (tuỳ chọn)\n
+ 2. Phần bánh mì:\n
+  \u2022 Bánh mì baguette hoặc bánh mì ổ\n
+  \u2022 Dưa leo (cắt lát)\n
+  \u2022 Rau sống (rau thơm, xà lách, ngò rí)\n
+  \u2022 Ớt tươi (tuỳ chọn)\n
+  \u2022 Mayonnaise hoặc tương ớt (tuỳ chọn)\n
+ 3. Sơ chế nguyên liệu:\n
+    Thịt heo xay mua về bạn cho ra một tô riêng để lát\n
+    ướp thịt. Tỏi, sả bạn bóc vỏ, rửa sạch, băm nhuyễn.\n
+    Ớt bạn lặt bỏ cuống, cắt nhỏ. Rau muống rửa sạch\n
+    bào sợi. Dưa leo bào lát mỏng dài theo chiều dọc\n
+    của dưa.\n
+4. Làm nước sốt\n
+    Đun nóng dầu ăn, phi hành tím, thêm tương đen, đường, và nước. Đun sôi đến khi hỗn hợp sệt lại.\n
+5. Tạo hình thịt xay\n
+
+    Nặn thịt thành hình trụ bằng chai và ống nước. Sử dụng phương pháp với phễu để tạo hình đều đẹp.\n
+6. Nướng thịt\n
+
+    Nướng thịt đến khi chín, chuyển màu cánh gián và dậy mùi thơm, nhớ trở đều tay.\n
+Bước 6: Hoàn thành món ăn\n
+
+    Rạch đôi ổ bánh mì, cho rau, thịt nướng, dưa leo, rau muống, ngò rí, rưới nước sốt và thêm ớt. Thưởng thức ngay!\n
+    ................................................................................." />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
