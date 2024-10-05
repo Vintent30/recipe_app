@@ -3,5 +3,6 @@
     <style name="Base.Theme.Recipe_app" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@color/orange</item>
     </style>
 </resources>
