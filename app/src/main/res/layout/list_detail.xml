@@ -59,13 +59,15 @@
 
     <RelativeLayout
         android:id="@+id/rltlayout"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="145dp"
-        android:layout_marginTop="24dp"
-        android:background="#F57804"
+        android:layout_marginTop="20dp"
+        android:foregroundGravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
+        android:background="@drawable/border_ld">
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,7 +75,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="8dp"
             android:text="Món Định Dưỡng"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp"
@@ -84,14 +86,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
-            android:paddingBottom="16dp"
+            android:layout_marginBottom="8dp"
+            android:paddingBottom="14dp"
             android:text="Cung cấp đầy đủ và cân đối các chất dinh dưỡng cần thiết cho cơ thể, bao gồm protein, carbohydrate, chất béo, vitamin, khoáng chất và nước. Mục tiêu của các món dinh dưỡng là giúp duy trì sức khỏe tốt, hỗ trợ sự phát triển và phục hồi cơ thể, cũng như phòng ngừa các bệnh lý liên quan đến dinh dưỡng."
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="-16dp"
             tools:layout_editor_absoluteY="349dp" />
     </RelativeLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayout6"
