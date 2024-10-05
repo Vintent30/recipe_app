@@ -5,13 +5,25 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF9537"
+    android:background="@color/orange"
     tools:context=".MainActivity">
-    >
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="162dp"
+        android:layout_height="171dp"
+        android:contentDescription="Logo"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toBottomOf="@+id/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.709" />
 
     <TextView
-        android:id="@+id/logo_name"
+
+        android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/holtwood_one_sc"
@@ -40,10 +52,10 @@
         android:paddingLeft="20dp"
         android:textColor="@color/black"
         android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/logo_name"
+        app:layout_constraintEnd_toEndOf="@+id/app_name"
         app:layout_constraintHorizontal_bias="0.626"
-        app:layout_constraintStart_toStartOf="@+id/logo_name"
-        app:layout_constraintTop_toBottomOf="@+id/logo_name" />
+        app:layout_constraintStart_toStartOf="@+id/app_name"
+        app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
     <EditText
         android:id="@+id/et_password"
