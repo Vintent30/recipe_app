@@ -3,6 +3,11 @@
     <string name="home">Trang chủ</string>
     <string name="category">Danh mục</string>
     <string name="favourite">Yêu thích</string>
+    <string-array name="combo_items">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+    </string-array>
     <string name="user">Cá nhân</string>
 
 </resources>

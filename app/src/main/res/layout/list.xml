@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".List">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#F57804"
+        tools:ignore="MissingConstraints">
+
+        <!-- Search Bar -->
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="358dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/banner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="259dp"
+            android:background="#F57804"
+            android:foregroundGravity="left"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="COOKEASE"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            tools:ignore="TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="15dp"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/search_bg"
+            android:hint="Search..."
+            android:padding="8dp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </RelativeLayout>
+
+    <!-- Danh mục món ăn -->
+
+    <ScrollView
+        android:id="@+id/scrollView7"
+        android:layout_width="412dp"
+
+        android:layout_height="654dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Các mục danh mục -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Danh mục các món ăn"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <!-- Mục 1 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@drawable/border_background"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_list1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:paddingBottom="5dp"
+                    android:text="Món Ăn Dinh Dưỡng"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+
+            </FrameLayout>
+
+            <!-- Mục 2 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@drawable/border_background"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_list2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:paddingBottom="5dp"
+                    android:text="Món Ăn Gia Đình"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+            <!-- Mục 3 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@drawable/border_background"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_list3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:paddingBottom="5dp"
+                    android:text="Món Ăn Vặt"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+            <!-- Mục 4 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@drawable/border_background"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_list4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:paddingBottom="5dp"
+                    android:text="Món Ăn Chay "
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+            <!-- Mục 5 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@drawable/border_background"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_list5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:paddingBottom="5dp"
+                    android:text="Đồ uống"
+                    android:textColor="#000000"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+            <!-- Thêm các mục danh mục khác ở đây -->
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        app:backgroundTint="@color/gray"
+        android:layout_marginTop="749dp"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@color/black"
+        app:itemRippleColor="@color/black"
+        app:itemTextColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:menu="@menu/menu_bottom_nav"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
