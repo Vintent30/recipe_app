@@ -254,20 +254,39 @@
     bào sợi. Dưa leo bào lát mỏng dài theo chiều dọc\n
     của dưa.\n
 4. Làm nước sốt\n
-    Đun nóng dầu ăn, phi hành tím, thêm tương đen, đường, và nước. Đun sôi đến khi hỗn hợp sệt lại.\n
+    Đun nóng dầu ăn, phi hành tím, thêm tương đen,\n
+    đường, và nước. Đun sôi đến khi hỗn hợp sệt lại.\n
 5. Tạo hình thịt xay\n
 
-    Nặn thịt thành hình trụ bằng chai và ống nước. Sử dụng phương pháp với phễu để tạo hình đều đẹp.\n
+    Nặn thịt thành hình trụ bằng chai và ống nước. Sử\n
+    dụng phương pháp với phễu để tạo hình đều đẹp.\n
 6. Nướng thịt\n
 
-    Nướng thịt đến khi chín, chuyển màu cánh gián và dậy mùi thơm, nhớ trở đều tay.\n
-Bước 6: Hoàn thành món ăn\n
+    Nướng thịt đến khi chín, chuyển màu cánh gián và\n
+    dậy mùi thơm, nhớ trở đều tay.\n
+7. Hoàn thành món ăn\n
 
-    Rạch đôi ổ bánh mì, cho rau, thịt nướng, dưa leo, rau muống, ngò rí, rưới nước sốt và thêm ớt. Thưởng thức ngay!\n
-    ................................................................................." />
+    Rạch đôi ổ bánh mì, cho rau, thịt nướng, dưa leo,\n
+    rau muống, ngò rí, rưới nước sốt và thêm ớt.\n
+    Thưởng thức ngay!\n
+    " />
 
             </LinearLayout>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/homemade_apple"
+                android:text="Video hướng dẫn "
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img5_dish_description"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="15dp"/>
         </LinearLayout>
 
     </ScrollView>
