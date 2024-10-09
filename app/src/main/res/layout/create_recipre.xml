@@ -80,12 +80,10 @@
                 app:layout_constraintVertical_bias="0.955"
                 tools:ignore="MissingConstraints" />
 
-            <ImageView
-                android:id="@+id/cookPicture_create"
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/cookPicture"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                android:background="@drawable/circle_background"
-                android:clipToOutline="true"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
                 android:scaleType="centerCrop"
@@ -95,7 +93,8 @@
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                app:riv_corner_radius="90dp"/>
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
