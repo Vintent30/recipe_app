@@ -60,17 +60,16 @@
                 app:tint="@color/black" />
         </androidx.appcompat.widget.Toolbar>
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/profilePicture"
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_gravity="start"
             android:layout_marginLeft="100dp"
             android:layout_marginTop="150dp"
-            android:background="@drawable/circle_background"
-            android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile" />
+            android:src="@drawable/profile"
+            app:riv_corner_radius="90dp"/>
 
         <TextView
             android:id="@+id/username"
