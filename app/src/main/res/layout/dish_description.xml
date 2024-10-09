@@ -158,7 +158,8 @@
                     android:layout_marginLeft="36dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp" />
+                    app:riv_corner_radius="90dp"
+                    tools:ignore="MissingClass" />
 
                 <TextView
                     android:layout_width="wrap_content"
