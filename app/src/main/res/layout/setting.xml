@@ -18,7 +18,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/back_setting"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
@@ -53,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="26dp"
+            android:id="@+id/edit_info"
             android:background="@drawable/border">
             <!-- ImageView hiển thị icon -->
 
@@ -263,6 +264,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_logout"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Đăng xuất"
@@ -274,6 +276,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutButtons"
         app:layout_constraintVertical_bias="0.253" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -281,12 +284,14 @@
         app:backgroundTint="@color/gray"
         app:itemIconSize="30dp"
         app:itemIconTint="@color/black"
+        android:layout_marginTop="765dp"
         app:itemPaddingBottom="2dp"
         app:itemRippleColor="@color/black"
         app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:menu="@menu/menu_bottom_nav"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
