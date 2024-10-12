@@ -1,6 +1,5 @@
 package com.example.recipe_app;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,16 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Sign_in extends AppCompatActivity {
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button btnSignIn;
-        TextView signup;
-        TextView forgot;
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -32,22 +30,9 @@ public class Sign_in extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Sign_in.this,HomeActivity.class));
+                startActivity(new Intent(Sign_in.this,MainActivity.class));
             }
         });
-        signup = findViewById(R.id.sign_up_by_new_acc);
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Sign_in.this, Sign_up.class));
-            }
-        });
-        forgot = findViewById(R.id.tv_forgopasas_pass);
-        forgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Sign_in.this, Forgot1.class));
-            }
-        });
+
     }
 }
