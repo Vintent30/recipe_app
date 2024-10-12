@@ -1,10 +1,8 @@
-package view;
+package com.example.recipe_app;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.recipe_app.R;
 
 public class Register extends AppCompatActivity {
 
