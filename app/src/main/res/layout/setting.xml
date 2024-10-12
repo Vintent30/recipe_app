@@ -18,7 +18,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/back_setting"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
@@ -53,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="26dp"
+            android:id="@+id/edit_info"
             android:background="@drawable/border">
             <!-- ImageView hiển thị icon -->
 
@@ -263,6 +264,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_logout"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Đăng xuất"
