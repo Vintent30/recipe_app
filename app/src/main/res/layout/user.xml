@@ -189,22 +189,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
-<!--footer-->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:backgroundTint="@color/gray"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@color/black"
-        app:itemPaddingBottom="2dp"
-        app:itemRippleColor="@color/black"
-        app:itemTextColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom_nav"
-        tools:ignore="MissingConstraints" />
-    <!-- end footer-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
