@@ -38,8 +38,8 @@ public class UserFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Điều hướng sang Setting activity
-                startActivity(new Intent(getActivity(), Create_recipe.class));
+                // Điều hướng sang Create_recipe activity
+                startActivity(new Intent(requireActivity(), Create_recipe.class));
             }
         });
         textView = view.findViewById(R.id.follower);
