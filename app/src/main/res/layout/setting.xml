@@ -85,8 +85,8 @@
                 android:backgroundTint="@color/white"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
-                android:padding="15dp"
-                android:text="Chỉnh sửa thông tin cá nhân"
+                android:padding="11dp"
+                android:text="Thông tin cá nhân"
                 android:textColor="@color/orange"
                 android:textSize="20sp"
                 android:textStyle="bold" />

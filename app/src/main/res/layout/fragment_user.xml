@@ -53,8 +53,8 @@
                 android:id="@+id/setting_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="110dp"
-                android:layout_marginBottom="100dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginBottom="85dp"
                 android:src="@drawable/settings"
                 app:tint="@color/black" />
         </androidx.appcompat.widget.Toolbar>

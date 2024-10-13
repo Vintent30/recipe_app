@@ -96,22 +96,24 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="44dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:text="Hoặc"
         android:textColor="@color/white"
         android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/line2"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup" />
+        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintTop_toBottomOf="@+id/btn_signup"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/line"
         android:layout_width="130dp"
         android:layout_height="16dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_signup"
         app:srcCompat="@drawable/line" />
@@ -121,7 +123,7 @@
         android:layout_width="130dp"
         android:layout_height="16dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_signup"
         app:srcCompat="@drawable/line" />

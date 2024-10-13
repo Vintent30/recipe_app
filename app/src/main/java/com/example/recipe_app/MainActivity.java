@@ -30,15 +30,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.navigation);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            // Đổi màu Status Bar
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.orange));
-        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            WindowInsetsCompat windowInsetsCompat = insets;
+            boolean isKeyboardVisible = windowInsetsCompat.isVisible(WindowInsetsCompat.Type.ime());
+
+            if (isKeyboardVisible) {
+                // Bàn phím xuất hiện, ẩn BottomNavigationView
+                bottomNavigationView.setVisibility(View.GONE);
+            } else {
+                // Bàn phím ẩn, hiện lại BottomNavigationView
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+
             return insets;
         });
         // Nút logout và điều hướng sang Register Activity

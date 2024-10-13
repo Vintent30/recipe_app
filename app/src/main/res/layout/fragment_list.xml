@@ -30,18 +30,21 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginBottom="40dp"
                 android:contentDescription="Logo"
-                android:src="@drawable/logo" />
+                android:src="@drawable/logo"
+                android:layout_marginTop="20dp"/>
 
             <TextView
                 android:id="@+id/appName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="53dp"
                 android:fontFamily="@font/holtwood_one_sc"
-                android:paddingBottom="20dp"
                 android:text="COOKEASE"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
         </androidx.appcompat.widget.Toolbar>
 
         <EditText
@@ -89,11 +92,12 @@
             <!-- Mục 1 -->
             <FrameLayout
 
-                android:layout_width="match_parent"
+                android:layout_width="370dp"
                 android:layout_height="110dp"
                 android:background="@drawable/border_background"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:layout_gravity="left">
 
                 <ImageView
                     android:id="@+id/image1"
@@ -117,11 +121,12 @@
 
             <!-- Mục 2 -->
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="370dp"
                 android:layout_height="110dp"
                 android:background="@drawable/border_background"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:layout_gravity="left">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -142,11 +147,12 @@
             </FrameLayout>
             <!-- Mục 3 -->
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="370dp"
                 android:layout_height="110dp"
                 android:background="@drawable/border_background"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:layout_gravity="left">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -167,11 +173,12 @@
             </FrameLayout>
             <!-- Mục 4 -->
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="370dp"
                 android:layout_height="110dp"
                 android:background="@drawable/border_background"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:layout_gravity="left">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -192,11 +199,12 @@
             </FrameLayout>
             <!-- Mục 5 -->
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="370dp"
                 android:layout_height="110dp"
                 android:background="@drawable/border_background"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:layout_gravity="left">
 
                 <ImageView
                     android:layout_width="wrap_content"
