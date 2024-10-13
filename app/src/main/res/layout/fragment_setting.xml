@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/set_up"
-    tools:context=".Setting">
-<!--    header-->
+    android:id="@+id/setting">
+    <!--    header-->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="22dp"/>
     </androidx.appcompat.widget.Toolbar>
-<!--    end-header-->
+    <!--    end-header-->
 
     <LinearLayout
         android:id="@+id/linearLayoutButtons"
