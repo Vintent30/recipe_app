@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ListDetail">
@@ -62,12 +63,12 @@
         android:layout_width="380dp"
         android:layout_height="145dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/border_ld"
         android:foregroundGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints"
-        android:background="@drawable/border_ld">
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:layout_width="wrap_content"
@@ -279,9 +280,9 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="765dp"
         android:paddingTop="2dp"
         app:backgroundTint="@color/gray"
-        android:layout_marginTop="765dp"
         app:itemIconSize="30dp"
         app:itemIconTint="@color/black"
         app:itemRippleColor="@color/black"
@@ -292,7 +293,6 @@
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
         app:menu="@menu/menu_bottom_nav"
         tools:ignore="MissingConstraints" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

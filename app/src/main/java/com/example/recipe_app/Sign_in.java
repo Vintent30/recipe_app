@@ -17,6 +17,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Sign_in extends AppCompatActivity {
+    Button btnSignIn;
+    TextView signup;
+    TextView forgot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button btnSignIn;
@@ -31,6 +34,20 @@ public class Sign_in extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Sign_in.this,MainActivity.class));
+            }
+        });
+        signup = findViewById(R.id.sign_up_by_new_acc);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Sign_in.this, Sign_up.class));
+            }
+        });
+        forgot = findViewById(R.id.tv_forgopasas_pass);
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Sign_in.this, Forgot1.class));
             }
         });
 

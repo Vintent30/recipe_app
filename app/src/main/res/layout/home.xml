@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment">
 
     <LinearLayout
         android:id="@+id/contentmiddle"
@@ -116,13 +117,13 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/line1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/imageView1"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:background="@drawable/img1_home" />

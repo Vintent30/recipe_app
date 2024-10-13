@@ -22,6 +22,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+        <activity android:name=".Sign_up" />
+        <activity android:name=".Forgot1" />
+        <activity android:name=".Forgot2" />
+        <activity android:name=".Forgot3" />
+        <activity android:name=".DishRecipe" />
+        <activity android:name=".ListDetail" />
 
 
         <meta-data
