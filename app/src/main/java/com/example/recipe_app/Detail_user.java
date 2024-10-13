@@ -1,10 +1,8 @@
 package com.example.recipe_app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,34 +10,29 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.recipe_app.nav.UserFragment;
-
-public class Setting extends AppCompatActivity {
+public class Detail_user extends AppCompatActivity {
     ImageView imageView;
-    RelativeLayout relativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.setting);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.set_up), (v, insets) -> {
+        setContentView(R.layout.detail_user);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.detailUser), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        imageView = findViewById(R.id.back_setting);
+        imageView = findViewById(R.id.back_DU);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Setting.this, UserFragment.class));
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    // Nếu không còn fragment nào trong back stack, có thể gọi finish() hoặc xử lý khác
+                    finish();
+                }
             }
         });
-        relativeLayout = findViewById(R.id.edit_info);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Setting.this, Detail_user.class));
-            }
-        });
-    }
+}
 }

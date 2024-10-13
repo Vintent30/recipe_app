@@ -21,13 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Setting" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".Sign_up" />
-        <activity android:name=".Forgot1" />
-        <activity android:name=".Forgot2" />
-        <activity android:name=".Forgot3" />
-
+        <activity android:name=".User" />
+        <activity android:name=".Setting" />
+        <activity android:name=".Create_recipe" />
+        <activity android:name=".Detail_user" />
+        <activity android:name=".Follow" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
