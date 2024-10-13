@@ -1,11 +1,10 @@
 package com.example.recipe_app;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +12,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class setting extends AppCompatActivity {
+import com.example.recipe_app.nav.UserFragment;
+
+public class Setting extends AppCompatActivity {
     ImageView imageView;
+    RelativeLayout relativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,14 @@ public class setting extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(setting.this, user.class));
+                startActivity(new Intent(Setting.this, UserFragment.class));
+            }
+        });
+        relativeLayout = findViewById(R.id.edit_info);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Setting.this, Detail_user.class));
             }
         });
     }

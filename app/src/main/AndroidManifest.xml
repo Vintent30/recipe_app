@@ -22,8 +22,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".user" />
-        <activity android:name=".setting" />
+        <activity android:name=".User" />
+        <activity android:name=".Setting" />
+        <activity android:name=".Create_recipe" />
+        <activity android:name=".Detail_user" />
+        <activity android:name=".Follow" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
