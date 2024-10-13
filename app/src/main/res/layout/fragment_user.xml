@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/user"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
+    android:layout_height="match_parent"
+    android:id="@+id/fgm_user"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".User"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -51,7 +50,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/settings"
+                android:id="@+id/setting_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="110dp"
@@ -86,16 +85,57 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="58dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="135dp"
-            android:text="Vintent_depzai@gmail.com"
-            android:textColor="@android:color/darker_gray"
+            android:layout_marginEnd="155dp"
+            android:text="following"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/total1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/follow"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="58dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="187dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/follower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="261dp"
+            android:textStyle="bold"
+            android:text="follower"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/total2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/follower"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="285dp"
+            android:text="0"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </RelativeLayout>
 
@@ -108,7 +148,7 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.682"
+        app:layout_constraintVertical_bias="0.792"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp">
 
@@ -173,7 +213,7 @@
 
     <!--    footer-->
     <Button
-        android:id="@+id/fab"
+        android:id="@+id/btn_createRe"
         android:layout_width="100dp"
         android:layout_height="90dp"
         android:layout_alignParentEnd="true"
