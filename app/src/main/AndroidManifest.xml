@@ -27,7 +27,8 @@
         <activity android:name=".Forgot1" />
         <activity android:name=".Forgot2" />
         <activity android:name=".Forgot3" />
-
+        <activity android:name=".Create_recipe" />
+        <activity android:name=".Detail_user" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
