@@ -8,16 +8,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.recipe_app.Detail_suggest;
 import com.example.recipe_app.DishRecipe;
 import com.example.recipe_app.R;
+import com.example.recipe_app.chat_community;
 
 
 public class HomeFragment extends Fragment {
     ImageView imageView;
     ImageView imageView1;
+    Button button;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -37,6 +40,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 // Điều hướng sang Setting activity
                 startActivity(new Intent(getActivity(), Detail_suggest.class));
+            }
+        });
+        button = view.findViewById(R.id.chat_community);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Điều hướng sang Setting activity
+                startActivity(new Intent(getActivity(), chat_community.class));
             }
         });
         return view;

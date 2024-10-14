@@ -9,23 +9,31 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:background="@color/orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
+        <ImageView
+            android:id="@+id/back_chat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Logo"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/black" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/holtwood_one_sc"
+            android:layout_marginLeft="22dp"
             android:text="Cộng đồng Cookease"
             android:textColor="@color/black"
-            android:textSize="16dp"
-            android:layout_gravity="center"
+            android:textSize="22dp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -46,7 +54,7 @@
             android:orientation="vertical"
             android:paddingBottom="190dp">
 
-<!--post 1-->
+            <!--post 1-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,6 +76,9 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/btn_bg"
                         android:backgroundTint="@color/orange"
                         android:drawableRight="@drawable/baseline_bookmarks_24"
@@ -75,9 +86,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="Lưu công thức"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp" />
+                        tools:ignore="TouchTargetSizeCheck" />
                 </FrameLayout>
 
                 <LinearLayout
@@ -179,6 +188,9 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/btn_bg"
                         android:backgroundTint="@color/orange"
                         android:drawableRight="@drawable/baseline_bookmarks_24"
@@ -186,9 +198,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="Lưu công thức"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp" />
+                        tools:ignore="TouchTargetSizeCheck" />
                 </FrameLayout>
 
                 <LinearLayout
@@ -291,6 +301,9 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/btn_bg"
                         android:backgroundTint="@color/orange"
                         android:drawableRight="@drawable/baseline_bookmarks_24"
@@ -298,9 +311,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="Lưu công thức"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp" />
+                        tools:ignore="TouchTargetSizeCheck" />
                 </FrameLayout>
 
                 <LinearLayout

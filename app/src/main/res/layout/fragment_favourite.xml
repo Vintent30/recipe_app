@@ -865,19 +865,19 @@
             </ScrollView>
         </LinearLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@drawable/border_fv"
-            android:drawableRight="@drawable/arrow_drop_down"
             android:hint="Sắp xếp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.054"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout"
             tools:ignore="TouchTargetSizeCheck" />
+
 
 
 

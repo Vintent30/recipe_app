@@ -38,6 +38,7 @@
         <activity android:name=".DishRecipe" />
         <activity android:name=".Detail_suggest" />
         <activity android:name=".RecipeActivity" />
+        <activity android:name=".chat_community" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts"
