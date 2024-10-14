@@ -14,24 +14,35 @@
         tools:targetApi="31">
         <activity
             android:name=".Sign_in"
-            android:exported="true">
+            android:exported="true"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Setting" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Sign_up" />
         <activity android:name=".Forgot1" />
         <activity android:name=".Forgot2" />
         <activity android:name=".Forgot3" />
+        <activity android:name=".User" />
+        <activity android:name=".Setting" />
         <activity android:name=".Create_recipe" />
         <activity android:name=".Detail_user" />
+        <activity android:name=".Follow" />
+        <activity android:name=".ListDetail" />
+        <activity android:name=".DishRecipe" />
+        <activity android:name=".Detail_suggest" />
+        <activity android:name=".RecipeActivity" />
+        <activity android:name=".chat_community" />
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:resource="@array/preloaded_fonts"
+            />
     </application>
 
 </manifest>
