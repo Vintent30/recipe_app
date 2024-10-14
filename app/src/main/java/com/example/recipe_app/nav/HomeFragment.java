@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.recipe_app.Detail_suggest;
 import com.example.recipe_app.DishRecipe;
-import com.example.recipe_app.ListDetail;
 import com.example.recipe_app.R;
 
 
 public class HomeFragment extends Fragment {
     ImageView imageView;
-
+    ImageView imageView1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -31,7 +31,15 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), DishRecipe.class));
             }
         });
-
+        imageView1 = view.findViewById(R.id.arrow_forward_1);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Điều hướng sang Setting activity
+                startActivity(new Intent(getActivity(), Detail_suggest.class));
+            }
+        });
         return view;
     }
+
 }

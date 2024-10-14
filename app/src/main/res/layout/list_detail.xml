@@ -51,12 +51,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="MissingConstraints" />
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@+id/imageView"
+    android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rltlayout"
         android:layout_width="380dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="17dp"
         android:background="@drawable/border_ld"
         android:foregroundGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +79,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="8dp"
             android:text="Món Định Dưỡng"
+            android:layout_marginBottom="5dp"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
@@ -174,6 +184,32 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dl_3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Công thức Súp cua"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="380 lượt lưu"
+                        android:textColor="#F44336"
+                        android:textSize="14sp" />
+                </LinearLayout>
                 <!-- Thêm các công thức khác nếu cần -->
             </LinearLayout>
         </HorizontalScrollView>
@@ -264,29 +300,38 @@
                         android:textColor="#F44336"
                         android:textSize="14sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dl_2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Công thức Bún bò"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="800 lượt lưu"
+                        android:textColor="#F44336"
+                        android:textSize="14sp" />
+                </LinearLayout>
                 <!-- Thêm các công thức khác nếu cần -->
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="765dp"
-        android:paddingTop="2dp"
-        app:backgroundTint="@color/gray"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@color/black"
-        app:itemRippleColor="@color/black"
-        app:itemTextColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:menu="@menu/menu_bottom_nav"
-        tools:ignore="MissingConstraints" />
+</LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

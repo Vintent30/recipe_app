@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/back"
+            android:id="@+id/back_recipe"
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:layout_alignParentStart="true"
@@ -97,6 +97,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.473" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -115,6 +116,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -174,21 +176,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/homemade_apple"
-                android:text="Cách làm trứng ngâm tương chuẩn hương vị "
+                android:text="Cách làm trứng ngâm tương"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+
                 android:layout_marginRight="20dp"
-                android:text="Mô tả: Trứng ngâm tương là một món ăn đơn giản và dễ làm với những nguyên liệu dễ tìm   "
+                android:text="Mô tả: Trứng ngâm tương là một món ăn đơn giản và dễ làm với những nguyên liệu dễ tìm "
                 android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="411dp"
-                android:layout_height="190dp"
+                android:layout_height="189dp"
                 android:layout_marginTop="15dp"
                 android:src="@drawable/image1" />
 
@@ -205,7 +208,8 @@
                     android:layout_marginLeft="36dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp" />
+                    app:riv_corner_radius="90dp"
+                    tools:ignore="MissingClass" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -237,15 +241,18 @@
                     android:layout_gravity="center"
                     android:text="60 - 70 calo"
                     android:textSize="12sp" />
+
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/search"
                     android:padding="3dp"
-                    android:text="Món gia đình"
+                    android:text="Món dinh dưỡng"
                     android:textSize="12sp" />
+
 
             </LinearLayout>
 
@@ -291,6 +298,21 @@
     .................." />
 
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/homemade_apple"
+                android:text="Video hướng dẫn "
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/image_cr"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="15dp"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

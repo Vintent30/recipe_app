@@ -14,11 +14,12 @@ import androidx.fragment.app.Fragment;
 import com.example.recipe_app.Create_recipe;
 import com.example.recipe_app.Follow;
 import com.example.recipe_app.R;
+import com.example.recipe_app.RecipeActivity;
 import com.example.recipe_app.Setting;
 
 
 public class UserFragment extends Fragment {
-    ImageView imageView;
+    ImageView imageView, imageView1;
     Button button;
     TextView textView;
     @Override
@@ -48,6 +49,14 @@ public class UserFragment extends Fragment {
             public void onClick(View view) {
                 // Điều hướng sang Setting activity
                 startActivity(new Intent(getActivity(), Follow.class));
+            }
+        });
+        imageView1 = view.findViewById(R.id.user_image_1);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Điều hướng sang Setting activity
+                startActivity(new Intent(getActivity(), RecipeActivity.class));
             }
         });
         return view;
