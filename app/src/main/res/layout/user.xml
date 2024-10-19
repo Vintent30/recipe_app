@@ -30,7 +30,7 @@
             android:background="@color/orange">
 
             <ImageView
-                android:id="@+id/logo"
+                android:id="@+id/btnback_suggest"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_alignParentStart="true"

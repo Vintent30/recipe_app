@@ -27,7 +27,7 @@
             android:layout_height="120dp">
 
             <ImageView
-                android:id="@+id/logo"
+                android:id="@+id/btnback_suggest"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="start|center_vertical"
@@ -121,6 +121,7 @@
                                 android:padding="8dp">
 
                                 <ImageView
+                                    android:id="@+id/image1"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
                                     android:contentDescription="Recipe Image"

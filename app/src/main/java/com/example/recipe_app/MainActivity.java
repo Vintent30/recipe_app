@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;  // Sử dụng CustomViewPager
     private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +39,17 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.orange));
         }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            WindowInsetsCompat windowInsetsCompat = insets;
+            boolean isKeyboardVisible = windowInsetsCompat.isVisible(WindowInsetsCompat.Type.ime());
+
+            if (isKeyboardVisible) {
+                // Bàn phím xuất hiện, ẩn BottomNavigationView
+                bottomNavigationView.setVisibility(View.GONE);
+            } else {
+                // Bàn phím ẩn, hiện lại BottomNavigationView
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+
             return insets;
         });
         // Nút logout và điều hướng sang Register Activity
@@ -59,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -80,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -99,6 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
+
 }
