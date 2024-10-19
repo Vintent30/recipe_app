@@ -26,6 +26,7 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
+        // Thêm đoạn code xử lý sự kiện click cho imageView
         imageView = view.findViewById(R.id.setting_icon);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,7 +35,7 @@ public class UserFragment extends Fragment {
                 startActivity(new Intent(getActivity(), Setting.class));
             }
         });
-        button = view.findViewById(R.id.btn_create);
+        button = view.findViewById(R.id.btn_createRe);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,6 +47,7 @@ public class UserFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Điều hướng sang Setting activity
                 startActivity(new Intent(getActivity(), Follow.class));
             }
         });
