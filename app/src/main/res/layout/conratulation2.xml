@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+        <!-- Top half - orange background -->
+        <View
+            android:id="@+id/top_half"
+            android:layout_width="match_parent"
+            android:layout_height="614dp"
+            android:background="#EE872A"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_half"/>
+
+        <!-- Bottom half - white background -->
+        <View
+            android:id="@+id/bottom_half"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:background="#FFB675"
+            app:layout_constraintTop_toBottomOf="@id/top_half"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.5"/> <!-- This makes the bottom half cover half of the screen -->
+
+        <!-- Profile image views (inside the top part) -->
+
+        <!-- Chef character image -->
+
+        <!-- Text description (inside the bottom white part) -->
+
+        <ImageView
+            android:id="@+id/profile_image_1"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img6_home"
+            app:layout_constraintBottom_toTopOf="@+id/chef_image"
+            app:layout_constraintEnd_toStartOf="@id/profile_image_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/top_half"
+            app:layout_constraintVertical_bias="0.353"
+            app:riv_border_width="0dp"
+            app:riv_corner_radius="30dp"
+            app:riv_oval="true" />
+
+        <ImageView
+            android:id="@+id/profile_image_2"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img2_home"
+            app:layout_constraintBottom_toTopOf="@+id/chef_image"
+            app:layout_constraintEnd_toStartOf="@id/profile_image_3"
+            app:layout_constraintStart_toEndOf="@id/profile_image_1"
+            app:layout_constraintTop_toTopOf="@id/profile_image_1"
+            app:layout_constraintVertical_bias="1.0"
+            app:riv_border_width="0dp"
+            app:riv_corner_radius="30dp"
+            app:riv_oval="true" />
+
+        <ImageView
+            android:id="@+id/profile_image_3"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img9_home"
+            app:layout_constraintBottom_toTopOf="@+id/chef_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/profile_image_2"
+            app:riv_border_width="0dp"
+            app:riv_corner_radius="30dp"
+            app:riv_oval="true" />
+
+        <ImageView
+            android:id="@+id/chef_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cooker2"
+            app:layout_constraintBottom_toTopOf="@id/text_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="TÌm hàng triệu công thức miễn phí được chia sẻ từ các bạn bếp gia đình khác.Chỉ có ở COOKEASE"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/bottom_half"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_learn_more"/>
+        <!-- LinearLayout for dots -->
+        <LinearLayout
+            android:id="@+id/dot_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/text_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- First dot (active) -->
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/dot_inactive"
+                    android:layout_margin="4dp" />
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/dot_active"
+                    android:layout_margin="4dp" />
+
+        </LinearLayout>
+
+
+        <!-- Button for more info (inside the bottom white part) -->
+        <Button
+            android:id="@+id/btn_learn_more"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_bg_gt"
+            android:text="Bắt đầu"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_half"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
