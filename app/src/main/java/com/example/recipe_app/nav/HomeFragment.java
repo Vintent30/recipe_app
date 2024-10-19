@@ -15,10 +15,11 @@ import com.example.recipe_app.Detail_suggest;
 import com.example.recipe_app.DishRecipe;
 import com.example.recipe_app.R;
 import com.example.recipe_app.chat_community;
+import com.example.recipe_app.Planer;
 
 
 public class HomeFragment extends Fragment {
-    ImageView imageView;
+    ImageView imageView,imgCalen;
     ImageView imageView1;
     Button button;
     @Override
@@ -48,6 +49,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 // Điều hướng sang Setting activity
                 startActivity(new Intent(getActivity(), chat_community.class));
+            }
+        });
+        imgCalen = view.findViewById(R.id.Icon_calendar);
+        imgCalen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Điều hướng sang Setting activity
+                startActivity(new Intent(getActivity(), Planer.class));
             }
         });
         return view;

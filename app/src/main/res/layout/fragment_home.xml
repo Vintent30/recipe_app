@@ -40,9 +40,17 @@
                 android:layout_marginTop="53dp"
                 android:fontFamily="@font/holtwood_one_sc"
                 android:text="COOKEASE"
+                android:layout_marginRight="72dp"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                />
+            <ImageView
+                android:id="@+id/Icon_calendar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/img_calen"
+                android:layout_marginTop="45dp"
                 />
         </androidx.appcompat.widget.Toolbar>
 
