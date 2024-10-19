@@ -33,7 +33,8 @@
         <activity android:name=".Forgot3" />
         <activity android:name=".DishRecipe" />
         <activity android:name=".ListDetail" />
-        <activity android:name=".chat_community" />
+
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
