@@ -2,52 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/list_detail"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ListDetail">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:background="#F57804"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/orange"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
+            android:id="@+id/logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/arrow_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.488" />
+            android:layout_centerVertical="true"
+            android:contentDescription="Logo"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/black" />
 
         <TextView
-            android:id="@+id/header_title"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
             android:text="MÓN DINH DƯỠNG"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imageView"
@@ -56,22 +47,31 @@
         android:scaleType="center"
         android:src="@drawable/image_list1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:ignore="MissingConstraints" />
-
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@+id/imageView"
+    android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rltlayout"
         android:layout_width="380dp"
-        android:layout_height="145dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/border_ld"
         android:foregroundGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints"
-        android:background="@drawable/border_ld">
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,11 +79,13 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="8dp"
             android:text="Món Định Dưỡng"
+            android:layout_marginBottom="5dp"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="250dp" />
+            tools:layout_editor_absoluteY="250dp"
+            android:layout_marginLeft="5dp"/>
 
         <TextView
             android:id="@+id/textView6"
@@ -95,7 +97,8 @@
             android:text="Cung cấp đầy đủ và cân đối các chất dinh dưỡng cần thiết cho cơ thể, bao gồm protein, carbohydrate, chất béo, vitamin, khoáng chất và nước. Mục tiêu của các món dinh dưỡng là giúp duy trì sức khỏe tốt, hỗ trợ sự phát triển và phục hồi cơ thể, cũng như phòng ngừa các bệnh lý liên quan đến dinh dưỡng."
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="349dp" />
+            tools:layout_editor_absoluteY="349dp"
+            android:layout_marginLeft="5dp"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -183,6 +186,32 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dl_3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Công thức Súp cua"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="380 lượt lưu"
+                        android:textColor="#F44336"
+                        android:textSize="14sp" />
+                </LinearLayout>
                 <!-- Thêm các công thức khác nếu cần -->
             </LinearLayout>
         </HorizontalScrollView>
@@ -273,30 +302,38 @@
                         android:textColor="#F44336"
                         android:textSize="14sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dl_2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Công thức Bún bò"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="800 lượt lưu"
+                        android:textColor="#F44336"
+                        android:textSize="14sp" />
+                </LinearLayout>
                 <!-- Thêm các công thức khác nếu cần -->
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        app:backgroundTint="@color/gray"
-        android:layout_marginTop="765dp"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@color/black"
-        app:itemRippleColor="@color/black"
-        app:itemTextColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:menu="@menu/menu_bottom_nav"
-        tools:ignore="MissingConstraints" />
-
+</LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

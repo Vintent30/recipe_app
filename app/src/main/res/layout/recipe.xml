@@ -102,9 +102,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="33dp"
+                        android:fontFamily="@font/homemade_apple"
                         android:text="recipe"
                         android:textColor="@color/black"
                         android:textSize="17sp"
+                        android:textStyle="italic"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.301"
                         app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +118,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Cách làm bánh mỳ"
+                    android:fontFamily="@font/homemade_apple"
+                    android:text="Cách làm trứng ngâm tương  "
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -126,7 +129,7 @@
                     android:layout_marginLeft="20dp"
 
                     android:layout_marginRight="20dp"
-                    android:text="Mô tả: Bánh mì là món ăn truyền thống phổ biến của người Việt Nam.Không chỉ đơn giản mà còn tiện lợi và ngon miệng  "
+                    android:text="Mô tả: Trứng ngâm tương là một món ăn đơn giản và dễ làm với những nguyên li ệu dễ tìm "
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -143,10 +146,10 @@
                     android:orientation="horizontal">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:layout_width="35dp"
+                        android:layout_width="42dp"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="36dp"
+                        android:layout_marginLeft="25dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/hinh"
                         app:riv_corner_radius="90dp"
@@ -184,14 +187,15 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:layout_width="111dp"
+
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/search"
                         android:padding="3dp"
                         android:text="Món dinh dưỡng"
-                        android:textSize="12sp" />
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 

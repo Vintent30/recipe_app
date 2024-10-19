@@ -23,24 +23,27 @@
             android:layout_height="120dp">
 
             <ImageView
-                android:id="@+id/btnback_suggest"
+                android:id="@+id/logo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginBottom="40dp"
                 android:contentDescription="Logo"
-                android:src="@drawable/logo" />
+                android:src="@drawable/logo"
+                android:layout_marginTop="20dp"/>
 
             <TextView
                 android:id="@+id/appName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="53dp"
                 android:fontFamily="@font/holtwood_one_sc"
-                android:paddingBottom="20dp"
                 android:text="COOKEASE"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
         </androidx.appcompat.widget.Toolbar>
 
         <EditText
@@ -62,6 +65,7 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -569,6 +573,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </HorizontalScrollView>
+
         </LinearLayout>
     </ScrollView>
 
@@ -579,12 +584,12 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="70dp"
-        android:background="@drawable/chat_icon"
+        android:layout_marginBottom="130dp"
+        android:background="@drawable/icon_chat"
         android:drawablePadding="8dp"
         android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

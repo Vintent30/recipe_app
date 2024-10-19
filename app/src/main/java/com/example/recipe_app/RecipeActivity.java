@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.recipe_app.nav.UserFragment;
+
 public class RecipeActivity extends AppCompatActivity {
     ImageView imageView, imageView1;
     @Override

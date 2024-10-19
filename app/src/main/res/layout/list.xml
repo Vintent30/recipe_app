@@ -88,6 +88,7 @@
 
             <!-- Mục 1 -->
             <FrameLayout
+                android:id="@+id/frame_1"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:background="@drawable/border_background"
@@ -95,7 +96,7 @@
                 android:padding="8dp">
 
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="371dp"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_list1" />

@@ -1,9 +1,14 @@
 package com.example.recipe_app;
 
 import android.annotation.SuppressLint;
+<<<<<<<< HEAD:app/src/main/java/com/example/recipe_app/ListDetail.java
+import android.os.Bundle;
+========
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+>>>>>>>> origin/lethanh:app/src/main/java/com/example/recipe_app/List.java
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +16,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+<<<<<<<< HEAD:app/src/main/java/com/example/recipe_app/ListDetail.java
 public class ListDetail extends AppCompatActivity {
-    ImageView imageView;
+========
+public class List extends AppCompatActivity {
+    FrameLayout frameLayout;
+>>>>>>>> origin/lethanh:app/src/main/java/com/example/recipe_app/List.java
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +33,11 @@ public class ListDetail extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        imageView = findViewById(R.id.logo);
-        imageView.setOnClickListener(new View.OnClickListener() {
+        frameLayout = findViewById(R.id.frame_1);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                    getSupportFragmentManager().popBackStack();
-                } else {
-                    finish();
-                }
+                startActivity(new Intent(List.this, ListDetail.class));
             }
         });
     }

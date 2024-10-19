@@ -32,12 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.navigation);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            // Đổi màu Status Bar
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.orange));
-        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav), (v, insets) -> {
             WindowInsetsCompat windowInsetsCompat = insets;
             boolean isKeyboardVisible = windowInsetsCompat.isVisible(WindowInsetsCompat.Type.ime());

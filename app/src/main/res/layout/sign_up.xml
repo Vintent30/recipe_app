@@ -5,7 +5,8 @@
     android:id="@+id/signup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F57804">
+    android:background="#F57804"
+    tools:context=".Sign_up">
 
     <TextView
         android:id="@+id/logo_name"
