@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Comment">
+
+    <!-- Top App Bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:text="Cộng đồng Cookease"
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Image of Sandwich/Product -->
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img4_dish_description" />
+
+    <!-- Comments Section -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <!-- First Comment -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <!-- User Avatar -->
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="-10dp" />
+
+                <!-- Comment Section: Username and Comment Text -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <!-- Username -->
+                    <TextView
+                        android:id="@+id/commentUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="Vinten_26"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <!-- Comment Text -->
+                    <TextView
+                        android:id="@+id/commentText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bánh mì với công thức dễ dàng ai cũng làm được" />
+
+                    <!-- Heart and Likes Count horizontally -->
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <!-- Like Button (Heart) -->
+                        <ImageView
+                            android:id="@+id/likeButton"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/heart" />
+
+                        <!-- Likes Count -->
+                        <TextView
+                            android:id="@+id/likesCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="889"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Second Comment -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="FeuFeu_04"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/commentTime1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 giờ trước"
+                        android:textColor="#646363"
+                        android:textSize="12dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Công thức thật đơn giản và dễ hiểu!" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <!-- Like Button (Heart) -->
+                        <ImageView
+                            android:id="@+id/likeButton2"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/heart" />
+
+                        <!-- Likes Count -->
+                        <TextView
+                            android:id="@+id/likesCount2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="10"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Repeat the same structure for other comments -->
+            <!-- Third Comment -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="-10dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="FooFoo"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/commentTime2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 giờ 30 phút trước"
+                        android:textColor="#646363"
+                        android:textSize="12dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bữa sáng đã đầy đủ chất thật tiện lợi." />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <!-- Like Button (Heart) -->
+                        <ImageView
+                            android:id="@+id/likeButton3"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/heart" />
+
+                        <!-- Likes Count -->
+                        <TextView
+                            android:id="@+id/likesCount3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="20"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="-10dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="ThuongNguyen"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/commentTime3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 giờ trước"
+                        android:textColor="#646363"
+                        android:textSize="12dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nhìn thật hấp dẫn." />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <!-- Like Button (Heart) -->
+                        <ImageView
+                            android:id="@+id/likeButton4"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/heart" />
+
+                        <!-- Likes Count -->
+                        <TextView
+                            android:id="@+id/likesCount4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="10"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="-10dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="DuongPham"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/commentTime4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="40 phút trước"
+                        android:textColor="#646363"
+                        android:textSize="12dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bạn đã chia sẻ công thức bổ ích." />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <!-- Like Button (Heart) -->
+                        <ImageView
+                            android:id="@+id/likeButton6"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/heart" />
+
+                        <!-- Likes Count -->
+                        <TextView
+                            android:id="@+id/likesCount6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="10"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="-10dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="ThanhHo"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/commentTime5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25 phút trước"
+                        android:textColor="#646363"
+                        android:textSize="12dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thật ngon miệng." />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <!-- Like Button (Heart) -->
+                        <ImageView
+                            android:id="@+id/likeButton7"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/heart" />
+
+                        <!-- Likes Count -->
+                        <TextView
+                            android:id="@+id/likesCount7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="10"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="8dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hinh"
+                    app:riv_corner_radius="90dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="-10dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="ThanhLe"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/commentTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 giờ trước"
+                        android:textColor="#646363"
+                        android:textSize="12dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tôi đã có thể tự làm được món yêu thích của mình." />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <!-- Like Button (Heart) -->
+                        <ImageView
+                            android:id="@+id/likeButton5"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/heart" />
+
+                        <!-- Likes Count -->
+                        <TextView
+                            android:id="@+id/likesCount5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="10"
+                            android:textColor="@color/black"
+                            android:textSize="14dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
