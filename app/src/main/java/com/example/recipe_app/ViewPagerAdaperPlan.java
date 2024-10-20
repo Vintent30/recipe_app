@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class ViewPagerAdaper extends FragmentPagerAdapter {
-
-    public ViewPagerAdaper(@NonNull FragmentManager fm) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+public class ViewPagerAdaperPlan extends FragmentPagerAdapter {
+    public ViewPagerAdaperPlan(@NonNull FragmentManager fm) {
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @NonNull
@@ -16,9 +15,11 @@ public class ViewPagerAdaper extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new FragmentFollowing(); // Fragment cho tab "Followers"
+                return new Fragment_Today(); // Fragment cho tab "Followers"
             case 1:
-                return new FragmentFollower(); // Fragment cho tab "Following"
+                return new Fragment_Week();
+            case 2:
+                return new Fragment_NoPlan();// Fragment cho tab "Following"
             default:
                 return null;
         }
@@ -26,18 +27,21 @@ public class ViewPagerAdaper extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2; // Số lượng tab
+        return 3; // Số lượng tab
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Following";
+                return "Hôm nay";
             case 1:
-                return "Follower";
+                return "Trong tuần";
+            case 2:
+                return "Không theo lịch";
             default:
                 return null;
         }
+
     }
 }
