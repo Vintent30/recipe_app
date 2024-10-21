@@ -42,6 +42,10 @@
         <activity android:name=".Sign_in" />
         <activity android:name=".introduce_1" />
         <activity android:name=".introduce_2" />
+        <activity android:name=".Planer" />
+        <activity android:name=".Comment" />
+        <activity android:name=".conratulation" />
+        <activity android:name=".conratulation_2" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts"

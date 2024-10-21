@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/comment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Comment">
 
     <!-- Top App Bar -->
@@ -19,16 +20,23 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
+        <ImageView
+            android:id="@+id/back_chat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Logo"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/black" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
+            android:layout_gravity="center"
             android:text="Cộng đồng Cookease"
             android:textColor="@color/black"
             android:textSize="22dp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginTop="40dp"/>
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
     <!-- Image of Sandwich/Product -->
@@ -46,35 +54,35 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="8dp">
 
             <!-- First Comment -->
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <!-- User Avatar -->
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="-10dp" />
+                    app:riv_corner_radius="90dp" />
 
                 <!-- Comment Section: Username and Comment Text -->
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <!-- Username -->
                     <TextView
@@ -97,11 +105,11 @@
 
                     <!-- Heart and Likes Count horizontally -->
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <!-- Like Button (Heart) -->
                         <ImageView
@@ -126,27 +134,27 @@
 
             <!-- Second Comment -->
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="-10dp" />
+                    app:riv_corner_radius="90dp" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -173,11 +181,11 @@
                         android:text="Công thức thật đơn giản và dễ hiểu!" />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <!-- Like Button (Heart) -->
                         <ImageView
@@ -203,27 +211,27 @@
             <!-- Repeat the same structure for other comments -->
             <!-- Third Comment -->
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="-10dp" />
+                    app:riv_corner_radius="90dp" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -250,11 +258,11 @@
                         android:text="Bữa sáng đã đầy đủ chất thật tiện lợi." />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <!-- Like Button (Heart) -->
                         <ImageView
@@ -276,28 +284,29 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="-10dp" />
+                    app:riv_corner_radius="90dp" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -324,11 +333,11 @@
                         android:text="Nhìn thật hấp dẫn." />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <!-- Like Button (Heart) -->
                         <ImageView
@@ -350,28 +359,29 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="-10dp" />
+                    app:riv_corner_radius="90dp" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -398,11 +408,11 @@
                         android:text="Bạn đã chia sẻ công thức bổ ích." />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <!-- Like Button (Heart) -->
                         <ImageView
@@ -424,28 +434,29 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="-10dp" />
+                    app:riv_corner_radius="90dp" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -472,11 +483,11 @@
                         android:text="Thật ngon miệng." />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <!-- Like Button (Heart) -->
                         <ImageView
@@ -498,28 +509,29 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/hinh"
-                    app:riv_corner_radius="90dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="-10dp" />
+                    app:riv_corner_radius="90dp" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -546,11 +558,11 @@
                         android:text="Tôi đã có thể tự làm được món yêu thích của mình." />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <!-- Like Button (Heart) -->
                         <ImageView

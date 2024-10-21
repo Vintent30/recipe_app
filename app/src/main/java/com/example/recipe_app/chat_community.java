@@ -41,5 +41,15 @@ public class chat_community extends AppCompatActivity {
                 }
             }
         });
+
+        imageView = findViewById(R.id.cmt);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Chuyển sang giao diện khác (Comment Activity)
+                Intent intent = new Intent(chat_community.this, Comment.class);
+                startActivity(intent);
+            }
+        });
     }
 }
