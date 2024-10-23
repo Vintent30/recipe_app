@@ -103,36 +103,11 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/btn_learn_more"
+            app:layout_constraintBottom_toTopOf="@id/btn_start"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/bottom_half" />
         <!-- LinearLayout for dots -->
-        <LinearLayout
-            android:id="@+id/dot_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_description">
-
-                <!-- First dot (active) -->
-                <View
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/dot_inactive" />
-
-                <View
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/dot_active" />
-
-        </LinearLayout>
 
 
         <!-- Button for more info (inside the bottom white part) -->
@@ -140,12 +115,13 @@
             android:id="@+id/btn_start"
             android:layout_width="150dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="72dp"
             android:background="@drawable/button_bg_gt"
             android:text="Bắt đầu"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/bottom_half"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="TouchTargetSizeCheck" />
 
