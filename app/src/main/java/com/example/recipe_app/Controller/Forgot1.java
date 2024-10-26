@@ -2,8 +2,11 @@ package com.example.recipe_app.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +17,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.recipe_app.R;
 
 public class Forgot1 extends AppCompatActivity {
-    Button btnnext;
+    private EditText etNumber;
+    Button btnNext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +29,17 @@ public class Forgot1 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        btnnext = findViewById(R.id.btn_continute);
-        btnnext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Forgot1.this, Forgot2.class));
+        etNumber = findViewById(R.id.et_number);
+        btnNext = findViewById(R.id.btn_next);
+
+        btnNext.setOnClickListener(v -> {
+            String phone = etNumber.getText().toString().trim();
+            if (TextUtils.isEmpty(phone)) {
+                Toast.makeText(Forgot1.this, "Vui lòng nhập số điện thoại", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(Forgot1.this, Forgot2.class);
+                intent.putExtra("PHONE_NUMBER", phone);
+                startActivity(intent);
             }
         });
     }
