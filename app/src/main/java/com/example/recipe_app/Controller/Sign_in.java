@@ -20,6 +20,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 public class Sign_in extends AppCompatActivity {
+
+    TextView signup;
+    TextView forgot;
     private EditText etPhone, etPassword;
     private Button btnLogin;
     private FirebaseDatabase database;
@@ -30,6 +33,21 @@ public class Sign_in extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        signup = findViewById(R.id.sign_up_by_new_acc);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Sign_in.this, Sign_up.class));
+            }
+        });
+        forgot = findViewById(R.id.tv_forgopasas_pass);
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Sign_in.this, Forgot1.class));
+            }
+        });
 
         etPhone = findViewById(R.id.et_number);
         etPassword = findViewById(R.id.et_password);
