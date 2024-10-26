@@ -1,4 +1,4 @@
-package com.example.recipe_app.Controller;
+package com.example.recipe_app.Model;
 
 public class FoodHome {
 

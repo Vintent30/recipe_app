@@ -1,6 +1,4 @@
-package com.example.recipe_app.Controller;
-
-import android.widget.ImageView;
+package com.example.recipe_app.Model;
 
 import java.util.List;
 
