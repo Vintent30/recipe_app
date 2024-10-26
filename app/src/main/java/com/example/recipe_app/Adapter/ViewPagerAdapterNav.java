@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.recipe_app.Controller.Home_rcv;
 import com.example.recipe_app.Fragment.FavouriteFragment;
 import com.example.recipe_app.Fragment.HomeFragment;
+import com.example.recipe_app.Fragment.HomeRcvFragment;
 import com.example.recipe_app.Fragment.ListFragment;
 import com.example.recipe_app.Fragment.UserFragment;
 
@@ -20,7 +22,7 @@ public class ViewPagerAdapterNav extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new HomeFragment();
+                return new HomeRcvFragment();
             case 1:
                 return new ListFragment();
             case 2:
@@ -28,7 +30,7 @@ public class ViewPagerAdapterNav extends FragmentStatePagerAdapter {
             case 3:
                 return new UserFragment();
             default:
-                return new HomeFragment();
+                return new HomeRcvFragment();
         }
     }
 
