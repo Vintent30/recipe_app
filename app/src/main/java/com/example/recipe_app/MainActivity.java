@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
+
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.recipe_app.R;
 import com.example.recipe_app.nav.ViewPagerAdapterNav;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;  // Sử dụng CustomViewPager
@@ -106,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("messages");
+        myRef.setValue("Xin chào Hồ Văn Thanh, Firebase!");
     }
 
 }
