@@ -27,14 +27,15 @@
             android:contentDescription="Logo"
             android:src="@drawable/arrow_back"
             app:tint="@color/black" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
             android:text="CÀI ĐẶT"
-            android:textSize="22dp"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginLeft="22dp"/>
+            android:textSize="22dp"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 <!--    end-header-->
 
@@ -42,19 +43,22 @@
         android:id="@+id/linearLayoutButtons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
         android:layout_marginBottom="244dp"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0">
 
         <RelativeLayout
+            android:id="@+id/edit_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="26dp"
-            android:id="@+id/edit_info"
             android:background="@drawable/border">
             <!-- ImageView hiển thị icon -->
 
@@ -94,6 +98,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/setting_show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="26dp"
@@ -140,49 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="26dp"
-            android:background="@drawable/border">
-            <!-- ImageView hiển thị icon -->
-
-            <View
-                android:layout_width="42dp"
-                android:layout_height="53dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-
-                android:background="@drawable/back_border" />
-
-            <ImageView
-                android:id="@+id/imgstar"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="45dp"
-                android:contentDescription="Icon chỉnh sửa"
-                android:src="@drawable/star" />
-
-            <TextView
-                android:id="@+id/tvstar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/imgstar"
-                android:layout_toRightOf="@id/imgstar"
-                android:backgroundTint="@color/white"
-                android:drawablePadding="10dp"
-                android:gravity="center_vertical"
-                android:padding="15dp"
-                android:text="Đánh giá ứng dụng"
-                android:textColor="@color/orange"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="26dp"
+            android:id="@+id/setting_feedback"
             android:background="@drawable/border">
             <!-- ImageView hiển thị icon -->
 
@@ -225,6 +188,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/setting_share"
             android:background="@drawable/border">
             <!-- ImageView hiển thị icon -->
 

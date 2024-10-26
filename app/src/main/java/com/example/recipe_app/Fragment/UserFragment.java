@@ -10,57 +10,52 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipe_app.Adapter.UserAdapter;
 import com.example.recipe_app.Controller.Create_recipe;
 import com.example.recipe_app.Controller.Follow;
+import com.example.recipe_app.Model.User;
 import com.example.recipe_app.R;
-import com.example.recipe_app.Controller.RecipeActivity;
 import com.example.recipe_app.Controller.Setting;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserFragment extends Fragment {
-    ImageView imageView, imageView1;
-    Button button;
-    TextView textView;
+    private ImageView settingIcon;
+    private Button createRecipeButton;
+    private TextView followerTextView;
+    private List<User> userList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        // Thêm đoạn code xử lý sự kiện click cho imageView
-        imageView = view.findViewById(R.id.setting_icon);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Điều hướng sang Setting activity
-                startActivity(new Intent(getActivity(), Setting.class));
-            }
-        });
-        button = view.findViewById(R.id.btn_createRe);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Điều hướng sang Setting activity
-                startActivity(new Intent(getActivity(), Create_recipe.class));
-            }
-        });
-        textView = view.findViewById(R.id.follower);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Điều hướng sang Setting activity
-                startActivity(new Intent(getActivity(), Follow.class));
-            }
-        });
-        imageView1 = view.findViewById(R.id.user_image_1);
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Điều hướng sang Setting activity
-                startActivity(new Intent(getActivity(), RecipeActivity.class));
-            }
-        });
+        // Initialize User List
+        userList = new ArrayList<>();
+        userList.add(new User("Alice", R.drawable.image_fv11));
+        userList.add(new User("Bob", R.drawable.image3));
+        userList.add(new User("Charlie", R.drawable.image4));
+        userList.add(new User("Diana", R.drawable.image_fv13));
+
+        // RecyclerView Setup
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        UserAdapter adapter = new UserAdapter(getContext(), userList);
+        recyclerView.setAdapter(adapter);
+
+        // Initialize and set click listeners
+        settingIcon = view.findViewById(R.id.setting_icon);
+        settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
+
+        createRecipeButton = view.findViewById(R.id.btn_createRe);
+        createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
+
+        followerTextView = view.findViewById(R.id.follower);
+        followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
+
         return view;
-
     }
-
 }
