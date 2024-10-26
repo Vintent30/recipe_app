@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Recipe_app"
         tools:targetApi="31">
         <activity
-            android:name=".conratulation"
+            android:name=".Controller.MainActivity"
             android:exported="true"
             >
 
@@ -23,29 +23,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".Sign_up" />
-        <activity android:name=".Forgot1" />
-        <activity android:name=".Forgot2" />
-        <activity android:name=".Forgot3" />
-        <activity android:name=".User" />
-        <activity android:name=".Setting" />
-        <activity android:name=".Create_recipe" />
-        <activity android:name=".Detail_user" />
-        <activity android:name=".Follow" />
-        <activity android:name=".ListDetail" />
-        <activity android:name=".DishRecipe" />
-        <activity android:name=".Detail_suggest" />
-        <activity android:name=".RecipeActivity" />
-        <activity android:name=".chat_community" />
-        <activity android:name=".Sign_in" />
-        <activity android:name=".introduce_1" />
-        <activity android:name=".introduce_2" />
-        <activity android:name=".Planer" />
-        <activity android:name=".Comment" />
-        <activity android:name=".introduce" />
-        <activity android:name=".conratulation_2" />
+<!--        <activity android:name=".Controller.MainActivity"-->
+<!--            android:windowSoftInputMode="adjustPan"/>-->
+        <activity android:name=".Controller.Sign_up" />
+        <activity android:name=".Controller.Forgot1" />
+        <activity android:name=".Controller.Forgot2" />
+        <activity android:name=".Controller.Forgot3" />
+        <activity android:name=".Controller.Setting" />
+        <activity android:name=".Controller.Create_recipe" />
+        <activity android:name=".Controller.Detail_user" />
+        <activity android:name=".Controller.Follow" />
+        <activity android:name=".Controller.ListDetail" />
+        <activity android:name=".Controller.DishRecipe" />
+        <activity android:name=".Controller.Detail_suggest" />
+        <activity android:name=".Controller.RecipeActivity" />
+        <activity android:name=".Controller.chat_community" />
+        <activity android:name=".Controller.Sign_in" />
+        <activity android:name=".Controller.introduce_1" />
+        <activity android:name=".Controller.introduce_2" />
+        <activity android:name=".Controller.Planer" />
+        <activity android:name=".Controller.Comment" />
+        <activity android:name=".Controller.introduce" />
+        <activity android:name=".Controller.conratulation_2" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts"

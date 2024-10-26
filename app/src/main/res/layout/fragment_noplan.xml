@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        tools:context=".Fragment_Week">
+        tools:context=".Fragment.Fragment_Week">
 
         <!-- ImageView for the icon -->
         <ImageView

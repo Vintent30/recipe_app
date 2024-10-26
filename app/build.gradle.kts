@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.recyclerview)
     implementation(libs.roundedimageview)
     implementation(libs.cardview)
     implementation(libs.appcompat)
@@ -41,6 +42,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.cardview)
     implementation(libs.firebase.firestore)
+    implementation(libs.recyclerview)
     implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
