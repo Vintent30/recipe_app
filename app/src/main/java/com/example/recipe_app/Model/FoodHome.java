@@ -1,12 +1,15 @@
-package com.example.recipe_app.Controller;
+package com.example.recipe_app.Model;
 
-public class recyclerview_item {
+public class FoodHome {
+
     private int resourceId;
     private String title;
+    private String save;
 
-    public recyclerview_item(int resourceId, String title) {
+    public FoodHome(int resourceId, String title, String save) {
         this.resourceId = resourceId;
         this.title = title;
+        this.save = save;
     }
 
     public int getResourceId() {
@@ -23,5 +26,13 @@ public class recyclerview_item {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSave() {
+        return save;
+    }
+
+    public void setSave(String save) {
+        this.save = save;
     }
 }
