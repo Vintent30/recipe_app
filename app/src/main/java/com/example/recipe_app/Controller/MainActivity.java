@@ -21,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;  // Sử dụng CustomViewPager
     private BottomNavigationView bottomNavigationView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("messages");
+        myRef.setValue("Hello, Firebase!");
     }
 
 }

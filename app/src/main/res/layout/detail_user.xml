@@ -235,6 +235,7 @@
 
     <Button
         android:layout_width="150dp"
+        android:id="@+id/btn_detailSave"
         android:layout_height="wrap_content"
         android:layout_marginBottom="96dp"
         android:background="@drawable/btn_background"
