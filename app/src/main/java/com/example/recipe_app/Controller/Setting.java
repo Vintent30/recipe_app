@@ -52,7 +52,7 @@ public class Setting extends AppCompatActivity {
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Xin hãy ghi lại phản hồi của bạn tại đây..."); // Nội dung mặc định
 
             try {
-                startActivity(Intent.createChooser(emailIntent, "Chọn ứng dụng Email"));
+                startActivity(Intent.createChooser(emailIntent, "Chọn ứng dụng Email")); // Mở ứng dụng Email
             } catch (ActivityNotFoundException e) {
                 // Thông báo lỗi nếu không tìm thấy ứng dụng email
                 Toast.makeText(Setting.this, "Không tìm thấy ứng dụng email", Toast.LENGTH_SHORT).show();
