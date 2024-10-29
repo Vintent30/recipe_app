@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.recipe_app.Adapter.ViewPagerAdapterNav;
+import com.example.recipe_app.Fragment.UserFragment;
 import com.example.recipe_app.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
@@ -100,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("messages");
-        myRef.setValue("Hello, Firebase!");
     }
 
 }

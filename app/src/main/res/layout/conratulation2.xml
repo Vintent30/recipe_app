@@ -36,10 +36,10 @@
 
         <!-- Text description (inside the bottom white part) -->
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/profile_image_1"
             android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img6_home"
@@ -47,32 +47,33 @@
             app:layout_constraintEnd_toStartOf="@id/profile_image_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/top_half"
-            app:layout_constraintVertical_bias="0.353"
+            app:layout_constraintVertical_bias="0.759"
             app:riv_border_width="0dp"
             app:riv_corner_radius="30dp"
             app:riv_oval="true" />
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/profile_image_2"
             android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/img2_home"
-            app:layout_constraintBottom_toTopOf="@+id/chef_image"
+            android:src="@drawable/img8_home"
+
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/profile_image_3"
             app:layout_constraintStart_toEndOf="@id/profile_image_1"
             app:layout_constraintTop_toTopOf="@id/profile_image_1"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.116"
             app:riv_border_width="0dp"
             app:riv_corner_radius="30dp"
             app:riv_oval="true" />
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/profile_image_3"
             android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="60dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img9_home"
             app:layout_constraintBottom_toTopOf="@+id/chef_image"

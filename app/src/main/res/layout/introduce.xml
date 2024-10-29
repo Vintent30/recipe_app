@@ -34,18 +34,18 @@
 
             <ImageView
                 android:layout_width="90dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/line2" />
 
             <ImageView
                 android:layout_width="90dp"
-                android:layout_height="30dp"
-                android:background="@drawable/line2" />
+                android:layout_height="35dp"
+                android:background="@drawable/line" />
 
             <ImageView
                 android:layout_width="90dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:background="@drawable/line" />
         </LinearLayout>
 
@@ -70,6 +70,7 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/btn_smile"
             android:layout_width="350dp"
             android:layout_height="130dp"
             android:layout_marginLeft="30dp"
@@ -83,6 +84,7 @@
             android:background="@drawable/rectangle_intro"/>
 
         <Button
+            android:id="@+id/btn_cry"
             android:layout_width="350dp"
             android:layout_height="130dp"
             android:layout_marginLeft="30dp"

@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.recipe_app.R;
 
 public class introduce extends AppCompatActivity {
-    Button button;
+    Button button, smile, cry;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +28,20 @@ public class introduce extends AppCompatActivity {
 
         button = findViewById(R.id.btn_skip);
         button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(introduce.this, introduce_1.class));
+            }
+        });
+        smile = findViewById(R.id.btn_smile);
+        smile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(introduce.this, introduce_1.class));
+            }
+        });
+        cry = findViewById(R.id.btn_cry);
+        cry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(introduce.this, introduce_1.class));

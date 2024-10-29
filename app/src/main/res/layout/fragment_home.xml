@@ -592,7 +592,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginBottom="110dp"
         android:background="@drawable/icon_chat"
         android:drawablePadding="8dp"
         android:textSize="50dp"
