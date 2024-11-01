@@ -59,7 +59,7 @@ public class Sign_up extends AppCompatActivity {
                         FirebaseUser acc = auth.getCurrentUser();
                         if (acc != null) {
                             String userId = acc.getUid();
-                            Account newAcc = new Account(name, email);
+                            Account newAcc = new Account(name, email,password);
                             databaseRef.child(userId).setValue(newAcc)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {

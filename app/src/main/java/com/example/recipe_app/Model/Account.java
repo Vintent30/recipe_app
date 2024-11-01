@@ -3,10 +3,13 @@ package com.example.recipe_app.Model;
 public class Account {
     private String name; // Tên người dùng
     private String email; // Email người dùng
+    private String password;
 
-    public Account(String name, String email) {
+    public Account(String name,String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
+
     }
 
     public String getName() {
@@ -23,5 +26,13 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
