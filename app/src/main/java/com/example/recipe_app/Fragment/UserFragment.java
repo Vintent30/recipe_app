@@ -21,7 +21,6 @@ import com.example.recipe_app.Controller.Setting;
 import com.example.recipe_app.Model.User;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -66,37 +65,30 @@ public class UserFragment extends Fragment {
         followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
 
         // Lấy ID người dùng đã đăng nhập
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
+        // Tham chiếu đến dữ liệu của người dùng trong Firebase
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
-            // Tham chiếu đến dữ liệu của người dùng trong Firebase
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        // Lấy tên người dùng từ Firebase và hiển thị
+        databaseReference.child("name").get().addOnSuccessListener(dataSnapshot -> {
+            if (dataSnapshot.exists()) {
+                String name = dataSnapshot.getValue(String.class);
+                username.setText(name != null ? name : "Không có tên");
+            } else {
+                username.setText("Không có tên");
+            }
+        }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
 
-            // Lấy tên người dùng từ Firebase và hiển thị
-            databaseReference.child("name").get().addOnSuccessListener(dataSnapshot -> {
-                if (dataSnapshot.exists()) {
-                    String name = dataSnapshot.getValue(String.class);
-                    username.setText(name != null ? name : "Không có tên");
-                } else {
-                    username.setText("Không có tên");
-                }
-            }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
-
-            // Lấy ảnh người dùng từ Firebase và hiển thị
-            databaseReference.child("image").get().addOnSuccessListener(dataSnapshot -> {
-                if (dataSnapshot.exists()) {
-                    String imageUrl = dataSnapshot.getValue(String.class);
-                    Picasso.get().load(imageUrl).into(profilePicture);
-                } else {
-                    profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định nếu không có ảnh
-                }
-            }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
-        } else {
-            username.setText("Người dùng chưa đăng nhập");
-            profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định
-        }
+        // Lấy ảnh người dùng từ Firebase và hiển thị
+        databaseReference.child("avatarResourceId").get().addOnSuccessListener(dataSnapshot -> {
+            if (dataSnapshot.exists()) {
+                String imageUrl = dataSnapshot.getValue(String.class);
+                Picasso.get().load(imageUrl).into(profilePicture);
+            } else {
+                profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định nếu không có ảnh
+            }
+        }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
 
         return view;
     }
