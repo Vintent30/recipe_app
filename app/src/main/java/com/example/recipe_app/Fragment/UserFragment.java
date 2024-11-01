@@ -14,14 +14,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.Adapter.UserAdapter;
+import com.example.recipe_app.Adapter.AccountAdapter;
 import com.example.recipe_app.Controller.Create_recipe;
 import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
+import com.example.recipe_app.Model.Account;
 import com.example.recipe_app.Model.User;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -33,7 +33,7 @@ public class UserFragment extends Fragment {
     private ImageView settingIcon, profilePicture;
     private Button createRecipeButton;
     private TextView followerTextView, username;
-    private List<User> userList;
+    private List<Account> userList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,15 +41,11 @@ public class UserFragment extends Fragment {
 
         // Khởi tạo danh sách người dùng
         userList = new ArrayList<>();
-        userList.add(new User("Alice", R.drawable.image_fv11));
-        userList.add(new User("Bob", R.drawable.image3));
-        userList.add(new User("Charlie", R.drawable.image4));
-        userList.add(new User("Diana", R.drawable.image_fv13));
 
         // Thiết lập RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        UserAdapter adapter = new UserAdapter(getContext(), userList);
+        AccountAdapter adapter = new AccountAdapter(getContext(), userList);
         recyclerView.setAdapter(adapter);
 
         // Ánh xạ các view
@@ -81,7 +77,7 @@ public class UserFragment extends Fragment {
         }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
 
         // Lấy ảnh người dùng từ Firebase và hiển thị
-        databaseReference.child("avatarResourceId").get().addOnSuccessListener(dataSnapshot -> {
+        databaseReference.child("avatar").get().addOnSuccessListener(dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 String imageUrl = dataSnapshot.getValue(String.class);
                 Picasso.get().load(imageUrl).into(profilePicture);
