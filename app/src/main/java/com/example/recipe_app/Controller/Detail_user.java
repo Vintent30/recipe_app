@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -46,14 +47,37 @@ public class Detail_user extends AppCompatActivity {
         updateButton = findViewById(R.id.btn_detailSave);
 
         // Get Firebase references
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        userId = currentUser.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
+
+        // Load user data
+        loadUserData(currentUser);
 
         // Set up profile image click listener to open image picker
         profileImageView.setOnClickListener(v -> openImagePicker());
 
         // Update button listener
         updateButton.setOnClickListener(v -> updateUserData());
+    }
+
+    private void loadUserData(FirebaseUser user) {
+        // Populate the EditText fields with current user data
+        editTextEmail.setText(user.getEmail());
+        databaseReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DataSnapshot snapshot = task.getResult();
+                if (snapshot.exists()) {
+                    editTextName.setText(snapshot.child("name").getValue(String.class));
+                    editTextPhone.setText(snapshot.child("phone").getValue(String.class));
+                    // Optionally set the profile image if available
+                    String avatarUrl = snapshot.child("avatar").getValue(String.class);
+                    if (avatarUrl != null) {
+                        // Load image using a library like Glide or Picasso (not shown)
+                    }
+                }
+            }
+        });
     }
 
     private void openImagePicker() {
@@ -76,8 +100,7 @@ public class Detail_user extends AppCompatActivity {
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Update email
         if (!email.isEmpty() && !email.equals(user.getEmail())) {
@@ -85,7 +108,7 @@ public class Detail_user extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(Detail_user.this, "Email updated", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Detail_user.this, "Email update failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Detail_user.this, "Email update failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -96,7 +119,7 @@ public class Detail_user extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(Detail_user.this, "Password updated", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Detail_user.this, "Password update failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Detail_user.this, "Password update failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -114,8 +137,8 @@ public class Detail_user extends AppCompatActivity {
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
                         .addOnSuccessListener(uri -> saveDataToFirebase(name, phone, uri.toString()))
-                        .addOnFailureListener(e -> Toast.makeText(Detail_user.this, "Image upload failed", Toast.LENGTH_SHORT).show()))
-                .addOnFailureListener(e -> Toast.makeText(Detail_user.this, "Image upload failed", Toast.LENGTH_SHORT).show());
+                        .addOnFailureListener(e -> Toast.makeText(Detail_user.this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()))
+                .addOnFailureListener(e -> Toast.makeText(Detail_user.this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void saveDataWithoutImage(String name, String phone) {
@@ -135,6 +158,6 @@ public class Detail_user extends AppCompatActivity {
                     Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
                     finish(); // Finish this activity to go back to UserFragment
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Profile update failed", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Profile update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
