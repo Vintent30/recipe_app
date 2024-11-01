@@ -100,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("messages");
-        myRef.setValue("Hello, Firebase!");
     }
 
 }

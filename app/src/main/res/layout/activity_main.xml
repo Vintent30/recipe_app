@@ -40,14 +40,14 @@
 
     <EditText
 
-        android:id="@+id/et_number"
+        android:id="@+id/et_email"
         android:layout_width="326dp"
         android:layout_height="50dp"
         android:layout_marginTop="75dp"
         android:background="@drawable/input_bg"
         android:elevation="4dp"
         android:ems="10"
-        android:hint="Số điện thoại: "
+        android:hint="Email: "
         android:inputType="text"
         android:paddingLeft="20dp"
         android:textColor="@color/black"
@@ -69,10 +69,10 @@
         android:paddingLeft="20dp"
         android:textColor="@color/black"
         android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/et_number"
+        app:layout_constraintEnd_toEndOf="@+id/et_email"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/et_number"
-        app:layout_constraintTop_toBottomOf="@+id/et_number" />
+        app:layout_constraintStart_toStartOf="@+id/et_email"
+        app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
     <TextView
         android:id="@+id/tv_forgopasas_pass"
