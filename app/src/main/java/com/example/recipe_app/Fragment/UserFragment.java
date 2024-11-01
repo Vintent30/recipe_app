@@ -20,7 +20,6 @@ import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
 import com.example.recipe_app.Model.User;
 import com.example.recipe_app.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,47 +29,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserFragment extends Fragment {
+    // Khai báo các thành phần UI
     private ImageView settingIcon, profilePicture;
     private Button createRecipeButton;
     private TextView followerTextView, username;
-    private List<User> userList;
+    private List<User> userList;  // Danh sách người dùng cho RecyclerView
 
+    // Phương thức khởi tạo View của Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        // Khởi tạo danh sách người dùng
-        userList = new ArrayList<>();
-        userList.add(new User("Alice", R.drawable.image_fv11));
-        userList.add(new User("Bob", R.drawable.image3));
-        userList.add(new User("Charlie", R.drawable.image4));
-        userList.add(new User("Diana", R.drawable.image_fv13));
+        // Lấy userId từ Bundle hoặc dùng ID mặc định
+        String userId = getArguments() != null ? getArguments().getString("userId") : "US02";
 
-        // Thiết lập RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        UserAdapter adapter = new UserAdapter(getContext(), userList);
-        recyclerView.setAdapter(adapter);
+        // Tham chiếu đến dữ liệu người dùng trong Firebase Database
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
-        // Ánh xạ các view
+        // Khởi tạo các thành phần giao diện và thiết lập RecyclerView
+        setupViews(view);
+        setupRecyclerView(view);
+
+        // Lấy thông tin người dùng từ Firebase và hiển thị
+        loadUserData(databaseReference);
+
+        return view;
+    }
+
+    // Phương thức thiết lập các thành phần giao diện và sự kiện
+    private void setupViews(View view) {
+        // Ánh xạ các View từ XML
         settingIcon = view.findViewById(R.id.setting_icon);
         createRecipeButton = view.findViewById(R.id.btn_createRe);
         followerTextView = view.findViewById(R.id.follower);
         profilePicture = view.findViewById(R.id.profilePicture);
         username = view.findViewById(R.id.username);
 
-        // Xử lý sự kiện click
+        // Thiết lập sự kiện click cho các View
         settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
         createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
         followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
+    }
 
-        // Lấy ID người dùng đã đăng nhập
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    // Phương thức thiết lập RecyclerView với danh sách người dùng mẫu
+    private void setupRecyclerView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));  // Hiển thị theo lưới 2 cột
 
-        // Tham chiếu đến dữ liệu của người dùng trong Firebase
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        // Dữ liệu mẫu cho RecyclerView
+        userList = new ArrayList<>();
+        userList.add(new User("Trà sữa", R.drawable.image_fv11));
+        userList.add(new User("Trứng kho", R.drawable.image3));
+        userList.add(new User("Trứng ngâm tương", R.drawable.image4));
+        userList.add(new User("Bánh xèo", R.drawable.image_fv13));
 
-        // Lấy tên người dùng từ Firebase và hiển thị
+        // Thiết lập Adapter và gán vào RecyclerView
+        UserAdapter adapter = new UserAdapter(getContext(), userList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    // Phương thức lấy dữ liệu người dùng từ Firebase và hiển thị
+    private void loadUserData(DatabaseReference databaseReference) {
+        // Lấy tên người dùng từ Firebase
         databaseReference.child("Name").get().addOnSuccessListener(dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 String name = dataSnapshot.getValue(String.class);
@@ -80,16 +100,14 @@ public class UserFragment extends Fragment {
             }
         }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
 
-        // Lấy ảnh người dùng từ Firebase và hiển thị
+        // Lấy ảnh người dùng từ Firebase
         databaseReference.child("image").get().addOnSuccessListener(dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 String imageUrl = dataSnapshot.getValue(String.class);
                 Picasso.get().load(imageUrl).into(profilePicture);
             } else {
-                profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định nếu không có ảnh
+                profilePicture.setImageResource(R.drawable.icon_intro1);  // Ảnh mặc định nếu không có ảnh
             }
         }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
-
-        return view;
     }
 }

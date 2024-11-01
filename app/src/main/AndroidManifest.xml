@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Add your permissions here -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Other permissions can go here, e.g. WRITE_EXTERNAL_STORAGE if needed -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,7 +18,7 @@
         android:theme="@style/Theme.Recipe_app"
         tools:targetApi="31">
         <activity
-            android:name=".Controller.MainActivity"
+            android:name=".Controller.Sign_in"
             android:exported="true"
             >
 
@@ -27,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity android:name=".Controller.MainActivity"-->
-<!--            android:windowSoftInputMode="adjustPan"/>-->
+        <activity android:name=".Controller.MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Controller.Sign_up" />
         <activity android:name=".Controller.Forgot1" />
         <activity android:name=".Controller.Forgot2" />
@@ -42,7 +43,7 @@
         <activity android:name=".Controller.Detail_suggest" />
         <activity android:name=".Controller.RecipeActivity" />
         <activity android:name=".Controller.chat_community" />
-        <activity android:name=".Controller.Sign_in" />
+<!--        <activity android:name=".Controller.Sign_in" />-->
         <activity android:name=".Controller.introduce_1" />
         <activity android:name=".Controller.introduce_2" />
         <activity android:name=".Controller.Planer" />
