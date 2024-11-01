@@ -20,9 +20,7 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
     private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Category category);
-
-        void onItemClick(org.tensorflow.lite.support.label.Category category);
+        void onItemClick(Category category); // Keep this method only for your Category class
     }
 
     public FoodCategoryAdapter(List<Category> categoryList, OnItemClickListener listener) {

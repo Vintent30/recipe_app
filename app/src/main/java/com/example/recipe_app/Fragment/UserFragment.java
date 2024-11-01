@@ -68,7 +68,7 @@ public class UserFragment extends Fragment {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Tham chiếu đến dữ liệu của người dùng trong Firebase
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
 
         // Lấy tên người dùng từ Firebase và hiển thị
         databaseReference.child("name").get().addOnSuccessListener(dataSnapshot -> {

@@ -17,7 +17,6 @@ import com.example.recipe_app.R;
 import com.example.recipe_app.Adapter.FoodCategoryAdapter;
 import com.example.recipe_app.Model.Category;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +47,6 @@ public class ListFragment extends Fragment {
             public void onItemClick(Category category) {
                 // Navigate to ListDetail activity when an item is clicked
                 startActivity(new Intent(getActivity(), ListDetail.class));
-            }
-
-            @Override
-            public void onItemClick(org.tensorflow.lite.support.label.Category category) {
-
             }
         });
 

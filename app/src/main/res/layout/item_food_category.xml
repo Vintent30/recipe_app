@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- File: res/layout/item_food_category.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:layout_height="80dp"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="80dp"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
         android:contentDescription="Food category image" />
 
     <TextView
@@ -19,6 +18,9 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/white"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="8dp"
+        android:background="@android:color/transparent"/>
 
-</LinearLayout>
+    </FrameLayout>
