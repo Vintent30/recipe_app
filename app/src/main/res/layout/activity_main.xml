@@ -65,7 +65,7 @@
         android:background="@drawable/input_bg"
         android:ems="10"
         android:hint="Mật khẩu: "
-        android:inputType="text"
+        android:inputType="textPassword"
         android:paddingLeft="20dp"
         android:textColor="@color/black"
         android:textSize="17sp"

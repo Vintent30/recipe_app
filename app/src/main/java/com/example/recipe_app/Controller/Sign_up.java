@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.recipe_app.Model.Account;
 import com.example.recipe_app.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +35,7 @@ public class Sign_up extends AppCompatActivity {
         setContentView(R.layout.sign_up);
 
         auth = FirebaseAuth.getInstance();
-        databaseRef = FirebaseDatabase.getInstance().getReference("Users");
+        databaseRef = FirebaseDatabase.getInstance().getReference("Accounts");
 
         nameEditText = findViewById(R.id.et_name);
         emailEditText = findViewById(R.id.et_email);
@@ -55,11 +56,11 @@ public class Sign_up extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = auth.getCurrentUser();
-                        if (user != null) {
-                            String userId = user.getUid();
-                            User newUser = new User(name, email);
-                            databaseRef.child(userId).setValue(newUser)
+                        FirebaseUser acc = auth.getCurrentUser();
+                        if (acc != null) {
+                            String userId = acc.getUid();
+                            Account newAcc = new Account(name, email,password);
+                            databaseRef.child(userId).setValue(newAcc)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             Toast.makeText(Sign_up.this, "Registration successful.", Toast.LENGTH_SHORT).show();
