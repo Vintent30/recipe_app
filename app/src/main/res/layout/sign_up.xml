@@ -43,13 +43,13 @@
         app:layout_constraintTop_toBottomOf="@+id/logo_name" />
 
     <EditText
-        android:id="@+id/et_number"
+        android:id="@+id/et_email"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/input_bg"
         android:ems="10"
-        android:hint="Số điện thoại: "
+        android:hint="Email: "
         android:inputType="text"
         android:paddingLeft="20dp"
         android:textColor="@color/black"
@@ -67,17 +67,17 @@
         android:background="@drawable/input_bg"
         android:ems="10"
         android:hint="Mật khẩu: "
-        android:inputType="text"
+        android:inputType="textPassword"
         android:paddingLeft="20dp"
         android:textColor="@color/black"
         android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/et_number"
+        app:layout_constraintEnd_toEndOf="@+id/et_email"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/et_number"
-        app:layout_constraintTop_toBottomOf="@+id/et_number" />
+        app:layout_constraintStart_toStartOf="@+id/et_email"
+        app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
     <Button
-        android:id="@+id/btn_signup"
+        android:id="@+id/btn_register"
         android:layout_width="135dp"
         android:layout_height="49dp"
         android:layout_marginTop="50dp"
@@ -105,7 +105,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/line2"
         app:layout_constraintStart_toEndOf="@+id/line"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup"
+        app:layout_constraintTop_toBottomOf="@+id/btn_register"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -115,7 +115,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup"
+        app:layout_constraintTop_toBottomOf="@+id/btn_register"
         app:srcCompat="@drawable/line" />
 
     <ImageView
@@ -125,7 +125,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_signup"
+        app:layout_constraintTop_toBottomOf="@+id/btn_register"
         app:srcCompat="@drawable/line" />
 
     <TextView

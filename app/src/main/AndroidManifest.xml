@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Add your permissions here -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Other permissions can go here, e.g. WRITE_EXTERNAL_STORAGE if needed -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.MainActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".Controller.MainActivity"/>
+<!--            android:windowSoftInputMode="adjustPan"/>-->
         <activity android:name=".Controller.Sign_up" />
         <activity android:name=".Controller.Forgot1" />
         <activity android:name=".Controller.Forgot2" />

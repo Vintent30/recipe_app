@@ -1,81 +1,81 @@
 package com.example.recipe_app.Controller;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.recipe_app.Model.Account;
+import com.example.recipe_app.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.example.recipe_app.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-
 public class Sign_up extends AppCompatActivity {
-
-    private EditText etName, etPhone, etPassword;
-    private Button btnSignup;
-    private DatabaseReference mDatabase;
+    private EditText nameEditText, emailEditText, passwordEditText;
+    private Button registerButton;
     TextView btnback1;
-    private static int userCount = 1; // Biến đếm người dùng
+    private FirebaseAuth auth;
+    private DatabaseReference databaseRef;
 
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
 
+        auth = FirebaseAuth.getInstance();
+        databaseRef = FirebaseDatabase.getInstance().getReference("Accounts");
+
+        nameEditText = findViewById(R.id.et_name);
+        emailEditText = findViewById(R.id.et_email);
+        passwordEditText = findViewById(R.id.et_password);
+        registerButton = findViewById(R.id.btn_register);
+
+        registerButton.setOnClickListener(v -> registerUser());
+
         btnback1 = findViewById(R.id.Sign_in_by_acc);
         btnback1.setOnClickListener(view -> startActivity(new Intent(Sign_up.this, Sign_in.class)));
-
-        etName = findViewById(R.id.et_name);
-        etPhone = findViewById(R.id.et_number);
-        etPassword = findViewById(R.id.et_password);
-        btnSignup = findViewById(R.id.btn_signup);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
-
-        btnSignup.setOnClickListener(v -> {
-            String fullName = etName.getText().toString().trim();
-            String phoneNumber = etPhone.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-
-            if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(password)) {
-                Toast.makeText(Sign_up.this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
-            } else {
-                registerUser(fullName, phoneNumber, password);
-            }
-        });
     }
 
-    private void registerUser(String fullName, String phoneNumber, String password) {
-        // Tạo hashmap để lưu dữ liệu người dùng
-        HashMap<String, String> userMap = new HashMap<>();
-        userMap.put("Name", fullName);
-        userMap.put("Phone", phoneNumber);
-        userMap.put("Password", password);  // Lưu mật khẩu thô (không an toàn)
+    private void registerUser() {
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String name = nameEditText.getText().toString();
 
-        // Tạo ID theo định dạng US01, US02,...
-        String userId = "US" + String.format("%02d", userCount); // Tạo ID
-        userCount++; // Tăng biến đếm cho người dùng tiếp theo
-
-        // Lưu vào Realtime Database
-        mDatabase.child(userId).setValue(userMap).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(Sign_up.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Sign_up.this, Sign_in.class)); // Điều hướng đến màn hình đăng nhập
-                finish();
-            } else {
-                Toast.makeText(Sign_up.this, "Lỗi khi lưu dữ liệu vào Database", Toast.LENGTH_SHORT).show();
-            }
-        });
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser acc = auth.getCurrentUser();
+                        if (acc != null) {
+                            String userId = acc.getUid();
+                            Account newAcc = new Account(name, email,password);
+                            databaseRef.child(userId).setValue(newAcc)
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            Toast.makeText(Sign_up.this, "Registration successful.", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(Sign_up.this, Sign_in.class)); // Điều hướng đến màn hình đăng nhập
+                                            finish();
+                                        } else {
+                                            Toast.makeText(Sign_up.this, "Failed to save user info.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    } else {
+                        Toast.makeText(Sign_up.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+
+
 }

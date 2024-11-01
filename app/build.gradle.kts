@@ -44,7 +44,6 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.recyclerview)
     implementation(libs.firebase.database)
-    implementation(libs.litert.support.api)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -53,5 +52,4 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("com.google.firebase:firebase-auth:21.0.8")
     implementation ("com.google.firebase:firebase-storage:20.1.0")
-    implementation ("com.google.firebase:firebase-database:20.2.0")
 }
