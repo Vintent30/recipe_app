@@ -4,23 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.recipe_app.Helper.CloudinaryManager;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,16 +26,17 @@ public class Detail_user extends AppCompatActivity {
     private EditText editTextPhone, editTextName, editTextEmail, editTextPassword;
     private ImageView profileImageView;
     private Button updateButton;
-    private Uri imageUri;
-    private DatabaseReference databaseReference;
+    private Uri mediaUri;
     private String userId;
+    private DatabaseReference databaseReference;
+    private CloudinaryManager cloudinaryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_user);
 
-        // Initialize views
+        // Khởi tạo các view
         editTextPhone = findViewById(R.id.et_Phone);
         editTextName = findViewById(R.id.et_NickName);
         editTextEmail = findViewById(R.id.et_Email);
@@ -46,51 +44,54 @@ public class Detail_user extends AppCompatActivity {
         profileImageView = findViewById(R.id.profilePicture);
         updateButton = findViewById(R.id.btn_detailSave);
 
-        // Get Firebase references
+        // Khởi tạo Firebase và Cloudinary
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = currentUser.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
+        cloudinaryManager = new CloudinaryManager();
 
-        // Load user data
+        // Load dữ liệu người dùng
         loadUserData(currentUser);
 
-        // Set up profile image click listener to open image picker
-        profileImageView.setOnClickListener(v -> openImagePicker());
+        // Sự kiện click vào ảnh profile để mở trình chọn media (ảnh/video)
+        profileImageView.setOnClickListener(v -> openMediaPicker());
 
-        // Update button listener
+        // Xử lý khi nhấn nút cập nhật
         updateButton.setOnClickListener(v -> updateUserData());
     }
 
     private void loadUserData(FirebaseUser user) {
-        // Populate the EditText fields with current user data
         editTextEmail.setText(user.getEmail());
+        // Load thêm thông tin người dùng từ Firebase Realtime Database nếu cần
         databaseReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DataSnapshot snapshot = task.getResult();
-                if (snapshot.exists()) {
-                    editTextName.setText(snapshot.child("name").getValue(String.class));
-                    editTextPhone.setText(snapshot.child("phone").getValue(String.class));
-                    // Optionally set the profile image if available
-                    String avatarUrl = snapshot.child("avatar").getValue(String.class);
+            if (task.isSuccessful() && task.getResult() != null) {
+                Map<String, Object> data = (Map<String, Object>) task.getResult().getValue();
+                if (data != null) {
+                    editTextName.setText((String) data.get("name"));
+                    editTextPhone.setText((String) data.get("phone"));
+                    String avatarUrl = (String) data.get("avatar");
                     if (avatarUrl != null) {
-                        // Load image using a library like Glide or Picasso (not shown)
+                        // Load hình ảnh nếu cần
                     }
                 }
             }
         });
     }
 
-    private void openImagePicker() {
+    private void openMediaPicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("*/*"); // Cho phép chọn cả ảnh và video
+        String[] mimeTypes = {"image/*", "video/*"};
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         startActivityForResult(intent, 100);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
-            profileImageView.setImageURI(imageUri); // Display the selected image
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            mediaUri = data.getData();
+            profileImageView.setImageURI(mediaUri); // Hiển thị media được chọn
         }
     }
 
@@ -102,7 +103,7 @@ public class Detail_user extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Update email
+        // Cập nhật email
         if (!email.isEmpty() && !email.equals(user.getEmail())) {
             user.updateEmail(email).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -113,7 +114,7 @@ public class Detail_user extends AppCompatActivity {
             });
         }
 
-        // Update password
+        // Cập nhật mật khẩu
         if (!password.isEmpty()) {
             user.updatePassword(password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -124,39 +125,45 @@ public class Detail_user extends AppCompatActivity {
             });
         }
 
-        // Proceed with image upload and user data update
-        if (imageUri != null) {
-            uploadImageAndSaveData(name, phone);
+        // Tiếp tục upload media và cập nhật dữ liệu người dùng
+        if (mediaUri != null) {
+            uploadMediaToCloudinaryAndSaveData(name, phone);
         } else {
-            saveDataWithoutImage(name, phone);
+            saveDataWithoutMedia(name, phone);
         }
     }
 
-    private void uploadImageAndSaveData(String name, String phone) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference("ProfileImages").child(userId);
-        storageReference.putFile(imageUri)
-                .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
-                        .addOnSuccessListener(uri -> saveDataToFirebase(name, phone, uri.toString()))
-                        .addOnFailureListener(e -> Toast.makeText(Detail_user.this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()))
-                .addOnFailureListener(e -> Toast.makeText(Detail_user.this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+    private void uploadMediaToCloudinaryAndSaveData(String name, String phone) {
+        cloudinaryManager.uploadMedia(this, mediaUri, new CloudinaryManager.UploadCallback() {
+            @Override
+            public void onSuccess(String mediaUrl) {
+                // Lưu dữ liệu người dùng với URL media từ Cloudinary
+                saveDataToRealtimeDatabase(name, phone, mediaUrl);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(Detail_user.this, "Media upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void saveDataWithoutImage(String name, String phone) {
-        saveDataToFirebase(name, phone, null);
+    private void saveDataWithoutMedia(String name, String phone) {
+        saveDataToRealtimeDatabase(name, phone, null);
     }
 
-    private void saveDataToFirebase(String name, String phone, String avatarUrl) {
+    private void saveDataToRealtimeDatabase(String name, String phone, String mediaUrl) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("name", name);
         updates.put("phone", phone);
-        if (avatarUrl != null) {
-            updates.put("avatar", avatarUrl);
+        if (mediaUrl != null) {
+            updates.put("avatar", mediaUrl); // avatar sẽ lưu link của ảnh hoặc video
         }
 
         databaseReference.updateChildren(updates)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    finish(); // Finish this activity to go back to UserFragment
+                    finish(); // Quay lại màn hình UserFragment
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Profile update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
