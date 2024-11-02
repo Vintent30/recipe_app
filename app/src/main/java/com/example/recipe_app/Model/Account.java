@@ -4,12 +4,21 @@ public class Account {
     private String name; // Tên người dùng
     private String email; // Email người dùng
     private String password;
+    private String phone;
+    private String avatar;
 
-    public Account(String name,String email, String password) {
+    public Account(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
 
+    public Account(String name, String email, String password, String phone, String avatar) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.avatar = avatar;
     }
 
     public String getName() {
@@ -34,5 +43,21 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
