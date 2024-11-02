@@ -1,6 +1,8 @@
 package com.example.recipe_app.Controller;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -8,151 +10,214 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.recipe_app.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Detail_user extends AppCompatActivity {
-    private static final int PICK_IMAGE_REQUEST = 1; // Constant for image picking
+    private static final int PICK_IMAGE_REQUEST = 1;
 
-    private ImageView imageView, profilePicture; // Added profilePicture reference
-    private EditText etNickName, etEmail, etPhone, etPassword;
-    private Button btnSave;
-    private DatabaseReference databaseReference;
-    private StorageReference storageReference; // Firebase Storage reference
-    private String userId;
+    private TextView username;
+    private EditText et_NickName, et_Email, et_Phone, et_password;
+    private ImageView profilePicture;
+    private Button btn_detailSave;
+
+    private Uri imageUri;
+    private FirebaseAuth auth;
+    private DatabaseReference userRef;
+    private StorageReference storageRef;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.detail_user);
 
-        // Initialize Firebase references
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-        storageReference = FirebaseStorage.getInstance().getReference("ProfileImages"); // Storage reference
+        // Initialize Firebase and UI elements
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(currentUser.getUid());
+        storageRef = FirebaseStorage.getInstance().getReference("ProfilePictures");
 
-        // Link views
+        username = findViewById(R.id.username);
+        et_NickName = findViewById(R.id.et_NickName);
+        et_Email = findViewById(R.id.et_Email);
+        et_Phone = findViewById(R.id.et_Phone);
+        et_password = findViewById(R.id.et_password);
         profilePicture = findViewById(R.id.profilePicture);
-        etNickName = findViewById(R.id.et_NickName);
-        etEmail = findViewById(R.id.et_Email);
-        etPhone = findViewById(R.id.et_Phone);
-        etPassword = findViewById(R.id.et_password);
-        btnSave = findViewById(R.id.btn_detailSave);
-        imageView = findViewById(R.id.back_DU);
+        btn_detailSave = findViewById(R.id.btn_detailSave);
 
-        // Set up listeners
-        btnSave.setOnClickListener(view -> updateUserData());
-        imageView.setOnClickListener(view -> finish());
+        progressDialog = new ProgressDialog(this);
 
-        // Set click listener for profile picture
-        profilePicture.setOnClickListener(view -> openFileChooser());
+        // Load user data from Firebase
+        loadUserData();
 
-        // Set up EdgeToEdge for full-screen support
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.detailUser), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        // Set up click listener for profile picture to upload new image
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImage();
+            }
         });
-    }
 
-    private void updateUserData() {
-        String nickName = etNickName.getText().toString();
-        String email = etEmail.getText().toString();
-        String phone = etPhone.getText().toString();
-        String password = etPassword.getText().toString();
-
-        // Check if any fields are empty
-        if (nickName.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Create a map to update data
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("Name", nickName);
-        userData.put("Email", email);
-        userData.put("Phone", phone);
-        userData.put("Password", password);
-
-        // Update data in Firebase
-        databaseReference.updateChildren(userData).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(Detail_user.this, "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(Detail_user.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
+        // Save changes on button click
+        btn_detailSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveUserData();
             }
         });
     }
 
-    private void openFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    private void loadUserData() {
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    username.setText(dataSnapshot.child("name").getValue(String.class));
+                    et_Email.setText(dataSnapshot.child("email").getValue(String.class));
+                    et_NickName.setText(dataSnapshot.child("name").getValue(String.class));
+                    et_Phone.setText(dataSnapshot.child("phone").getValue(String.class));
+
+                    // Load profile picture if it exists
+                    String avatarUrl = dataSnapshot.child("avatar").getValue(String.class);
+                    if (avatarUrl != null) {
+                        // Load image using a library like Glide or Picasso
+                        Glide.with(Detail_user.this).load(avatarUrl).into(profilePicture);
+                    }
+                } else {
+                    Toast.makeText(Detail_user.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Profile Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
-            uploadImageToFirebase(imageUri);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                profilePicture.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void uploadImageToFirebase(Uri imageUri) {
+    private void saveUserData() {
+        progressDialog.setMessage("Saving changes...");
+        progressDialog.show();
+
+        // Update avatar if a new image is selected
         if (imageUri != null) {
-            // Create a unique name for the image based on the user ID
-            String imageName = userId + ".jpg"; // Use userId to avoid name collision
-            StorageReference fileReference = storageReference.child(imageName);
-
-            // Start the upload process
-            UploadTask uploadTask = fileReference.putFile(imageUri);
-
-            // Attach listeners to handle success and failure
-            uploadTask.addOnSuccessListener(taskSnapshot -> {
-                // Upload successful, now get the download URL
-                fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String imageUrl = uri.toString();
-                    updateImageUrlInDatabase(imageUrl);
-                }).addOnFailureListener(e -> {
-                    // Failed to get the download URL
-                    Toast.makeText(Detail_user.this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-            }).addOnFailureListener(e -> {
-                // Handle upload failure
-                Toast.makeText(Detail_user.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            StorageReference fileRef = storageRef.child(auth.getCurrentUser().getUid() + ".jpg");
+            fileRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        fileRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    String avatarUrl = task.getResult().toString();
+                                    saveDataToDatabase(avatarUrl);
+                                }
+                            }
+                        });
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(Detail_user.this, "Failed to upload image.", Toast.LENGTH_SHORT).show();
+                    }
+                }
             });
         } else {
-            // Handle case where imageUri is null
-            Toast.makeText(Detail_user.this, "No image selected", Toast.LENGTH_SHORT).show();
+            saveDataToDatabase(null);
         }
     }
 
+    private void saveDataToDatabase(String avatarUrl) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("name", et_NickName.getText().toString().trim());
+        updates.put("phone", et_Phone.getText().toString().trim());
 
-    private void updateImageUrlInDatabase(String imageUrl) {
-        // Update the image URL in the Firebase Database
-        databaseReference.child("ProfileImage").setValue(imageUrl).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(Detail_user.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(Detail_user.this, "Failed to update image URL!", Toast.LENGTH_SHORT).show();
+        // Lấy mật khẩu mới từ EditText
+        String newPassword = et_password.getText().toString().trim();
+
+        // Cập nhật mật khẩu trong Firebase Authentication
+        FirebaseUser user = auth.getCurrentUser();
+        if (!newPassword.isEmpty()) {
+            user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        // Nếu cập nhật mật khẩu thành công, cập nhật avatar nếu có
+                        if (avatarUrl != null) {
+                            updates.put("avatar", avatarUrl);
+                        }
+                        // Cập nhật thông tin người dùng trong Realtime Database
+                        userRef.updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                progressDialog.dismiss();
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Detail_user.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(Detail_user.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(Detail_user.this, "Failed to update password.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            // Nếu không có mật khẩu mới, chỉ cập nhật các trường khác
+            if (avatarUrl != null) {
+                updates.put("avatar", avatarUrl);
             }
-        });
+            userRef.updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        Toast.makeText(Detail_user.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Detail_user.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }

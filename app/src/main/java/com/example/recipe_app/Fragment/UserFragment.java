@@ -42,10 +42,7 @@ public class UserFragment extends Fragment {
 
         // Khởi tạo danh sách người dùng
         userList = new ArrayList<>();
-        userList.add(new User("Alice", R.drawable.image_fv11));
-        userList.add(new User("Bob", R.drawable.image3));
-        userList.add(new User("Charlie", R.drawable.image4));
-        userList.add(new User("Diana", R.drawable.image_fv13));
+
 
         // Thiết lập RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
@@ -72,7 +69,7 @@ public class UserFragment extends Fragment {
             String userId = currentUser.getUid();
 
             // Tham chiếu đến dữ liệu của người dùng trong Firebase
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
 
             // Lấy tên người dùng từ Firebase và hiển thị
             databaseReference.child("name").get().addOnSuccessListener(dataSnapshot -> {
@@ -85,7 +82,7 @@ public class UserFragment extends Fragment {
             }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
 
             // Lấy ảnh người dùng từ Firebase và hiển thị
-            databaseReference.child("image").get().addOnSuccessListener(dataSnapshot -> {
+            databaseReference.child("avatar").get().addOnSuccessListener(dataSnapshot -> {
                 if (dataSnapshot.exists()) {
                     String imageUrl = dataSnapshot.getValue(String.class);
                     Picasso.get().load(imageUrl).into(profilePicture);

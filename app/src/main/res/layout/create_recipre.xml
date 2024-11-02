@@ -212,7 +212,7 @@
                         android:background="@drawable/back_text"
                         android:elevation="8dp"
                         android:ems="10"
-                        android:hint="Nhập số điện thoại  "
+                        android:hint="Nhập mô tả  "
                         android:inputType="text"
                         android:paddingLeft="20dp"
                         android:paddingBottom="100dp"
@@ -246,6 +246,7 @@
 
                         <!-- ImageView on the left -->
                         <ImageView
+                            android:id="@+id/Video"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:scaleType="fitXY"
@@ -253,6 +254,7 @@
 
                         <!-- TextView aligned to the right of ImageView -->
                         <TextView
+                            android:id="@+id/uploadvideo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
