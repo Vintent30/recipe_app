@@ -73,20 +73,18 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profilePicture"
-        android:layout_alignParentEnd="true"
         android:layout_marginStart="144dp"
         android:layout_marginBottom="16dp"
         android:text="VinTent_26"
         android:textColor="@android:color/black"
         android:textSize="23sp"
         android:textStyle="bold"
-
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.924"
         tools:ignore="MissingConstraints" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout4"
