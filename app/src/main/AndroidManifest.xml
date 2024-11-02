@@ -32,8 +32,8 @@
 <!--            android:windowSoftInputMode="adjustPan"/>-->
         <activity android:name=".Controller.Sign_up" />
         <activity android:name=".Controller.Forgot1" />
-        <activity android:name=".Controller.Forgot2" />
         <activity android:name=".Controller.Forgot3" />
+        <activity android:name=".Controller.Forgot2" />
         <activity android:name=".Controller.Setting" />
         <activity android:name=".Controller.Create_recipe" />
         <activity android:name=".Controller.Detail_user" />
