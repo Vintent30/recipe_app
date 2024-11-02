@@ -14,14 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.Adapter.AccountAdapter;
+import com.example.recipe_app.Adapter.UserAdapter;
 import com.example.recipe_app.Controller.Create_recipe;
 import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
-import com.example.recipe_app.Model.Account;
 import com.example.recipe_app.Model.User;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -33,7 +34,7 @@ public class UserFragment extends Fragment {
     private ImageView settingIcon, profilePicture;
     private Button createRecipeButton;
     private TextView followerTextView, username;
-    private List<Account> userList;
+    private List<User> userList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,10 +43,11 @@ public class UserFragment extends Fragment {
         // Khởi tạo danh sách người dùng
         userList = new ArrayList<>();
 
+
         // Thiết lập RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        AccountAdapter adapter = new AccountAdapter(getContext(), userList);
+        UserAdapter adapter = new UserAdapter(getContext(), userList);
         recyclerView.setAdapter(adapter);
 
         // Ánh xạ các view
@@ -61,30 +63,37 @@ public class UserFragment extends Fragment {
         followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
 
         // Lấy ID người dùng đã đăng nhập
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Tham chiếu đến dữ liệu của người dùng trong Firebase
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
 
-        // Lấy tên người dùng từ Firebase và hiển thị
-        databaseReference.child("name").get().addOnSuccessListener(dataSnapshot -> {
-            if (dataSnapshot.exists()) {
-                String name = dataSnapshot.getValue(String.class);
-                username.setText(name != null ? name : "Không có tên");
-            } else {
-                username.setText("Không có tên");
-            }
-        }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
+            // Tham chiếu đến dữ liệu của người dùng trong Firebase
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
-        // Lấy ảnh người dùng từ Firebase và hiển thị
-        databaseReference.child("avatar").get().addOnSuccessListener(dataSnapshot -> {
-            if (dataSnapshot.exists()) {
-                String imageUrl = dataSnapshot.getValue(String.class);
-                Picasso.get().load(imageUrl).into(profilePicture);
-            } else {
-                profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định nếu không có ảnh
-            }
-        }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
+            // Lấy tên người dùng từ Firebase và hiển thị
+            databaseReference.child("name").get().addOnSuccessListener(dataSnapshot -> {
+                if (dataSnapshot.exists()) {
+                    String name = dataSnapshot.getValue(String.class);
+                    username.setText(name != null ? name : "Không có tên");
+                } else {
+                    username.setText("Không có tên");
+                }
+            }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
+
+            // Lấy ảnh người dùng từ Firebase và hiển thị
+            databaseReference.child("image").get().addOnSuccessListener(dataSnapshot -> {
+                if (dataSnapshot.exists()) {
+                    String imageUrl = dataSnapshot.getValue(String.class);
+                    Picasso.get().load(imageUrl).into(profilePicture);
+                } else {
+                    profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định nếu không có ảnh
+                }
+            }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
+        } else {
+            username.setText("Người dùng chưa đăng nhập");
+            profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định
+        }
 
         return view;
     }
