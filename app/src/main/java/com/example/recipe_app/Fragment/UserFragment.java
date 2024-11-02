@@ -82,7 +82,7 @@ public class UserFragment extends Fragment {
             }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
 
             // Lấy ảnh người dùng từ Firebase và hiển thị
-            databaseReference.child("image").get().addOnSuccessListener(dataSnapshot -> {
+            databaseReference.child("avatar").get().addOnSuccessListener(dataSnapshot -> {
                 if (dataSnapshot.exists()) {
                     String imageUrl = dataSnapshot.getValue(String.class);
                     Picasso.get().load(imageUrl).into(profilePicture);
