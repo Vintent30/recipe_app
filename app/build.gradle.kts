@@ -54,4 +54,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-storage:20.1.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("com.cloudinary:cloudinary-android:1.29.0")
+    implementation ("com.cloudinary:cloudinary-android:latest_version")
+    implementation ("com.cloudinary:cloudinary_android:2.0.0")
 }
