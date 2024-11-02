@@ -85,11 +85,14 @@ public class Detail_user extends AppCompatActivity {
                     etEmail.setText(email);
                     etPhone.setText(phone);
 
-                    // Load avatar from Firebase Storage if available
-                    if (avatar != null) {
+                    // Load avatar from Firebase Storage if available, otherwise load default image
+                    if (avatar != null && !avatar.isEmpty()) {
                         FirebaseStorage.getInstance().getReferenceFromUrl(avatar)
                                 .getDownloadUrl()
-                                .addOnSuccessListener(uri -> Glide.with(this).load(uri).into(profilePicture));
+                                .addOnSuccessListener(uri -> Glide.with(this).load(uri).into(profilePicture))
+                                .addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
+                    } else {
+                        profilePicture.setImageResource(R.drawable.icon_intro1);
                     }
                 }
             });
