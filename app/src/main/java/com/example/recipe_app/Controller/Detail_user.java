@@ -30,7 +30,7 @@ public class Detail_user extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     private EditText etNickName, etPhone, etPassword;
-    private TextView etEmail;
+    private TextView etEmail, username;
     private ImageView profilePicture;
     private Button btnSave;
 
@@ -54,6 +54,7 @@ public class Detail_user extends AppCompatActivity {
         etPhone = findViewById(R.id.et_Phone);
         etPassword = findViewById(R.id.et_password);
         profilePicture = findViewById(R.id.profilePicture);
+        username = findViewById(R.id.username); // Username TextView
         btnSave = findViewById(R.id.btn_detailSave);
 
         // Disable email EditText to make it uneditable
@@ -84,13 +85,19 @@ public class Detail_user extends AppCompatActivity {
                     etNickName.setText(name);
                     etEmail.setText(email);
                     etPhone.setText(phone);
+                    username.setText(name); // Set username TextView
 
-                    // Load avatar from Firebase Storage if available
-                    if (avatar != null) {
+                    // Load avatar from Firebase Storage if available, otherwise load default image
+                    if (avatar != null && !avatar.isEmpty()) {
                         FirebaseStorage.getInstance().getReferenceFromUrl(avatar)
                                 .getDownloadUrl()
-                                .addOnSuccessListener(uri -> Glide.with(this).load(uri).into(profilePicture));
+                                .addOnSuccessListener(uri -> Glide.with(this).load(uri).into(profilePicture))
+                                .addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
+                    } else {
+                        profilePicture.setImageResource(R.drawable.icon_intro1);
                     }
+                } else {
+                    Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
                 }
             });
         }
