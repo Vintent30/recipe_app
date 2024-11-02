@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 import com.example.recipe_app.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,16 +23,19 @@ import com.google.firebase.storage.StorageReference;
 
 public class Detail_user extends AppCompatActivity {
 
+    // Firebase instances
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageRef;
     private FirebaseUser currentUser;
 
+    // UI components
     private EditText etNickName, etPhone, etPassword;
-    private TextView etEmail, username;
+    private TextView etEmail;
     private ImageView profilePicture;
     private Button btnSave;
 
+    // Constants
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri profileImageUri;
 
@@ -42,7 +44,7 @@ public class Detail_user extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_user);
 
-        // Initialize Firebase Auth, Firestore, and Storage references
+        // Initialize Firebase Auth, Firestore, and Storage
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference("avatars");
@@ -54,18 +56,16 @@ public class Detail_user extends AppCompatActivity {
         etPhone = findViewById(R.id.et_Phone);
         etPassword = findViewById(R.id.et_password);
         profilePicture = findViewById(R.id.profilePicture);
-        username = findViewById(R.id.username); // Username TextView
         btnSave = findViewById(R.id.btn_detailSave);
 
-        // Disable email EditText to make it uneditable
+        // Disable email field to make it uneditable
         etEmail.setEnabled(false);
 
+        // Load user data from Firestore
         loadUserData();
 
-        // Set click listener on profilePicture to open image picker
+        // Set listeners
         profilePicture.setOnClickListener(view -> openImagePicker());
-
-        // Set click listener on btnSave to save updated data
         btnSave.setOnClickListener(view -> saveUserData());
     }
 
@@ -77,17 +77,18 @@ public class Detail_user extends AppCompatActivity {
 
             docRef.get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
+                    // Retrieve data from Firestore
                     String name = documentSnapshot.getString("name");
                     String email = documentSnapshot.getString("email");
                     String phone = documentSnapshot.getString("phone");
                     String avatar = documentSnapshot.getString("avatar");
 
+                    // Set data in UI components
                     etNickName.setText(name);
                     etEmail.setText(email);
                     etPhone.setText(phone);
-                    username.setText(name); // Set username TextView
 
-                    // Load avatar from Firebase Storage if available, otherwise load default image
+                    // Load avatar from Firebase Storage or set default image
                     if (avatar != null && !avatar.isEmpty()) {
                         FirebaseStorage.getInstance().getReferenceFromUrl(avatar)
                                 .getDownloadUrl()
@@ -96,8 +97,6 @@ public class Detail_user extends AppCompatActivity {
                     } else {
                         profilePicture.setImageResource(R.drawable.icon_intro1);
                     }
-                } else {
-                    Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -116,7 +115,7 @@ public class Detail_user extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             profileImageUri = data.getData();
-            profilePicture.setImageURI(profileImageUri); // Set selected image as profile picture preview
+            profilePicture.setImageURI(profileImageUri); // Set image preview
         }
     }
 
@@ -132,21 +131,24 @@ public class Detail_user extends AppCompatActivity {
 
             // Update Firestore fields
             docRef.update("name", name, "phone", phone).addOnSuccessListener(aVoid -> {
+                // Update password if entered
                 if (!password.isEmpty()) {
-                    // Update Firebase Authentication password
                     currentUser.updatePassword(password).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(this, "Password updated", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Failed to update password", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
+                // Upload profile image if a new one was selected
                 if (profileImageUri != null) {
-                    uploadProfileImage(userId); // Upload profile picture to Firebase Storage
+                    uploadProfileImage(userId);
                 } else {
                     Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
                 }
-            });
+            }).addOnFailureListener(e -> Toast.makeText(this, "Failed to save data", Toast.LENGTH_SHORT).show());
         }
     }
 
