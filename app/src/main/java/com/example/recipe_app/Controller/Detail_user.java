@@ -39,7 +39,7 @@ public class Detail_user extends AppCompatActivity {
 
     private TextView username;
     private EditText et_NickName, et_Email, et_Phone, et_password;
-    private ImageView profilePicture;
+    private ImageView profilePicture,back_DU;
     private Button btn_detailSave;
 
     private Uri imageUri;
@@ -66,12 +66,23 @@ public class Detail_user extends AppCompatActivity {
         et_password = findViewById(R.id.et_password);
         profilePicture = findViewById(R.id.profilePicture);
         btn_detailSave = findViewById(R.id.btn_detailSave);
+        back_DU = findViewById(R.id.back_DU);
 
         progressDialog = new ProgressDialog(this);
 
         // Load user data from Firebase
         loadUserData();
-
+        back_DU.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    // Nếu không còn fragment nào trong back stack, có thể gọi finish() hoặc xử lý khác
+                    finish();
+                }
+            }
+        });
         // Set up click listener for profile picture to upload new image
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +90,7 @@ public class Detail_user extends AppCompatActivity {
                 chooseImage();
             }
         });
+
 
         // Save changes on button click
         btn_detailSave.setOnClickListener(new View.OnClickListener() {
