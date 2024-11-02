@@ -28,13 +28,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Detail_user extends AppCompatActivity {
-    private static final int PICK_IMAGE_REQUEST = 1; // Constant for image picking
+    private static final int PICK_IMAGE_REQUEST = 1;
 
-    private ImageView imageView, profilePicture; // Added profilePicture reference
+    private ImageView imageView, profilePicture;
     private EditText etNickName, etEmail, etPhone, etPassword;
     private Button btnSave;
     private DatabaseReference databaseReference;
-    private StorageReference storageReference; // Firebase Storage reference
+    private StorageReference storageReference;
     private String userId;
 
     @Override
@@ -45,8 +45,8 @@ public class Detail_user extends AppCompatActivity {
 
         // Initialize Firebase references
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-        storageReference = FirebaseStorage.getInstance().getReference("ProfileImages"); // Storage reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
+        storageReference = FirebaseStorage.getInstance().getReference("ProfileImages");
 
         // Link views
         profilePicture = findViewById(R.id.profilePicture);
@@ -57,14 +57,14 @@ public class Detail_user extends AppCompatActivity {
         btnSave = findViewById(R.id.btn_detailSave);
         imageView = findViewById(R.id.back_DU);
 
+        // Make email non-editable
+        etEmail.setFocusable(false);
+
         // Set up listeners
         btnSave.setOnClickListener(view -> updateUserData());
         imageView.setOnClickListener(view -> finish());
-
-        // Set click listener for profile picture
         profilePicture.setOnClickListener(view -> openFileChooser());
 
-        // Set up EdgeToEdge for full-screen support
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.detailUser), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -74,12 +74,11 @@ public class Detail_user extends AppCompatActivity {
 
     private void updateUserData() {
         String nickName = etNickName.getText().toString();
-        String email = etEmail.getText().toString();
         String phone = etPhone.getText().toString();
         String password = etPassword.getText().toString();
 
         // Check if any fields are empty
-        if (nickName.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
+        if (nickName.isEmpty() || phone.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -87,7 +86,6 @@ public class Detail_user extends AppCompatActivity {
         // Create a map to update data
         Map<String, Object> userData = new HashMap<>();
         userData.put("Name", nickName);
-        userData.put("Email", email);
         userData.put("Phone", phone);
         userData.put("Password", password);
 
@@ -95,6 +93,8 @@ public class Detail_user extends AppCompatActivity {
         databaseReference.updateChildren(userData).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(Detail_user.this, "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show();
+                // Return to UserFragment
+                finish();
             } else {
                 Toast.makeText(Detail_user.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
             }
@@ -117,37 +117,26 @@ public class Detail_user extends AppCompatActivity {
 
     private void uploadImageToFirebase(Uri imageUri) {
         if (imageUri != null) {
-            // Create a unique name for the image based on the user ID
-            String imageName = userId + ".jpg"; // Use userId to avoid name collision
+            String imageName = userId + ".jpg";
             StorageReference fileReference = storageReference.child(imageName);
 
-            // Start the upload process
             UploadTask uploadTask = fileReference.putFile(imageUri);
 
-            // Attach listeners to handle success and failure
-            uploadTask.addOnSuccessListener(taskSnapshot -> {
-                // Upload successful, now get the download URL
-                fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String imageUrl = uri.toString();
-                    updateImageUrlInDatabase(imageUrl);
-                }).addOnFailureListener(e -> {
-                    // Failed to get the download URL
-                    Toast.makeText(Detail_user.this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+            uploadTask.addOnSuccessListener(taskSnapshot -> fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                String imageUrl = uri.toString();
+                updateImageUrlInDatabase(imageUrl);
             }).addOnFailureListener(e -> {
-                // Handle upload failure
+                Toast.makeText(Detail_user.this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            })).addOnFailureListener(e -> {
                 Toast.makeText(Detail_user.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             });
         } else {
-            // Handle case where imageUri is null
             Toast.makeText(Detail_user.this, "No image selected", Toast.LENGTH_SHORT).show();
         }
     }
 
-
     private void updateImageUrlInDatabase(String imageUrl) {
-        // Update the image URL in the Firebase Database
-        databaseReference.child("ProfileImage").setValue(imageUrl).addOnCompleteListener(task -> {
+        databaseReference.child("Avatar").setValue(imageUrl).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(Detail_user.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
             } else {
