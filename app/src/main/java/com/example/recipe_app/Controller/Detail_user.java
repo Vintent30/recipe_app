@@ -169,22 +169,55 @@ public class Detail_user extends AppCompatActivity {
         Map<String, Object> updates = new HashMap<>();
         updates.put("name", et_NickName.getText().toString().trim());
         updates.put("phone", et_Phone.getText().toString().trim());
-        updates.put("password", et_password.getText().toString().trim());
 
-        if (avatarUrl != null) {
-            updates.put("avatar", avatarUrl);
-        }
+        // Lấy mật khẩu mới từ EditText
+        String newPassword = et_password.getText().toString().trim();
 
-        userRef.updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                progressDialog.dismiss();
-                if (task.isSuccessful()) {
-                    Toast.makeText(Detail_user.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(Detail_user.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+        // Cập nhật mật khẩu trong Firebase Authentication
+        FirebaseUser user = auth.getCurrentUser();
+        if (!newPassword.isEmpty()) {
+            user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        // Nếu cập nhật mật khẩu thành công, cập nhật avatar nếu có
+                        if (avatarUrl != null) {
+                            updates.put("avatar", avatarUrl);
+                        }
+                        // Cập nhật thông tin người dùng trong Realtime Database
+                        userRef.updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                progressDialog.dismiss();
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Detail_user.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(Detail_user.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(Detail_user.this, "Failed to update password.", Toast.LENGTH_SHORT).show();
+                    }
                 }
+            });
+        } else {
+            // Nếu không có mật khẩu mới, chỉ cập nhật các trường khác
+            if (avatarUrl != null) {
+                updates.put("avatar", avatarUrl);
             }
-        });
+            userRef.updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        Toast.makeText(Detail_user.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Detail_user.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }
