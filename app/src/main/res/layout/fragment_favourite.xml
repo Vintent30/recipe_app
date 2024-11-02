@@ -97,173 +97,135 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="50dp">
-
-                        <!-- Left Column -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-
-                            <!-- Example Recipe Item -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:padding="8dp">
-
                                 <ImageView
                                     android:id="@+id/image1"
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
                                     android:contentDescription="Recipe Image"
                                     android:src="@drawable/image_fv1" />
-
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:orientation="vertical"
                                     android:paddingStart="8dp">
-
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Bánh mì"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
-
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="150-300 calo"
                                         android:textSize="14sp" />
                                 </LinearLayout>
-
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:contentDescription="Like Icon" />
                             </LinearLayout>
-
-                            <!-- Add more recipe items similarly -->
-
                         </LinearLayout>
-
                         <!-- Right Column -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-
-                            <!-- Example Recipe Item -->
                             <LinearLayout
                                 android:layout_width="203dp"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal"
                                 android:padding="8dp">
-
                                 <ImageView
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
                                     android:contentDescription="Recipe Image"
                                     android:src="@drawable/image_fv2" />
-
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:orientation="vertical"
                                     android:paddingStart="8dp">
-
                                     <TextView
                                         android:layout_width="93dp"
                                         android:layout_height="wrap_content"
                                         android:text="Bánh chuối"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
-
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="200-300 calo"
                                         android:textSize="14sp" />
                                 </LinearLayout>
-
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:contentDescription="Like Icon" />
                             </LinearLayout>
-
-                            <!-- Add more recipe items similarly -->
-
                         </LinearLayout>
                     </LinearLayout>
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
-                        <!-- Left Column -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-
-                            <!-- Example Recipe Item -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:padding="8dp">
-
                                 <ImageView
                                     android:layout_width="80dp"
                                     android:layout_height="80dp"
                                     android:contentDescription="Recipe Image"
                                     android:src="@drawable/image_fv3" />
-
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:orientation="vertical"
                                     android:paddingStart="8dp">
-
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Chả giò"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
-
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="80-150 calo"
                                         android:textSize="14sp" />
                                 </LinearLayout>
-
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:contentDescription="Like Icon" />
                             </LinearLayout>
-
-                            <!-- Add more recipe items similarly -->
-
                         </LinearLayout>
 
                         <!-- Right Column -->
@@ -758,109 +720,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
-                        <!-- Left Column -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <!-- Example Recipe Item -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="8dp">
-
-                                <ImageView
-                                    android:layout_width="80dp"
-                                    android:layout_height="80dp"
-                                    android:contentDescription="Recipe Image"
-                                    android:src="@drawable/image_fv13" />
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical"
-                                    android:paddingStart="8dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Bánh xèo"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="200-300 calo"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:contentDescription="Like Icon" />
-                            </LinearLayout>
-
-
-                            <!-- Add more recipe items similarly -->
-
-                        </LinearLayout>
-
-                        <!-- Right Column -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <!-- Example Recipe Item -->
-                            <LinearLayout
-                                android:layout_width="203dp"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal"
-                                android:padding="8dp">
-
-                                <ImageView
-                                    android:layout_width="80dp"
-                                    android:layout_height="80dp"
-                                    android:contentDescription="Recipe Image"
-                                    android:src="@drawable/image_fv14" />
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical"
-                                    android:paddingStart="8dp">
-
-                                    <TextView
-                                        android:layout_width="107dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="CookieCream"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="150-300 calo"
-                                        android:textSize="14sp" />
-                                </LinearLayout>
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:contentDescription="Like Icon" />
-                            </LinearLayout>
-
-                            <!-- Add more recipe items similarly -->
-
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
@@ -877,7 +736,7 @@
             app:layout_constraintHorizontal_bias="0.054"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-            tools:ignore="TouchTargetSizeCheck" />
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 
 
