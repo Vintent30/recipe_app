@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "648399593370",
-    "firebase_url": "https://android-51f6f-default-rtdb.firebaseio.com",
-    "project_id": "android-51f6f",
-    "storage_bucket": "android-51f6f.appspot.com"
+    "project_number": "74203325590",
+    "firebase_url": "https://appmusic-80786-default-rtdb.firebaseio.com",
+    "project_id": "appmusic-80786",
+    "storage_bucket": "appmusic-80786.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:648399593370:android:2d50402822ff100889a423",
+        "mobilesdk_app_id": "1:74203325590:android:a177a1046f33e9d8754eb7",
         "android_client_info": {
           "package_name": "com.example.recipe_app"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC7g1xTP8T78QrSNyyIWFb_RbS1IY3Klu8"
+          "current_key": "AIzaSyCRlKXINWAfDHqJYHRsITLIab2nt_5BweY"
         }
       ],
       "services": {
