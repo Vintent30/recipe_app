@@ -11,8 +11,12 @@ public class Recipe {
     private String status;
     private String userId;       // Thêm userId
     private String categoryId;
+    private int like;
 
-    public Recipe(String recipeId, String name, String calories, String description, String category, String image, String video, String status, String userId, String categoryId) {
+    public Recipe(String recipeId, String string, String s, String string1, String s1, String imageUrl, String videoUrl, String active, String userId, String selectedCategoryId) {
+    }
+
+    public Recipe(String recipeId, String name, String calories, String description, String category, String image, String video, String status, String userId, String categoryId, int like) {
         this.recipeId = recipeId;
         this.name = name;
         this.calories = calories;
@@ -23,9 +27,7 @@ public class Recipe {
         this.status = status;
         this.userId = userId;
         this.categoryId = categoryId;
-    }
-
-    public Recipe() {
+        this.like = like;
     }
 
     public String getRecipeId() {
@@ -106,5 +108,13 @@ public class Recipe {
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
     }
 }
