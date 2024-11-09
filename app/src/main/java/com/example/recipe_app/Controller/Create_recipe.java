@@ -151,4 +151,5 @@ public class Create_recipe extends AppCompatActivity {
             })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Failed to upload video", Toast.LENGTH_SHORT).show());
         })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Failed to upload image", Toast.LENGTH_SHORT).show());
     }
+
 }
