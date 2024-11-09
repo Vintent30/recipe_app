@@ -2,42 +2,34 @@ package com.example.recipe_app.Model;
 
 public class Recipe {
     private String recipeId;
-    private String userId;
     private String name;
     private String calories;
     private String description;
     private String category;
-    private String imageUrl;
+    private String image;
+    private String video;
+    private String status;
 
-    // No-argument constructor required for Firebase
-    public Recipe() {}
+    public Recipe() {
+    }
 
-    // Constructor with parameters
-    public Recipe(String recipeId, String userId, String name, String calories, String description, String category, String imageUrl) {
+    public Recipe(String recipeId, String name, String calories, String description, String category, String image, String video, String status) {
         this.recipeId = recipeId;
-        this.userId = userId;
         this.name = name;
         this.calories = calories;
         this.description = description;
         this.category = category;
-        this.imageUrl = imageUrl;
+        this.image = image;
+        this.video = video;
+        this.status = (status != null) ? status : "active";
     }
 
-    // Getters and Setters
     public String getRecipeId() {
         return recipeId;
     }
 
     public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getName() {
@@ -72,11 +64,27 @@ public class Recipe {
         this.category = category;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
