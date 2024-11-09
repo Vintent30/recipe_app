@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:cardCornerRadius="8dp"
-    android:cardElevation="4dp">
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_recipe_image" />
+            android:src="@drawable/img9_home" />
 
         <TextView
             android:id="@+id/recipe_name"
