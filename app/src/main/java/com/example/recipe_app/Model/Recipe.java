@@ -13,11 +13,13 @@ public class Recipe {
     private String categoryId;
     private int like;
 
-    public Recipe(String recipeId, String string, String s, String string1, String s1, String imageUrl, String videoUrl, String active, String userId, String selectedCategoryId) {
-
+    public Recipe() {
+        this.like=0;
     }
 
-    public Recipe(String recipeId, String name, String calories, String description, String category, String image, String video, String status, String userId, String categoryId, int like) {
+    public Recipe(String recipeId, String name, String calories, String description,
+                  String category, String image, String video, String status,
+                  String userId, String categoryId) {
         this.recipeId = recipeId;
         this.name = name;
         this.calories = calories;
@@ -28,8 +30,9 @@ public class Recipe {
         this.status = status;
         this.userId = userId;
         this.categoryId = categoryId;
-        this.like = like;
+        this.like = 0;  // Mặc định 0
     }
+
 
     public String getRecipeId() {
         return recipeId;
