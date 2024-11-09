@@ -9,11 +9,10 @@ public class Recipe {
     private String image;
     private String video;
     private String status;
+    private String userId;       // Thêm userId
+    private String categoryId;
 
-    public Recipe() {
-    }
-
-    public Recipe(String recipeId, String name, String calories, String description, String category, String image, String video, String status) {
+    public Recipe(String recipeId, String name, String calories, String description, String category, String image, String video, String status, String userId, String categoryId) {
         this.recipeId = recipeId;
         this.name = name;
         this.calories = calories;
@@ -21,7 +20,12 @@ public class Recipe {
         this.category = category;
         this.image = image;
         this.video = video;
-        this.status = (status != null) ? status : "active";
+        this.status = status;
+        this.userId = userId;
+        this.categoryId = categoryId;
+    }
+
+    public Recipe() {
     }
 
     public String getRecipeId() {
@@ -86,5 +90,21 @@ public class Recipe {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }

@@ -25,15 +25,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class Create_recipe extends AppCompatActivity {
-    ImageView imageView;
     private ImageView cookPicture, videoThumbnail;
     private Button saveRecipeButton;
     private Uri imageUri, videoUri;
     private EditText recipeName, recipeCalories, recipeDescription;
     private Spinner categorySpinner;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, categoryReference;
     private StorageReference storageReference;
     private FirebaseUser currentUser;
+
+    private String selectedCategoryId;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int PICK_VIDEO_REQUEST = 2;
@@ -48,6 +49,7 @@ public class Create_recipe extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Recipes");
         storageReference = FirebaseStorage.getInstance().getReference("Uploads");
+        categoryReference = FirebaseDatabase.getInstance().getReference("Categories");
 
         // Initialize views
         cookPicture = findViewById(R.id.cookPicture);
@@ -65,10 +67,6 @@ public class Create_recipe extends AppCompatActivity {
         // Set up save recipe button
         saveRecipeButton.setOnClickListener(v -> uploadRecipe());
 
-        imageView = findViewById(R.id.back_create);
-        imageView.setOnClickListener(view -> finish());
-
-        // Initialize spinner
         setupCategorySpinner();
     }
 
@@ -82,12 +80,13 @@ public class Create_recipe extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedCategory = parent.getItemAtPosition(position).toString();
-                Toast.makeText(Create_recipe.this, "Selected: " + selectedCategory, Toast.LENGTH_SHORT).show();
+                // Giả định rằng danh mục được chọn có ID tương ứng (lấy từ cơ sở dữ liệu)
+                // Ở đây giả định ID của danh mục là position + 1 dưới dạng chuỗi
+                selectedCategoryId = String.valueOf(position + 1); // Lấy categoryId từ cơ sở dữ liệu
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Optional: Code to perform if no item is selected
             }
         });
     }
@@ -137,7 +136,7 @@ public class Create_recipe extends AppCompatActivity {
                 String recipeId = databaseReference.push().getKey();
                 Recipe recipe = new Recipe(recipeId, recipeName.getText().toString(), recipeCalories.getText().toString(),
                         recipeDescription.getText().toString(), categorySpinner.getSelectedItem().toString(),
-                        imageUrl, videoUrl, "active");
+                        imageUrl, videoUrl, "active", userId, selectedCategoryId);
 
                 if (recipeId != null) {
                     databaseReference.child(recipeId).setValue(recipe).addOnCompleteListener(task -> {
