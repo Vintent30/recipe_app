@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-   >
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/img9_home" />
+            android:src="@drawable/imglist" />
 
         <TextView
             android:id="@+id/recipe_name"
