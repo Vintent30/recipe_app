@@ -13,7 +13,7 @@ public class Recipe {
     private String categoryId;
     private int like;
 
-    public Recipe() {
+    public Recipe(String recipeId, String string, String s, String string1, String s1, String imageUrl, String videoUrl, String active, String userId, String selectedCategoryId) {
     }
 
     public Recipe(String recipeId, String name, String calories, String description, String category, String image, String video, String status, String userId, String categoryId, int like) {
