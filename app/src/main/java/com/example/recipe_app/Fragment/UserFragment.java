@@ -14,17 +14,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.Adapter.UserAdapter;
+import com.example.recipe_app.Adapter.RecipeAdapter; // Adapter cho công thức
 import com.example.recipe_app.Controller.Create_recipe;
 import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
-import com.example.recipe_app.Model.User;
+import com.example.recipe_app.Model.Account;
+import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,21 +37,22 @@ public class UserFragment extends Fragment {
     private ImageView settingIcon, profilePicture;
     private Button createRecipeButton;
     private TextView followerTextView, username;
-    private List<User> userList;
+    private RecyclerView recyclerView;
+    private RecipeAdapter recipeAdapter;
+    private List<Recipe> recipeList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        // Khởi tạo danh sách người dùng
-        userList = new ArrayList<>();
+        // Khởi tạo danh sách công thức
+        recipeList = new ArrayList<>();
 
-
-        // Thiết lập RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        // Thiết lập RecyclerView cho công thức
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        UserAdapter adapter = new UserAdapter(getContext(), userList);
-        recyclerView.setAdapter(adapter);
+        recipeAdapter = new RecipeAdapter(getContext(), recipeList);
+        recyclerView.setAdapter(recipeAdapter);
 
         // Ánh xạ các view
         settingIcon = view.findViewById(R.id.setting_icon);
@@ -69,10 +73,10 @@ public class UserFragment extends Fragment {
             String userId = currentUser.getUid();
 
             // Tham chiếu đến dữ liệu của người dùng trong Firebase
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
 
             // Lấy tên người dùng từ Firebase và hiển thị
-            databaseReference.child("name").get().addOnSuccessListener(dataSnapshot -> {
+            userRef.child("name").get().addOnSuccessListener(dataSnapshot -> {
                 if (dataSnapshot.exists()) {
                     String name = dataSnapshot.getValue(String.class);
                     username.setText(name != null ? name : "Không có tên");
@@ -82,7 +86,7 @@ public class UserFragment extends Fragment {
             }).addOnFailureListener(e -> username.setText("Không thể tải tên"));
 
             // Lấy ảnh người dùng từ Firebase và hiển thị
-            databaseReference.child("avatar").get().addOnSuccessListener(dataSnapshot -> {
+            userRef.child("avatar").get().addOnSuccessListener(dataSnapshot -> {
                 if (dataSnapshot.exists()) {
                     String imageUrl = dataSnapshot.getValue(String.class);
                     Picasso.get().load(imageUrl).into(profilePicture);
@@ -90,6 +94,27 @@ public class UserFragment extends Fragment {
                     profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định nếu không có ảnh
                 }
             }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
+
+            // Lấy danh sách công thức đã tạo của người dùng
+            DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("Recipes");
+            recipeRef.orderByChild("userId").equalTo(userId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    recipeList.clear();
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        Recipe recipe = data.getValue(Recipe.class);
+                        if (recipe != null && "active".equals(recipe.getStatus())) {
+                            recipeList.add(recipe);
+                        }
+                    }
+                    recipeAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Xử lý lỗi nếu cần thiết
+                }
+            });
         } else {
             username.setText("Người dùng chưa đăng nhập");
             profilePicture.setImageResource(R.drawable.icon_intro1); // Ảnh mặc định
