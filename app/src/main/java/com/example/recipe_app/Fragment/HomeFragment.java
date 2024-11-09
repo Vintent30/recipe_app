@@ -2,6 +2,11 @@ package com.example.recipe_app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,33 +14,32 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-
 import com.example.recipe_app.Adapter.CategoryHomeAdapter;
 import com.example.recipe_app.Adapter.FoodHomeAdapter;
 import com.example.recipe_app.Controller.Detail_suggest;
 import com.example.recipe_app.Controller.DishRecipe;
+import com.example.recipe_app.Controller.Planer;
+import com.example.recipe_app.Controller.chat_community;
 import com.example.recipe_app.Model.FoodHome;
 import com.example.recipe_app.Model.categoryHome;
 import com.example.recipe_app.R;
-import com.example.recipe_app.Controller.chat_community;
-import com.example.recipe_app.Controller.Planer;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCategoryForwardClickListener, FoodHomeAdapter.OnFoodClickListener {
 
-public class HomeFragment extends Fragment implements FoodHomeAdapter.OnFoodClickListener,CategoryHomeAdapter.OnCategoryForwardClickListener{
-
-    ImageView imageView,imgCalen;
-    ImageView imgForward;
-    Button button;
     private RecyclerView rcvCategory;
     private CategoryHomeAdapter categoryHomeAdapter;
+    private DatabaseReference mDatabase;
+
+    private ImageView imageView, imgCalen;
+    private Button button;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,15 +54,19 @@ public class HomeFragment extends Fragment implements FoodHomeAdapter.OnFoodClic
 
         // Initialize RecyclerView and Adapter
         rcvCategory = view.findViewById(R.id.rcv_category);
-        categoryHomeAdapter = new CategoryHomeAdapter(getContext(), this, this);;
+        categoryHomeAdapter = new CategoryHomeAdapter(getContext(), this, this);  // Pass FoodHomeAdapter.OnFoodClickListener and OnCategoryForwardClickListener
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rcvCategory.setLayoutManager(linearLayoutManager);
-
-        categoryHomeAdapter.setData(getListCategory());
         rcvCategory.setAdapter(categoryHomeAdapter);
 
+        // Firebase Realtime Database reference
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        // Lấy dữ liệu từ Firebase
+        fetchDataFromFirebase();
+
+        // Set up button click listeners
         imageView = view.findViewById(R.id.Icon_calendar);
         imageView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Planer.class)));
 
@@ -66,50 +74,51 @@ public class HomeFragment extends Fragment implements FoodHomeAdapter.OnFoodClic
         button.setOnClickListener(v -> startActivity(new Intent(getActivity(), chat_community.class)));
 
         return view;
-
     }
 
-    private List<categoryHome> getListCategory() {
-        List<categoryHome> listCategory = new ArrayList<>();
+    // Fetch data from Firebase
+    private void fetchDataFromFirebase() {
+        mDatabase.child("CategoryHome").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<categoryHome> listCategory = new ArrayList<>();
 
-        // Danh sách món ăn cho "Đề xuất cho bạn"
-        List<FoodHome> listRecommended = new ArrayList<>();
-        listRecommended.add(new FoodHome(R.drawable.img1_home, "food 1", "fff"));
-        listRecommended.add(new FoodHome(R.drawable.img2_home, "food 2", "fff"));
-        listRecommended.add(new FoodHome(R.drawable.img3_home, "food 3", "fff"));
-        listRecommended.add(new FoodHome(R.drawable.img4_home, "food 4", "fff"));
-        listRecommended.add(new FoodHome(R.drawable.img5_home, "food 5", "fff"));
+                // Duyệt qua từng category trong Firebase
+                for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                    String categoryName = categorySnapshot.child("name").getValue(String.class);
+                    List<FoodHome> foodHomeList = new ArrayList<>();
 
-        // Danh sách món ăn cho "Công thức phổ biến"
-        List<FoodHome> listPopularRecipes = new ArrayList<>();
-        listPopularRecipes.add(new FoodHome(R.drawable.img6_home, "food 6", "fff"));
-        listPopularRecipes.add(new FoodHome(R.drawable.img7_home, "food 7", "fff"));
-        listPopularRecipes.add(new FoodHome(R.drawable.img8_home, "food 8", "fff"));
-        listPopularRecipes.add(new FoodHome(R.drawable.img9_home, "food 9", "fff"));
-        listPopularRecipes.add(new FoodHome(R.drawable.img10_home, "food 10", "fff"));
+                    // Duyệt qua các món ăn trong mỗi category
+                    for (DataSnapshot foodSnapshot : categorySnapshot.child("foods").getChildren()) {
+                        String title = foodSnapshot.child("title").getValue(String.class);
+                        String save = foodSnapshot.child("saves").getValue(String.class); // Lấy giá trị kiểu String từ Firebase
+                        if (save == null || save.isEmpty()) {
+                            save = "0"; // Nếu không có giá trị, mặc định là 0
+                        }
+                        save += " lượt lưu";
+                        String imageUrl = foodSnapshot.child("imageUrl").getValue(String.class);
 
-        // Danh sách món ăn cho "Có thể bạn sẽ thích"
-        List<FoodHome> listYouMightLike = new ArrayList<>();
-        listYouMightLike.add(new FoodHome(R.drawable.img8_home, "food 10", "fff"));
-        listYouMightLike.add(new FoodHome(R.drawable.img9_home, "food 11", "fff"));
-        listYouMightLike.add(new FoodHome(R.drawable.img10_home, "food 12", "fff"));
-        listYouMightLike.add(new FoodHome(R.drawable.img11_home, "food 13", "fff"));
-        listYouMightLike.add(new FoodHome(R.drawable.img10_home, "food 14", "fff"));
+                        // Tạo đối tượng FoodHome với dữ liệu lấy từ Firebase
+                        FoodHome food = new FoodHome(imageUrl, title, save);  // Lưu imageUrl vào resourceId
+                        foodHomeList.add(food);
+                    }
 
-        // Thêm các danh mục vào danh sách
-        listCategory.add(new categoryHome("Đề xuất cho bạn", R.drawable.baseline_arrow_forward_24, listRecommended));
-        listCategory.add(new categoryHome("Công thức phổ biến", R.drawable.baseline_arrow_forward_24, listPopularRecipes));
-        listCategory.add(new categoryHome("Có thể bạn sẽ thích", R.drawable.baseline_arrow_forward_24, listYouMightLike));
+                    // Tạo đối tượng categoryHome và thêm vào danh sách
+                    listCategory.add(new categoryHome(categoryName, R.drawable.baseline_arrow_forward_24, foodHomeList));
+                }
 
-        return listCategory;
+                // Cập nhật dữ liệu cho adapter
+                categoryHomeAdapter.setData(listCategory);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi khi lấy dữ liệu từ Firebase
+            }
+        });
     }
-    @Override
-    public void onFoodClick(FoodHome food) {
-        Intent intent = new Intent(getActivity(), DishRecipe.class);
-        intent.putExtra("food_title", food.getTitle());
-        intent.putExtra("food_description", food.getSave());
-        startActivity(intent);
-    }
+
+    // Handle category click
     @Override
     public void onCategoryForwardClick(String categoryTitle) {
         Intent intent = new Intent(getActivity(), Detail_suggest.class);
@@ -117,4 +126,13 @@ public class HomeFragment extends Fragment implements FoodHomeAdapter.OnFoodClic
         startActivity(intent);
     }
 
+    // Handle food item click
+    @Override
+    public void onFoodClick(FoodHome food) {
+        Intent intent = new Intent(getActivity(), DishRecipe.class);
+        intent.putExtra("food_title", food.getTitle());
+        intent.putExtra("food_description", food.getSave());
+        intent.putExtra("food_image", food.getResourceId());  // Chuyển URL hình ảnh vào Intent
+        startActivity(intent);
+    }
 }

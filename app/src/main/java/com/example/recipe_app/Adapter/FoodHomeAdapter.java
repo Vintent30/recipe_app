@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.recipe_app.Model.FoodHome;
 import com.example.recipe_app.R;
 
@@ -38,7 +39,12 @@ public class FoodHomeAdapter extends RecyclerView.Adapter<FoodHomeAdapter.FoodVi
         if (foodHome == null) {
             return;
         }
-        holder.imgFood.setImageResource(foodHome.getResourceId());
+
+        // Tải ảnh từ URL hoặc đường dẫn hình ảnh từ chuỗi
+        Glide.with(holder.itemView.getContext())
+                .load(foodHome.getResourceId())  // resourceId là URL hình ảnh hoặc tên tài nguyên
+                .into(holder.imgFood);
+
         holder.tvTitle.setText(foodHome.getTitle());
         holder.tvSave.setText(foodHome.getSave());
 
