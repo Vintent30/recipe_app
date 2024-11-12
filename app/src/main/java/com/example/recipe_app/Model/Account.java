@@ -1,16 +1,23 @@
 package com.example.recipe_app.Model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Account {
     private String name; // Tên người dùng
     private String email; // Email người dùng
     private String password;
     private String phone;
     private String avatar;
+    private Map<String, Boolean> followers;
+    private Map<String, Boolean> following;
 
     public Account(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.followers = new HashMap<>();
+        this.following = new HashMap<>();
     }
 
     public Account(String name, String email, String password, String phone, String avatar) {
@@ -19,6 +26,8 @@ public class Account {
         this.password = password;
         this.phone = phone;
         this.avatar = avatar;
+        this.followers = new HashMap<>();
+        this.following = new HashMap<>();
     }
 
     public String getName() {
@@ -59,5 +68,21 @@ public class Account {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Map<String, Boolean> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Map<String, Boolean> followers) {
+        this.followers = followers;
+    }
+
+    public Map<String, Boolean> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Map<String, Boolean> following) {
+        this.following = following;
     }
 }
