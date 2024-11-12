@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.Model.FoodHome;
 import com.example.recipe_app.Model.categoryHome;
 import com.example.recipe_app.R;
 

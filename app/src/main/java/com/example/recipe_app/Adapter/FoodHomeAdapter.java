@@ -10,17 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipe_app.Model.FoodHome;
+import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
 
 import java.util.List;
 
 public class FoodHomeAdapter extends RecyclerView.Adapter<FoodHomeAdapter.FoodViewHolder> {
 
-    private List<FoodHome> mFoodHome;
+    private List<Recipe> mFoodHome;
     private OnFoodClickListener mListener;
 
-    public void setData(List<FoodHome> list, OnFoodClickListener listener) {
+    public void setData(List<Recipe> list, OnFoodClickListener listener) {
         this.mFoodHome = list;
         this.mListener = listener;
         notifyDataSetChanged();
@@ -35,18 +35,18 @@ public class FoodHomeAdapter extends RecyclerView.Adapter<FoodHomeAdapter.FoodVi
 
     @Override
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
-        FoodHome foodHome = mFoodHome.get(position);
+        Recipe foodHome = mFoodHome.get(position);
         if (foodHome == null) {
             return;
         }
 
         // Tải ảnh từ URL hoặc đường dẫn hình ảnh từ chuỗi
         Glide.with(holder.itemView.getContext())
-                .load(foodHome.getResourceId())  // resourceId là URL hình ảnh hoặc tên tài nguyên
+                .load(foodHome.getImage())  // resourceId là URL hình ảnh hoặc tên tài nguyên
                 .into(holder.imgFood);
 
-        holder.tvTitle.setText(foodHome.getTitle());
-        holder.tvSave.setText(foodHome.getSave());
+        holder.tvTitle.setText(foodHome.getName());
+        holder.tvSave.setText(String.valueOf(foodHome.getLike()));
 
         // Bắt sự kiện click
         holder.itemView.setOnClickListener(v -> {
@@ -76,6 +76,6 @@ public class FoodHomeAdapter extends RecyclerView.Adapter<FoodHomeAdapter.FoodVi
 
     // Interface để xử lý sự kiện click
     public interface OnFoodClickListener {
-        void onFoodClick(FoodHome food);
+        void onFoodClick(Recipe food);
     }
 }

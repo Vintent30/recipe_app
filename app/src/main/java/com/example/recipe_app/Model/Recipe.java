@@ -13,7 +13,7 @@ public class Recipe {
     private String categoryId;
     private int like;
 
-    public Recipe() {
+    public Recipe(String imageUrl, String name, int like) {
         this.like=0;
     }
 
@@ -31,6 +31,12 @@ public class Recipe {
         this.userId = userId;
         this.categoryId = categoryId;
         this.like = 0;  // Mặc định 0
+    }
+
+    public Recipe(String image, String name) {
+        this.image = image;
+        this.name = name;
+        this.like = 0;
     }
 
 

@@ -4,9 +4,9 @@ public class FoodHome {
 
     private String resourceId;
     private String title;
-    private String save;
+    private int save;
 
-    public FoodHome(String resourceId, String title, String save) {
+    public FoodHome(String resourceId, String title, int save) {
         this.resourceId = resourceId;
         this.title = title;
         this.save = save;
@@ -28,11 +28,11 @@ public class FoodHome {
         this.title = title;
     }
 
-    public String getSave() {
+    public int getSave() {
         return save;
     }
 
-    public void setSave(String save) {
+    public void setSave(int save) {
         this.save = save;
     }
 }

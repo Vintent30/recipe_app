@@ -20,7 +20,7 @@ import com.example.recipe_app.Controller.Detail_suggest;
 import com.example.recipe_app.Controller.DishRecipe;
 import com.example.recipe_app.Controller.Planer;
 import com.example.recipe_app.Controller.chat_community;
-import com.example.recipe_app.Model.FoodHome;
+import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.Model.categoryHome;
 import com.example.recipe_app.R;
 import com.google.firebase.database.DataSnapshot;
@@ -75,48 +75,55 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
 
         return view;
     }
+        //lay du lieu
+        private void fetchDataFromFirebase() {
+            mDatabase.child("Recipes").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<Recipe> listRecommended = new ArrayList<>();
+                    List<Recipe> listPopularRecipes = new ArrayList<>();
+                    List<Recipe> listYouMightLike = new ArrayList<>();
 
-    // Fetch data from Firebase
-    private void fetchDataFromFirebase() {
-        mDatabase.child("CategoryHome").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<categoryHome> listCategory = new ArrayList<>();
+                    for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
+                        String name = recipeSnapshot.child("name").getValue(String.class);
+                        String imageUrl = recipeSnapshot.child("image").getValue(String.class);
+                        String category = recipeSnapshot.child("category").getValue(String.class);
+                        String calories = recipeSnapshot.child("calories").getValue(String.class);
 
-                // Duyệt qua từng category trong Firebase
-                for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
-                    String categoryName = categorySnapshot.child("name").getValue(String.class);
-                    List<FoodHome> foodHomeList = new ArrayList<>();
+                        // Lấy trường like dưới dạng Long
+                        Long likeLong = recipeSnapshot.child("like").getValue(Long.class);
+                        int like = (likeLong != null) ? likeLong.intValue() : 0; // Kiểm tra nếu likeLong là null thì gán 0
 
-                    // Duyệt qua các món ăn trong mỗi category
-                    for (DataSnapshot foodSnapshot : categorySnapshot.child("foods").getChildren()) {
-                        String title = foodSnapshot.child("title").getValue(String.class);
-                        String save = foodSnapshot.child("saves").getValue(String.class); // Lấy giá trị kiểu String từ Firebase
-                        if (save == null || save.isEmpty()) {
-                            save = "0"; // Nếu không có giá trị, mặc định là 0
+                        Recipe food = new Recipe(imageUrl, name,like);
+
+                        // Phân loại món ăn theo các danh mục
+                        if ("200".equals(calories)) {
+                            listRecommended.add(food);
                         }
-                        save += " lượt lưu";
-                        String imageUrl = foodSnapshot.child("imageUrl").getValue(String.class);
-
-                        // Tạo đối tượng FoodHome với dữ liệu lấy từ Firebase
-                        FoodHome food = new FoodHome(imageUrl, title, save);  // Lưu imageUrl vào resourceId
-                        foodHomeList.add(food);
+                        if (like > 30) {
+                            listPopularRecipes.add(food);
+                        }
+                        if ("Món ăn vặt".equals(category)) {
+                            listYouMightLike.add(food);
+                        }
                     }
 
-                    // Tạo đối tượng categoryHome và thêm vào danh sách
-                    listCategory.add(new categoryHome(categoryName, R.drawable.baseline_arrow_forward_24, foodHomeList));
+                    // Cập nhật dữ liệu cho adapter
+                    List<categoryHome> listCategory = new ArrayList<>();
+                    listCategory.add(new categoryHome("Đề xuất cho bạn", R.drawable.baseline_arrow_forward_24, listRecommended));
+                    listCategory.add(new categoryHome("Công thức phổ biến", R.drawable.baseline_arrow_forward_24, listPopularRecipes));
+                    listCategory.add(new categoryHome("Có thể bạn sẽ thích", R.drawable.baseline_arrow_forward_24, listYouMightLike));
+
+                    categoryHomeAdapter.setData(listCategory);
                 }
 
-                // Cập nhật dữ liệu cho adapter
-                categoryHomeAdapter.setData(listCategory);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Xử lý lỗi khi lấy dữ liệu từ Firebase
+                }
+            });
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Xử lý lỗi khi lấy dữ liệu từ Firebase
-            }
-        });
-    }
 
     // Handle category click
     @Override
@@ -128,11 +135,11 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
 
     // Handle food item click
     @Override
-    public void onFoodClick(FoodHome food) {
+    public void onFoodClick(Recipe food) {
         Intent intent = new Intent(getActivity(), DishRecipe.class);
-        intent.putExtra("food_title", food.getTitle());
-        intent.putExtra("food_description", food.getSave());
-        intent.putExtra("food_image", food.getResourceId());  // Chuyển URL hình ảnh vào Intent
+        intent.putExtra("food_title", food.getName());
+        intent.putExtra("food_description", food.getLike());
+        intent.putExtra("food_image", food.getImage());  // Chuyển URL hình ảnh vào Intent
         startActivity(intent);
     }
 }
