@@ -9,18 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.Model.Category; // Import the custom Category class
+import com.bumptech.glide.Glide;
+import com.example.recipe_app.Model.Category;
 import com.example.recipe_app.R;
 
 import java.util.List;
 
 public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapter.CategoryViewHolder> {
 
-    private final List<Category> categoryList;
+    private List<Category> categoryList;
     private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Category category); // Keep this method only for your Category class
+        void onItemClick(Category category);
     }
 
     public FoodCategoryAdapter(List<Category> categoryList, OnItemClickListener listener) {
@@ -38,16 +39,26 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
-        holder.title.setText(category.getTitle());
-        holder.image.setImageResource(category.getImageResId());
+        holder.title.setText(category.getName());
 
-        // Set up click listener for each item
+        // Tải ảnh từ URL hoặc đường dẫn hình ảnh
+        Glide.with(holder.itemView.getContext())
+                .load(category.getImage())
+                .into(holder.image);
+
+        // Set up click listener
         holder.itemView.setOnClickListener(v -> listener.onItemClick(category));
     }
 
     @Override
     public int getItemCount() {
         return categoryList.size();
+    }
+
+    // Phương thức setData để cập nhật dữ liệu
+    public void setData(List<Category> newCategoryList) {
+        this.categoryList = newCategoryList;
+        notifyDataSetChanged();
     }
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {

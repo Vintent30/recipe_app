@@ -17,6 +17,11 @@ import com.example.recipe_app.R;
 import com.example.recipe_app.Adapter.FoodCategoryAdapter;
 import com.example.recipe_app.Model.Category;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,52 +29,68 @@ public class ListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FoodCategoryAdapter foodCategoryAdapter;
-    private FirebaseHelper firebaseHelper; // Firebase helper instance
+    private FirebaseHelper firebaseHelper; // Đối tượng FirebaseHelper
+    private List<Category> categoryList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        // Initialize FirebaseHelper
+        // Khởi tạo FirebaseHelper
         firebaseHelper = new FirebaseHelper();
 
-        // Initialize RecyclerView
+        // Khởi tạo RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView_categories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Load sample data and push it to Firebase
-        List<Category> categoryList = loadSampleData();
-        pushCategoriesToFirebase(categoryList);
+        // Khởi tạo danh sách
+        categoryList = new ArrayList<>();
 
-        // Set up adapter and item click handling
+        // Cài đặt adapter và xử lý click vào từng mục
         foodCategoryAdapter = new FoodCategoryAdapter(categoryList, new FoodCategoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Category category) {
-                // Navigate to ListDetail activity when an item is clicked
+                // Chuyển đến activity ListDetail khi click vào mục
                 startActivity(new Intent(getActivity(), ListDetail.class));
             }
         });
 
         recyclerView.setAdapter(foodCategoryAdapter);
 
+        // Lấy dữ liệu từ Firebase
+        fetchCategoriesFromFirebase();
+
         return view;
     }
 
-    // Sample data for demonstration purposes
-    private List<Category> loadSampleData() {
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category("Món Ăn Dinh Dưỡng", R.drawable.image_list1));
-        categories.add(new Category("Món Ăn Gia Đình", R.drawable.image_list2));
-        categories.add(new Category("Món Ăn Vặt", R.drawable.image_list3));
-        categories.add(new Category("Món Ăn Chay", R.drawable.image_list4));
-        categories.add(new Category("Đồ uống", R.drawable.image_list5));
-        return categories;
-    }
+    private void fetchCategoriesFromFirebase() {
+        DatabaseReference categoriesRef = firebaseHelper.getCategoriesFromFirebase();
 
-    // Push each category in the list to Firebase
-    private void pushCategoriesToFirebase(List<Category> categories) {
-        for (Category category : categories) {
-            firebaseHelper.addCategoryToFirebase(category);
-        }
+        categoriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Category> listCategory = new ArrayList<>();
+
+                // Duyệt qua từng category trong Firebase
+                for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                    String categoryName = categorySnapshot.child("name").getValue(String.class);
+                    String imageUrl = categorySnapshot.child("image").getValue(String.class);
+
+                    // Tạo đối tượng Category với tên và hình ảnh
+                    Category category = new Category(categoryName, imageUrl);
+
+                    // Thêm vào danh sách
+                    listCategory.add(category);
+                }
+
+                // Cập nhật dữ liệu cho adapter
+                foodCategoryAdapter.setData(listCategory);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi khi lấy dữ liệu từ Firebase
+            }
+        });
     }
 }

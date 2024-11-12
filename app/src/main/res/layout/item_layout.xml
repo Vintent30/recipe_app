@@ -1,49 +1,47 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:gravity="center">
 
-    <!-- Hình ảnh món ăn -->
-    <ImageView
-        android:id="@+id/image1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:contentDescription="Recipe Image"
-        android:src="@drawable/image_fv1" />
+    <!-- Container for the image and like icon -->
+    <FrameLayout
+        android:layout_width="140dp"
+        android:layout_height="140dp">
 
-    <!-- Thông tin chi tiết món ăn -->
-    <LinearLayout
-        android:layout_width="0dp"
+        <!-- Hình ảnh món ăn -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="Recipe Image"
+            />
+
+        <!-- Biểu tượng thích nằm trong hình, góc trên bên phải -->
+        <ImageView
+            android:id="@+id/likeIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="Like Icon"
+            android:src="@drawable/favorite"
+            app:tint="#FF0000"
+            android:layout_gravity="top|end"
+            android:layout_margin="1dp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingStart="8dp">
+        android:text="Item Name" />
 
-        <TextView
-            android:id="@+id/itemTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bánh mì"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/itemSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="150-300 calo"
-            android:textSize="12sp"
-        />
-    </LinearLayout>
-
-    <!-- Biểu tượng thích -->
-    <ImageView
-        android:id="@+id/likeIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:contentDescription="Like Icon"
-        android:src="@drawable/favorite"
-        android:layout_marginStart="8dp" />
+    <TextView
+        android:id="@+id/itemSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calories Info" />
 </LinearLayout>

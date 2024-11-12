@@ -1,32 +1,27 @@
 package com.example.recipe_app.Model;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.example.recipe_app.Model.Category;
 
 public class FirebaseHelper {
 
     private DatabaseReference databaseReference;
 
     public FirebaseHelper() {
-        // Khởi tạo tham chiếu đến Firebase Realtime Database
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("categories");
+        // Khởi tạo tham chiếu tới Firebase Database
+        databaseReference = FirebaseDatabase.getInstance().getReference("Categories");
     }
 
-    // Phương thức đẩy dữ liệu lên Firebase
+    // Thêm một danh mục vào Firebase (có thể dùng để thêm danh mục mới và lấy danh mục)
     public void addCategoryToFirebase(Category category) {
-        // Tạo một khóa duy nhất cho từng Category
-        String categoryId = databaseReference.push().getKey();
-        if (categoryId != null) {
-            databaseReference.child(categoryId).setValue(category)
-                    .addOnSuccessListener(aVoid -> {
-                        // Thành công
-                        System.out.println("Category added successfully to Firebase.");
-                    })
-                    .addOnFailureListener(e -> {
-                        // Thất bại
-                        System.out.println("Failed to add category: " + e.getMessage());
-                    });
+        String key = databaseReference.push().getKey(); // Tạo khóa duy nhất
+        if (key != null) {
+            databaseReference.child(key).setValue(category);
         }
+    }
+
+    // Lấy tất cả danh mục từ Firebase
+    public DatabaseReference getCategoriesFromFirebase() {
+        return databaseReference;
     }
 }

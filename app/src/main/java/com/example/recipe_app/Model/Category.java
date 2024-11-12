@@ -1,19 +1,31 @@
 package com.example.recipe_app.Model;
 
 public class Category {
-    private String title;
-    private int imageResId;
+    private String name;
+    private String image; // Đổi tên thành 'image' để phù hợp với Firebase
 
-    public Category(String title, int imageResId) {
-        this.title = title;
-        this.imageResId = imageResId;
+    // Constructor rỗng cần thiết cho Firebase
+    public Category() {
     }
 
-    public String getTitle() {
-        return title;
+    public Category(String name, String image) {
+        this.name = name;
+        this.image = image;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
