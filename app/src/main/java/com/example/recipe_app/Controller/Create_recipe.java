@@ -134,22 +134,41 @@ public class Create_recipe extends AppCompatActivity {
                 String videoUrl = uri1.toString();
 
                 String recipeId = databaseReference.push().getKey();
-                Recipe recipe = new Recipe(recipeId, recipeName.getText().toString(), recipeCalories.getText().toString(),
+
+                int calories = 0;
+                try {
+                    calories = Integer.parseInt(recipeCalories.getText().toString());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Calories phải là một số", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Recipe recipe = new Recipe(recipeId, recipeName.getText().toString(), calories,
                         recipeDescription.getText().toString(), categorySpinner.getSelectedItem().toString(),
-                        imageUrl, videoUrl, "active", userId, selectedCategoryId);
+                        imageUrl, videoUrl, "active", userId, selectedCategoryId, 0);
 
                 if (recipeId != null) {
                     databaseReference.child(recipeId).setValue(recipe).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Create_recipe.this, "Recipe created successfully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            // Thêm recipeId vào danh mục đã chọn trong bảng Categories
+                            categoryReference.child(selectedCategoryId).child("recipes").child(recipeId).setValue(true)
+                                    .addOnCompleteListener(categoryTask -> {
+                                        if (categoryTask.isSuccessful()) {
+                                            Toast.makeText(Create_recipe.this, "Tạo công thức thành công", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        } else {
+                                            Toast.makeText(Create_recipe.this, "Thất bại khi liên kết công thức với danh mục", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         } else {
-                            Toast.makeText(Create_recipe.this, "Failed to create recipe", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Create_recipe.this, "Thất bại khi tạo công thức", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
-            })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Failed to upload video", Toast.LENGTH_SHORT).show());
-        })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Failed to upload image", Toast.LENGTH_SHORT).show());
+            })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải video lên", Toast.LENGTH_SHORT).show());
+        })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải ảnh lên", Toast.LENGTH_SHORT).show());
     }
+
+
 
 }
