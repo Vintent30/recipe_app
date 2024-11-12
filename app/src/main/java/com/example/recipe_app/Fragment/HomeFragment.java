@@ -88,13 +88,11 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                         String name = recipeSnapshot.child("name").getValue(String.class);
                         String imageUrl = recipeSnapshot.child("image").getValue(String.class);
                         String category = recipeSnapshot.child("category").getValue(String.class);
-                        String calories = recipeSnapshot.child("calories").getValue(String.class);
+                        int calories = recipeSnapshot.child("calories").getValue(Integer.class);
 
-                        // Lấy trường like dưới dạng Long
-                        Long likeLong = recipeSnapshot.child("like").getValue(Long.class);
-                        int like = (likeLong != null) ? likeLong.intValue() : 0; // Kiểm tra nếu likeLong là null thì gán 0
+                        int like = recipeSnapshot.child("calories").getValue(Integer.class);
 
-                        Recipe food = new Recipe(imageUrl, name,like);
+                        Recipe food = new Recipe();
 
                         // Phân loại món ăn theo các danh mục
                         if ("200".equals(calories)) {
