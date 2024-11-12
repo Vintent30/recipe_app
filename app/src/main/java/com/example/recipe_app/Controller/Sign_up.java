@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class Sign_up extends AppCompatActivity {
     private EditText nameEditText, emailEditText, passwordEditText;
     private Button registerButton;
@@ -53,7 +55,12 @@ public class Sign_up extends AppCompatActivity {
                         FirebaseUser acc = auth.getCurrentUser();
                         if (acc != null) {
                             String userId = acc.getUid();
-                            Account newAcc = new Account(name, email,password);
+
+                            // Tạo đối tượng Account mới với followers và following là các map trống
+                            Account newAcc = new Account(name, email, password);
+                            newAcc.setFollowers(new HashMap<>()); // Khởi tạo followers trống
+                            newAcc.setFollowing(new HashMap<>()); // Khởi tạo following trống
+
                             databaseRef.child(userId).setValue(newAcc)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
@@ -70,6 +77,7 @@ public class Sign_up extends AppCompatActivity {
                     }
                 });
     }
+
 
 
 }
