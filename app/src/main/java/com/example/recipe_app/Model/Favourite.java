@@ -1,19 +1,33 @@
 package com.example.recipe_app.Model;
 
 public class Favourite {
+    private String recipeId;  // ID của công thức (làm khóa chính)
+    private String name;      // Tên món ăn
+    private String imageUrl;  // URL hình ảnh món ăn
+    private int calories;     // Lượng calo
+    private boolean isFavorite; // Trạng thái yêu thích
 
-    private String name;
-    private String imageUrl;
-    private String calories;
+    // Constructor không tham số (bắt buộc cho Firebase)
+    public Favourite() {}
 
-    // Constructor
-    public Favourite(String name, String imageUrl, String calories) {
+    // Constructor đầy đủ
+    public Favourite(String recipeId, String name, String imageUrl, int calories) {
+        this.recipeId = recipeId;
         this.name = name;
         this.imageUrl = imageUrl;
         this.calories = calories;
+        this.isFavorite = false; // Mặc định không nằm trong danh sách yêu thích
     }
 
-    // Getter và Setter
+    // Getters và Setters
+    public String getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(String recipeId) {
+        this.recipeId = recipeId;
+    }
+
     public String getName() {
         return name;
     }
@@ -30,11 +44,23 @@ public class Favourite {
         this.imageUrl = imageUrl;
     }
 
-    public String getCalories() {
+    public int getCalories() {
         return calories;
     }
 
-    public void setCalories(String calories) {
+    public void setCalories(int calories) {
         this.calories = calories;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public String getCaloriesText() {
+        return calories + " calo";
     }
 }

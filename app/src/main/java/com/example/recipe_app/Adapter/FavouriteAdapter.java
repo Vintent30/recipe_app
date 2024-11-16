@@ -6,17 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.recipe_app.Model.Favourite;
 import com.example.recipe_app.R;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder> {
-
+public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.FavouriteViewHolder> {
     private Context context;
     private List<Favourite> favouriteList;
 
@@ -27,20 +32,44 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
     @NonNull
     @Override
-    public FavouriteAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavouriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
-        return new ViewHolder(view);
+        return new FavouriteViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Favourite currentItem = favouriteList.get(position);
-        // Dùng Picasso hoặc Glide để tải ảnh nếu là URL
-        Picasso.get().load(currentItem.getImageUrl()).into(holder.imageView);
-        holder.nameTextView.setText(currentItem.getName());
-        holder.caloriesTextView.setText(currentItem.getCalories());
+    public void onBindViewHolder(@NonNull FavouriteViewHolder holder, int position) {
+        Favourite favourite = favouriteList.get(position);
 
-        // Ở đây bạn có thể bỏ qua trạng thái yêu thích (hoặc thêm nếu cần)
+        // Hiển thị hình ảnh
+        if (favourite.getImageUrl() != null && !favourite.getImageUrl().isEmpty()) {
+            Glide.with(context).load(favourite.getImageUrl()).into(holder.imageView);
+        } else {
+            holder.imageView.setImageDrawable(null);
+        }
+
+        // Hiển thị thông tin
+        holder.itemTitle.setText(favourite.getName());
+        holder.itemSubtitle.setText(favourite.getCaloriesText());
+
+        // Biểu tượng yêu thích
+        holder.likeIcon.setColorFilter(
+                ContextCompat.getColor(context, favourite.isFavorite() ? R.color.red : R.color.gray),
+                android.graphics.PorterDuff.Mode.SRC_IN
+        );
+
+        // Xử lý khi nhấn vào biểu tượng yêu thích
+        holder.likeIcon.setOnClickListener(v -> {
+            if (!favourite.isFavorite()) {
+                addToFavorites(favourite);
+                favourite.setFavorite(true);
+                notifyItemChanged(position);
+            } else {
+                removeFromFavorites(favourite);
+                favourite.setFavorite(false);
+                notifyItemChanged(position);
+            }
+        });
     }
 
     @Override
@@ -48,17 +77,30 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
         return favouriteList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView nameTextView, caloriesTextView;
+    private void addToFavorites(Favourite favourite) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("favorites").child(userId).child(favourite.getRecipeId()).setValue(favourite);
+        Toast.makeText(context, "Thêm vào danh sách yêu thích!", Toast.LENGTH_SHORT).show();
+    }
 
-        public ViewHolder(View itemView) {
+    private void removeFromFavorites(Favourite favourite) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("favorites").child(userId).child(favourite.getRecipeId()).removeValue();
+        Toast.makeText(context, "Xóa khỏi danh sách yêu thích!", Toast.LENGTH_SHORT).show();
+    }
+
+    public static class FavouriteViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView, likeIcon;
+        TextView itemTitle, itemSubtitle;
+
+        public FavouriteViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
-            nameTextView = itemView.findViewById(R.id.itemTitle);
-            caloriesTextView = itemView.findViewById(R.id.itemSubtitle);
+            likeIcon = itemView.findViewById(R.id.likeIcon);
+            itemTitle = itemView.findViewById(R.id.itemTitle);
+            itemSubtitle = itemView.findViewById(R.id.itemSubtitle);
         }
     }
 }
-
-

@@ -27,7 +27,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:contentDescription="Like Icon"
-            android:src="@drawable/favorite"
+            android:src="@drawable/fv1"
             app:tint="#FF0000"
             android:layout_gravity="top|end"
             android:layout_margin="1dp" />
