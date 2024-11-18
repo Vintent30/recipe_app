@@ -41,6 +41,9 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
     private ImageView imageView, imgCalen;
     private Button button;
 
+    List<Recipe> listRecommended = new ArrayList<>();
+    List<Recipe> listPopularRecipes = new ArrayList<>();
+    List<Recipe> listYouMightLike = new ArrayList<>();
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -80,25 +83,40 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
             mDatabase.child("Recipes").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    List<Recipe> listRecommended = new ArrayList<>();
-                    List<Recipe> listPopularRecipes = new ArrayList<>();
-                    List<Recipe> listYouMightLike = new ArrayList<>();
+
+                    listRecommended.clear();
+                    listPopularRecipes.clear();
+                    listYouMightLike.clear();
 
                     for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
                         String name = recipeSnapshot.child("name").getValue(String.class);
                         String imageUrl = recipeSnapshot.child("image").getValue(String.class);
                         String category = recipeSnapshot.child("category").getValue(String.class);
                         int calories = recipeSnapshot.child("calories").getValue(Integer.class);
+                        String recipeId = recipeSnapshot.child("recipeId").getValue(String.class);
+                        // Lấy trường like dưới dạng Long
+                        Long likeLong = recipeSnapshot.child("like").getValue(Long.class);
+                        int like = (likeLong != null) ? likeLong.intValue() : 0; // Kiểm tra nếu likeLong là null thì gán 0
 
-                        int like = recipeSnapshot.child("calories").getValue(Integer.class);
-
-                        Recipe food = new Recipe();
+                        Recipe food = new Recipe(
+                                recipeId,               // recipeId
+                                name,               // name
+                                calories,           // calories
+                                null,               // description
+                                category,           // category
+                                imageUrl,           // image
+                                null,               // video
+                                null,               // status
+                                null,               // userId
+                                null,               // categoryId
+                                like                // like
+                        );
 
                         // Phân loại món ăn theo các danh mục
-                        if ("200".equals(calories)) {
+                        if (calories >100 ) {
                             listRecommended.add(food);
                         }
-                        if (like > 30) {
+                        if (like > 3) {
                             listPopularRecipes.add(food);
                         }
                         if ("Món ăn vặt".equals(category)) {
@@ -111,6 +129,10 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                     listCategory.add(new categoryHome("Đề xuất cho bạn", R.drawable.baseline_arrow_forward_24, listRecommended));
                     listCategory.add(new categoryHome("Công thức phổ biến", R.drawable.baseline_arrow_forward_24, listPopularRecipes));
                     listCategory.add(new categoryHome("Có thể bạn sẽ thích", R.drawable.baseline_arrow_forward_24, listYouMightLike));
+
+
+                    // Lưu danh mục vào bảng CategoryHome
+                    saveCategoryHomeToFirebase(listCategory);
 
                     categoryHomeAdapter.setData(listCategory);
                 }
@@ -130,14 +152,29 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
         intent.putExtra("category_title", categoryTitle);
         startActivity(intent);
     }
-
     // Handle food item click
     @Override
     public void onFoodClick(Recipe food) {
         Intent intent = new Intent(getActivity(), DishRecipe.class);
+        intent.putExtra("recipeId", food.getRecipeId());
         intent.putExtra("food_title", food.getName());
-        intent.putExtra("food_description", food.getLike());
+        intent.putExtra("food_description", food.getDescription());
         intent.putExtra("food_image", food.getImage());  // Chuyển URL hình ảnh vào Intent
         startActivity(intent);
+    }
+    private void saveCategoryHomeToFirebase(List<categoryHome> categories) {
+        DatabaseReference categoryHomeRef = mDatabase.child("CategoryHome");
+        categoryHomeRef.removeValue(); // Xóa dữ liệu cũ trước khi thêm mới
+
+        for (categoryHome category : categories) {
+            String categoryId = categoryHomeRef.push().getKey(); // Tạo ID tự động cho danh mục
+            if (categoryId != null) {
+                // Thêm tên danh mục
+                categoryHomeRef.child(categoryId).child("name").setValue(category.getNameCategory());
+
+                // Thêm danh sách món ăn vào danh mục
+                categoryHomeRef.child(categoryId).child("foods").setValue(category.getFoods());
+            }
+        }
     }
 }

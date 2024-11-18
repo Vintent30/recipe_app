@@ -1,6 +1,6 @@
     package com.example.recipe_app.Model;
 
-    public class Recipe {
+    public class Recipe{
         private String recipeId;
         private String name;
         private int calories;
@@ -24,7 +24,7 @@
             this.status = status;
             this.userId = userId;
             this.categoryId = categoryId;
-            this.like = 0;
+            this.like = like;
         }
 
         public Recipe() {
