@@ -54,7 +54,6 @@
         <activity android:name=".Controller.Comment" />
         <activity android:name=".Controller.introduce" />
         <activity android:name=".Controller.conratulation_2" />
-        <activity android:name=".Controller.Search"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -54,6 +54,7 @@
                     android:drawableLeft="@drawable/baseline_search_24"
                     android:drawablePadding="10dp"
                     android:hint="Tìm kiếm"
+                    android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:paddingLeft="10dp" />
 
@@ -66,21 +67,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+        <TextView
+            android:id="@+id/tv_no_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Không tìm thấy kết quả"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="16dp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/chat_community"
-        android:layout_width="100dp"
-        android:layout_height="90dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="108dp"
-        android:background="@drawable/icon_chat"
-        android:drawablePadding="8dp"
-        android:textSize="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,11 @@
 package com.example.recipe_app.Controller;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +32,9 @@ public class Search extends AppCompatActivity {
     private SearchAdapter searchAdapter;
     private DatabaseReference mDatabase;
     private List<Recipe> searchResults;
+    ImageView imageView;
+    private EditText edtSearch;
+    private TextView tvNoResults;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +45,29 @@ public class Search extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        imageView = findViewById(R.id.btnback);
+        imageView.setOnClickListener(view -> {
+            // Sử dụng OnBackPressedDispatcher để xử lý hành động quay lại
+            this.getOnBackPressedDispatcher().onBackPressed();
+        });
+
+        edtSearch = findViewById(R.id.et_search);
+
+        // Chỉ xử lý khi nhấn phím Enter
+        edtSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                String searchQuery = edtSearch.getText().toString().trim();
+                if (!searchQuery.isEmpty()) {
+                    fetchSearchResults(searchQuery); // Chỉ tìm kiếm khi có nội dung
+                }
+                return true; // Ngăn sự kiện tiếp tục lan
+            }
+            return false; // Cho phép xử lý mặc định nếu không phải phím Enter
+        });
+
+        // Khởi tạo TextView
+        tvNoResults = findViewById(R.id.tv_no_results);
+
 
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.rcv_search);
@@ -74,6 +105,14 @@ public class Search extends AppCompatActivity {
 
                 // Update the adapter with the search results
                 searchAdapter.setData(searchResults);
+                // Hiển thị hoặc ẩn TextView dựa trên kết quả
+                if (searchResults.isEmpty()) {
+                    tvNoResults.setVisibility(View.VISIBLE); // Hiển thị "Không tìm thấy kết quả"
+                    recyclerView.setVisibility(View.GONE);  // Ẩn danh sách
+                } else {
+                    tvNoResults.setVisibility(View.GONE);   // Ẩn thông báo
+                    recyclerView.setVisibility(View.VISIBLE); // Hiển thị danh sách
+                }
             }
 
             @Override
