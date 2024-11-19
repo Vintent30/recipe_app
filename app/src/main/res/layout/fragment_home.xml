@@ -74,6 +74,7 @@
                 android:drawableLeft="@drawable/baseline_search_24"
                 android:drawablePadding="10dp"
                 android:hint="Tìm kiếm"
+                android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:paddingLeft="10dp" />
         </LinearLayout>

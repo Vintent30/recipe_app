@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Controller.Home_rcv"
+    android:id="@+id/search"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,9 +22,10 @@
         <LinearLayout
             android:id="@+id/contentmiddle"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="wrap_content"
             android:background="@color/orange"
             android:orientation="vertical"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,52 +36,33 @@
                 android:layout_height="120dp">
 
                 <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="40dp"
+                    android:id="@+id/btnback"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:contentDescription="Logo"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/arrow_back"
+                    app:tint="@color/black" />
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="350dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/search"
+                    android:drawableLeft="@drawable/baseline_search_24"
+                    android:drawablePadding="10dp"
+                    android:hint="Tìm kiếm"
+                    android:inputType="text"
+                    android:paddingLeft="10dp" />
 
-                <TextView
-                    android:id="@+id/appName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="53dp"
-                    android:layout_marginRight="72dp"
-                    android:fontFamily="@font/holtwood_one_sc"
-                    android:text="COOKEASE"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/Icon_calendar"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="45dp"
-                    android:src="@drawable/img_calen" />
             </androidx.appcompat.widget.Toolbar>
 
-            <EditText
-                android:id="@+id/et_search"
-                android:layout_width="350dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/search"
-                android:drawableLeft="@drawable/baseline_search_24"
-                android:drawablePadding="10dp"
-                android:hint="Tìm kiếm"
-                android:inputType="text"
-                android:paddingLeft="10dp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_category"
+            android:id="@+id/rcv_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />

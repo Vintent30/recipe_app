@@ -2,10 +2,12 @@ package com.example.recipe_app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import com.example.recipe_app.Adapter.FoodHomeAdapter;
 import com.example.recipe_app.Controller.Detail_suggest;
 import com.example.recipe_app.Controller.DishRecipe;
 import com.example.recipe_app.Controller.Planer;
+import com.example.recipe_app.Controller.Search;
 import com.example.recipe_app.Controller.chat_community;
 import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.Model.categoryHome;
@@ -37,7 +40,7 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
     private RecyclerView rcvCategory;
     private CategoryHomeAdapter categoryHomeAdapter;
     private DatabaseReference mDatabase;
-
+    private EditText edtSearch;
     private ImageView imageView, imgCalen;
     private Button button;
 
@@ -75,6 +78,24 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
 
         button = view.findViewById(R.id.chat_community);
         button.setOnClickListener(v -> startActivity(new Intent(getActivity(), chat_community.class)));
+
+        // Initialize EditText for search
+        edtSearch = view.findViewById(R.id.et_search);
+
+        // Set listener for the Enter key in EditText
+        edtSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                String searchQuery = edtSearch.getText().toString().trim();
+                if (!searchQuery.isEmpty()) {
+                    // Open Search Results Activity with the search query
+                    Intent intent = new Intent(getActivity(), Search.class);
+                    intent.putExtra("search_query", searchQuery);
+                    startActivity(intent);
+                }
+                return true;
+            }
+            return false;
+        });
 
         return view;
     }
@@ -177,4 +198,5 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
             }
         }
     }
+
 }

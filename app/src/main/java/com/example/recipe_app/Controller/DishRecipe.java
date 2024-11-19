@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -27,10 +26,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DishRecipe extends AppCompatActivity {
     private ImageView imgRecipe, imgLike;
     private TextView tvRecipeName, tvAuthor, tvIngredients, tvDescription, tvLike, tvCalo;
-    private RatingBar ratingBar;
     private VideoView vdRecipe;
     private DatabaseReference databaseReference;
     private String recipeId;
@@ -52,6 +53,20 @@ public class DishRecipe extends AppCompatActivity {
             return insets;
         });
 
+// Quay lại màn hình trước và load lại Fragment cũ nếu có
+        ImageView imageView = findViewById(R.id.back);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    // Quay lại Fragment trước đó và load lại trạng thái
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    // Nếu không có fragment nào trong backstack, kết thúc Activity hiện tại
+                    finish();
+                }
+            }
+        });
         // Ánh xạ các view
         imgRecipe = findViewById(R.id.dish_image);
         tvRecipeName = findViewById(R.id.recipe_title);
@@ -88,6 +103,7 @@ public class DishRecipe extends AppCompatActivity {
                     // Cập nhật lại số like trong Firebase
                     databaseReference.child("like").setValue(likeCount);
                     updateUserLikes(userID, recipeId, true);
+                    saveToUserLikes(userID, recipeId);
                     // Đánh dấu là đã like
                     isLiked = true;
                 } else {
@@ -106,18 +122,6 @@ public class DishRecipe extends AppCompatActivity {
             }
         });
 
-        // Quay lại màn hình trước
-        ImageView imageView = findViewById(R.id.back);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                    getSupportFragmentManager().popBackStack();
-                } else {
-                    finish();
-                }
-            }
-        });
     }
 
     // Lưu trạng thái like của người dùng đối với một công thức
@@ -125,15 +129,28 @@ public class DishRecipe extends AppCompatActivity {
         // Tham chiếu đến node "UserLikes"
         DatabaseReference userLikeRef = FirebaseDatabase.getInstance().getReference("UserLikes").child(userID).child(recipeId);
 
-        // Cập nhật trạng thái like (true/false) vào Firebase
-        userLikeRef.setValue(isLiked).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(DishRecipe.this, "Trạng thái like đã được cập nhật!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(DishRecipe.this, "Lỗi khi cập nhật trạng thái like!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (isLiked) {
+            // Nếu like, cập nhật trạng thái like (true) vào Firebase
+            userLikeRef.setValue(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(DishRecipe.this, "Trạng thái like đã được cập nhật!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DishRecipe.this, "Lỗi khi cập nhật trạng thái like!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Nếu bỏ like, xóa khỏi Firebase
+            userLikeRef.removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(DishRecipe.this, "Đã gỡ công thức khỏi yêu thích!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DishRecipe.this, "Lỗi khi gỡ yêu thích!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
+
+
     // Lưu trạng thái follow của người dùng đối với một công thức
     private void updateUserFollows(String userID, String recipeId, boolean isFollow) {
         // Tham chiếu đến node "UserFollows"
@@ -148,7 +165,49 @@ public class DishRecipe extends AppCompatActivity {
             }
         });
     }
+    private void saveToUserLikes(String userId, String recipeId) {
+        // Tham chiếu đến bảng Recipes
+        DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("Recipes").child(recipeId);
 
+        // Lấy thông tin chi tiết từ Recipes
+        recipesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Lấy thông tin công thức từ Recipes
+                    String name = snapshot.child("name").getValue(String.class);
+                    String image = snapshot.child("image").getValue(String.class);
+                    int calories = snapshot.child("calories").getValue(Integer.class);
+
+                    // Tham chiếu đến bảng UserLikes
+                    DatabaseReference userLikesRef = FirebaseDatabase.getInstance().getReference("UserLikes").child(userId).child(recipeId);
+
+                    // Tạo HashMap để lưu thông tin
+                    Map<String, Object> likeData = new HashMap<>();
+                    likeData.put("name", name);
+                    likeData.put("image", image);
+                    likeData.put("calories", calories);
+                    likeData.put("likeStatus", true);
+
+                    // Lưu vào Firebase
+                    userLikesRef.setValue(likeData).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Công thức đã được lưu vào yêu thích!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Lỗi khi lưu yêu thích!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Không tìm thấy công thức!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Lỗi: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void loadRecipeData() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -188,7 +247,7 @@ public class DishRecipe extends AppCompatActivity {
 
                     // Kiểm tra trạng thái like của người dùng
                     String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    DatabaseReference userLikeRef = FirebaseDatabase.getInstance().getReference("UserLikes").child(userID).child(recipeId);
+                    DatabaseReference userLikeRef = FirebaseDatabase.getInstance().getReference("UserLikes").child(userID).child(recipeId).child("likeStatus");
                     userLikeRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot userSnapshot) {
