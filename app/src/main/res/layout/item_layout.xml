@@ -17,31 +17,38 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:contentDescription="Recipe Image"
-            />
+            android:scaleType="centerCrop" />
 
         <!-- Biểu tượng thích nằm trong hình, góc trên bên phải -->
         <ImageView
             android:id="@+id/likeIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:contentDescription="Like Icon"
             android:src="@drawable/fv1"
-            app:tint="#FF0000"
             android:layout_gravity="top|end"
-            android:layout_margin="1dp" />
+            android:layout_margin="4dp" />
     </FrameLayout>
 
+    <!-- Tiêu đề món ăn -->
     <TextView
         android:id="@+id/itemTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item Name" />
+        android:layout_marginTop="8dp"
+        android:text="Item Name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/black" />
 
+    <!-- Thông tin về Calories -->
     <TextView
         android:id="@+id/itemSubtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calories Info" />
+        android:layout_marginTop="4dp"
+        android:text="Calories Info"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray" />
 </LinearLayout>

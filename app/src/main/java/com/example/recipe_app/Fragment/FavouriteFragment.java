@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -37,7 +36,7 @@ public class FavouriteFragment extends Fragment {
     private DatabaseReference database;
     private List<Favourite> favouriteList = new ArrayList<>();
     private Spinner spinner;
-    private boolean isSpinnerInitialized = false;
+    private boolean isSpinnerInitialized = false; // Tránh kích hoạt spinner khi khởi tạo lần đầu
 
     public FavouriteFragment() {
         // Default constructor
@@ -64,28 +63,21 @@ public class FavouriteFragment extends Fragment {
     }
 
     private void setupSpinner() {
-        // Sorting options
+        // Các tùy chọn sắp xếp
         String[] sortingOptions = {"Sắp xếp theo tên", "Sắp xếp theo calo"};
 
-        // Adapter for Spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, sortingOptions) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                TextView label = (TextView) super.getView(position, convertView, parent);
-                label.setText(isSpinnerInitialized ? sortingOptions[position] : "Sắp xếp");
-                return label;
-            }
-        };
+        // Adapter cho Spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sortingOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        // Handle sorting logic
+        // Xử lý sự kiện khi chọn mục trong Spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (isSpinnerInitialized) {
                     switch (position) {
-                        case 0: // Sort by name
+                        case 0: // Sắp xếp theo tên
                             Collections.sort(favouriteList, new Comparator<Favourite>() {
                                 @Override
                                 public int compare(Favourite f1, Favourite f2) {
@@ -94,7 +86,7 @@ public class FavouriteFragment extends Fragment {
                             });
                             break;
 
-                        case 1: // Sort by calories
+                        case 1: // Sắp xếp theo calo
                             Collections.sort(favouriteList, new Comparator<Favourite>() {
                                 @Override
                                 public int compare(Favourite f1, Favourite f2) {
@@ -103,48 +95,49 @@ public class FavouriteFragment extends Fragment {
                             });
                             break;
                     }
-                    favouriteAdapter.notifyDataSetChanged(); // Refresh adapter
+                    // Cập nhật lại adapter sau khi sắp xếp
+                    favouriteAdapter.notifyDataSetChanged();
                 } else {
-                    isSpinnerInitialized = true; // Skip first trigger
+                    isSpinnerInitialized = true; // Bỏ qua lần đầu Spinner khởi tạo
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
+                // Không làm gì nếu không chọn
             }
         });
     }
 
     private void fetchDataFromFirebase() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        database.child("favorites").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("UserLikes").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 favouriteList.clear();
 
-                // Parse data from Firebase
-                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-                    String recipeId = itemSnapshot.getKey(); // Get recipeId from key
-                    String name = itemSnapshot.child("name").getValue(String.class);
-                    String imageUrl = itemSnapshot.child("imageUrl").getValue(String.class);
-                    Integer calories = itemSnapshot.child("calories").getValue(Integer.class);
+                for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
+                    String recipeId = recipeSnapshot.getKey();
+                    String name = recipeSnapshot.child("name").getValue(String.class);
+                    String imageUrl = recipeSnapshot.child("image").getValue(String.class);
+                    Integer calories = recipeSnapshot.child("calories").getValue(Integer.class);
+                    Boolean likeStatus = recipeSnapshot.child("likeStatus").getValue(Boolean.class);
 
-                    // Handle null data
                     if (name == null) name = "Unknown";
                     if (imageUrl == null) imageUrl = "";
                     if (calories == null) calories = 0;
+                    if (likeStatus == null) likeStatus = false;
 
                     Favourite favourite = new Favourite(recipeId, name, imageUrl, calories);
-                    favourite.setFavorite(true);
+                    favourite.setFavorite(likeStatus);
                     favouriteList.add(favourite);
                 }
 
-                // Initialize adapter after data is loaded
+                // Khởi tạo adapter sau khi dữ liệu được tải
                 favouriteAdapter = new FavouriteAdapter(getContext(), favouriteList);
                 recyclerView.setAdapter(favouriteAdapter);
 
-                // Set up Spinner after adapter is initialized
+                // Cài đặt Spinner sau khi dữ liệu đã được tải
                 setupSpinner();
             }
 

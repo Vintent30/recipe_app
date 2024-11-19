@@ -41,9 +41,9 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
         Category category = categoryList.get(position);
         holder.title.setText(category.getName());
 
-        // Tải ảnh từ URL hoặc đường dẫn hình ảnh
+        // Load image from URL
         Glide.with(holder.itemView.getContext())
-                .load(category.getImage())
+                .load(category.getImage()) // Load image from URL
                 .into(holder.image);
 
         // Set up click listener
@@ -55,7 +55,7 @@ public class FoodCategoryAdapter extends RecyclerView.Adapter<FoodCategoryAdapte
         return categoryList.size();
     }
 
-    // Phương thức setData để cập nhật dữ liệu
+    // Method to update the data in the adapter
     public void setData(List<Category> newCategoryList) {
         this.categoryList = newCategoryList;
         notifyDataSetChanged();

@@ -3,6 +3,8 @@
     <string name="home">Trang chủ</string>
     <string name="category">Danh mục</string>
     <string name="favourite">Yêu thích</string>
+    <string name="calories_format">%d kcal</string>
+    <string name="recipe_image_desc">Ảnh món ăn</string>
     <string-array name="combo_items">
         <item>Item 1</item>
         <item>Item 2</item>

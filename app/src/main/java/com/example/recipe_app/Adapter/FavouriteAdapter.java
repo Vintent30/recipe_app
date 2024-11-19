@@ -41,24 +41,24 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     public void onBindViewHolder(@NonNull FavouriteViewHolder holder, int position) {
         Favourite favourite = favouriteList.get(position);
 
-        // Hiển thị hình ảnh
+        // Display the image
         if (favourite.getImageUrl() != null && !favourite.getImageUrl().isEmpty()) {
             Glide.with(context).load(favourite.getImageUrl()).into(holder.imageView);
         } else {
             holder.imageView.setImageDrawable(null);
         }
 
-        // Hiển thị thông tin
+        // Display the text information
         holder.itemTitle.setText(favourite.getName());
         holder.itemSubtitle.setText(favourite.getCaloriesText());
 
-        // Biểu tượng yêu thích
+        // Set the like icon color
         holder.likeIcon.setColorFilter(
                 ContextCompat.getColor(context, favourite.isFavorite() ? R.color.red : R.color.gray),
                 android.graphics.PorterDuff.Mode.SRC_IN
         );
 
-        // Xử lý khi nhấn vào biểu tượng yêu thích
+        // Handle like/unlike actions
         holder.likeIcon.setOnClickListener(v -> {
             if (!favourite.isFavorite()) {
                 addToFavorites(favourite);
@@ -80,14 +80,21 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     private void addToFavorites(Favourite favourite) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("favorites").child(userId).child(favourite.getRecipeId()).setValue(favourite);
+
+        database.child("UserLikes").child(userId).child(favourite.getRecipeId())
+                .setValue(new Favourite(
+                        favourite.getRecipeId(),
+                        favourite.getName(),
+                        favourite.getImageUrl(),
+                        favourite.getCalories()
+                ));
         Toast.makeText(context, "Thêm vào danh sách yêu thích!", Toast.LENGTH_SHORT).show();
     }
 
     private void removeFromFavorites(Favourite favourite) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("favorites").child(userId).child(favourite.getRecipeId()).removeValue();
+        database.child("UserLikes").child(userId).child(favourite.getRecipeId()).removeValue();
         Toast.makeText(context, "Xóa khỏi danh sách yêu thích!", Toast.LENGTH_SHORT).show();
     }
 

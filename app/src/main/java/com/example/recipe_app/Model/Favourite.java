@@ -1,25 +1,25 @@
 package com.example.recipe_app.Model;
 
 public class Favourite {
-    private String recipeId;  // ID của công thức (làm khóa chính)
-    private String name;      // Tên món ăn
-    private String imageUrl;  // URL hình ảnh món ăn
-    private int calories;     // Lượng calo
-    private boolean isFavorite; // Trạng thái yêu thích
+    private String recipeId;  // Recipe ID (used as a primary key)
+    private String name;      // Name of the dish
+    private String imageUrl;  // Image URL of the dish
+    private int calories;     // Calorie count
+    private boolean isFavorite; // Favorite status
 
-    // Constructor không tham số (bắt buộc cho Firebase)
+    // Default constructor (required for Firebase)
     public Favourite() {}
 
-    // Constructor đầy đủ
+    // Full constructor
     public Favourite(String recipeId, String name, String imageUrl, int calories) {
         this.recipeId = recipeId;
         this.name = name;
         this.imageUrl = imageUrl;
         this.calories = calories;
-        this.isFavorite = false; // Mặc định không nằm trong danh sách yêu thích
+        this.isFavorite = false; // Default to not favorited
     }
 
-    // Getters và Setters
+    // Getters and setters
     public String getRecipeId() {
         return recipeId;
     }
