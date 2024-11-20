@@ -26,6 +26,7 @@ import com.example.recipe_app.Controller.chat_community;
 import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.Model.categoryHome;
 import com.example.recipe_app.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +34,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCategoryForwardClickListener, FoodHomeAdapter.OnFoodClickListener {
 
@@ -99,71 +102,114 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
 
         return view;
     }
-        //lay du lieu
-        private void fetchDataFromFirebase() {
-            mDatabase.child("Recipes").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+    private void fetchDataFromFirebase() {
+        mDatabase.child("Recipes").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    listRecommended.clear();
-                    listPopularRecipes.clear();
-                    listYouMightLike.clear();
+                listRecommended.clear();
+                listPopularRecipes.clear();
+                listYouMightLike.clear();
 
-                    for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
-                        String name = recipeSnapshot.child("name").getValue(String.class);
-                        String imageUrl = recipeSnapshot.child("image").getValue(String.class);
-                        String category = recipeSnapshot.child("category").getValue(String.class);
-                        int calories = recipeSnapshot.child("calories").getValue(Integer.class);
-                        String recipeId = recipeSnapshot.child("recipeId").getValue(String.class);
-                        // Lấy trường like dưới dạng Long
-                        Long likeLong = recipeSnapshot.child("like").getValue(Long.class);
-                        int like = (likeLong != null) ? likeLong.intValue() : 0; // Kiểm tra nếu likeLong là null thì gán 0
+                // Lấy userId của người dùng hiện tại
+                String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        Recipe food = new Recipe(
-                                recipeId,               // recipeId
-                                name,               // name
-                                calories,           // calories
-                                null,               // description
-                                category,           // category
-                                imageUrl,           // image
-                                null,               // video
-                                null,               // status
-                                null,               // userId
-                                null,               // categoryId
-                                like                // like
-                        );
+                // Lấy danh sách UserLikes để xác định các category có ít nhất 2 món giống nhau
+                mDatabase.child("UserLikes").child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot userLikesSnapshot) {
 
-                        // Phân loại món ăn theo các danh mục
-                        if (calories >100 ) {
-                            listRecommended.add(food);
+                        // Tạo một map để đếm số lượng món ăn theo category
+                        Map<String, List<String>> categoryMap = new HashMap<>();
+
+                        // Đếm số lượng món ăn theo category mà người dùng đã thích
+                        for (DataSnapshot likeSnapshot : userLikesSnapshot.getChildren()) {
+                            String category = likeSnapshot.child("category").getValue(String.class);
+                            String recipeId = likeSnapshot.child("recipeId").getValue(String.class);
+
+                            if (!categoryMap.containsKey(category)) {
+                                categoryMap.put(category, new ArrayList<>());
+                            }
+
+                            categoryMap.get(category).add(recipeId);
                         }
-                        if (like > 3) {
-                            listPopularRecipes.add(food);
+
+                        // Xử lý dữ liệu trong Recipes
+                        for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
+                            String name = recipeSnapshot.child("name").getValue(String.class);
+                            String imageUrl = recipeSnapshot.child("image").getValue(String.class);
+                            String category = recipeSnapshot.child("category").getValue(String.class);
+                            int calories = recipeSnapshot.child("calories").getValue(Integer.class);
+                            String recipeId = recipeSnapshot.child("recipeId").getValue(String.class);
+                            String recipeUserId = recipeSnapshot.child("userId").getValue(String.class);
+
+
+                            if (currentUserId.equals(recipeUserId)) {
+                                continue;
+                            }
+
+                            // Lấy trường like dưới dạng Long
+                            Long likeLong = recipeSnapshot.child("like").getValue(Long.class);
+                            int like = (likeLong != null) ? likeLong.intValue() : 0; // Kiểm tra nếu likeLong là null thì gán 0
+
+                            Recipe food = new Recipe(
+                                    recipeId,               // recipeId
+                                    name,                   // name
+                                    calories,               // calories
+                                    null,                   // description
+                                    category,               // category
+                                    imageUrl,               // image
+                                    null,                   // video
+                                    null,                   // status
+                                    null,                   // userId
+                                    null,                   // categoryId
+                                    like                    // like
+                            );
+
+                            // Phân loại món ăn theo các danh mục
+                            // Thêm vào listRecommended nếu calories > 30
+                            if (calories > 30) {
+                                listRecommended.add(food);
+                            }
+
+                            // Thêm vào listPopularRecipes nếu like > 3
+                            if (like > 3) {
+                                listPopularRecipes.add(food);
+                            }
+
+                            // Thêm vào listYouMightLike nếu có ít nhất 2 món cùng category trong UserLikes
+                            if (categoryMap.containsKey(category) && categoryMap.get(category).size() >= 3) {
+                                listYouMightLike.add(food);
+                            }
                         }
-                        if ("Món ăn vặt".equals(category)) {
-                            listYouMightLike.add(food);
-                        }
+
+                        // Cập nhật dữ liệu cho adapter
+                        List<categoryHome> listCategory = new ArrayList<>();
+                        listCategory.add(new categoryHome("Đề xuất cho bạn", R.drawable.baseline_arrow_forward_24, listRecommended));
+                        listCategory.add(new categoryHome("Công thức phổ biến", R.drawable.baseline_arrow_forward_24, listPopularRecipes));
+                        listCategory.add(new categoryHome("Có thể bạn sẽ thích", R.drawable.baseline_arrow_forward_24, listYouMightLike));
+
+                        // Lưu danh mục vào bảng CategoryHome
+                        saveCategoryHomeToFirebase(listCategory);
+
+                        // Cập nhật adapter
+                        categoryHomeAdapter.setData(listCategory);
+                        categoryHomeAdapter.notifyDataSetChanged();
                     }
 
-                    // Cập nhật dữ liệu cho adapter
-                    List<categoryHome> listCategory = new ArrayList<>();
-                    listCategory.add(new categoryHome("Đề xuất cho bạn", R.drawable.baseline_arrow_forward_24, listRecommended));
-                    listCategory.add(new categoryHome("Công thức phổ biến", R.drawable.baseline_arrow_forward_24, listPopularRecipes));
-                    listCategory.add(new categoryHome("Có thể bạn sẽ thích", R.drawable.baseline_arrow_forward_24, listYouMightLike));
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Xử lý lỗi khi lấy dữ liệu từ Firebase
+                    }
+                });
+            }
 
-
-                    // Lưu danh mục vào bảng CategoryHome
-                    saveCategoryHomeToFirebase(listCategory);
-
-                    categoryHomeAdapter.setData(listCategory);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Xử lý lỗi khi lấy dữ liệu từ Firebase
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi khi lấy dữ liệu từ Firebase
+            }
+        });
+    }
 
 
     // Handle category click

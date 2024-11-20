@@ -64,20 +64,5 @@
                 android:text="Likes: 123"
                 android:textSize="14sp" />
         </LinearLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <!-- Heart Icon -->
-            <ImageView
-                android:id="@+id/food_heart"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:contentDescription="Like"
-                android:src="@drawable/heart_nomal"
-                android:layout_marginRight="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </RelativeLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

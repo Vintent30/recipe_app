@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Detail_suggest extends AppCompatActivity {
-    ImageView imageView;
+    ImageView imageView,imgLike;
     LinearLayout linearLayout;
     private DetailAdapter detailAdapter;
     private RecyclerView recyclerView;  // Khai báo RecyclerView
@@ -93,7 +93,7 @@ public class Detail_suggest extends AppCompatActivity {
 
                         // Kiểm tra xem danh mục có tên phù hợp với categoryTitle không
                         if (categoryName != null && categoryName.equals(categoryTitle)) {
-                            // Lấy danh sách món ăn từ trường "foods"
+                            // Lấy tất cả món ăn trong danh mục này
                             for (DataSnapshot recipeSnapshot : categorySnapshot.child("foods").getChildren()) {
                                 Recipe recipe = recipeSnapshot.getValue(Recipe.class);
                                 if (recipe != null) {
@@ -119,5 +119,6 @@ public class Detail_suggest extends AppCompatActivity {
             }
         });
     }
+
 
 }

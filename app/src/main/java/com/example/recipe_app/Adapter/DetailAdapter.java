@@ -21,7 +21,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
 
     private Context context;
     private List<Recipe> recipeList;
-
     // Constructor nhận context và danh sách món ăn
     public DetailAdapter(Context context) {
         this.context = context;
