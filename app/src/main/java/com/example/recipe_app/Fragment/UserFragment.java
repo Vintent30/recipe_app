@@ -2,6 +2,7 @@ package com.example.recipe_app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.Adapter.RecipeAdapter; // Adapter cho công thức
+import com.example.recipe_app.Adapter.RecipeAdapter;
 import com.example.recipe_app.Controller.Create_recipe;
-import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
-import com.example.recipe_app.Model.Account;
 import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -110,44 +109,51 @@ public class UserFragment extends Fragment {
     }
 
     private void loadFollowerFollowingCounts() {
-        // Đếm số lượng follower
-        DatabaseReference followersRef = FirebaseDatabase.getInstance()
-                .getReference("Followers")
-                .child(currentUser.getUid());
+        if (currentUser == null) {
+            totalFollowers.setText("0");
+            totalFollowing.setText("0");
+            return;
+        }
 
-        followersRef.addValueEventListener(new ValueEventListener() {
+        String userId = currentUser.getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
+
+        // Lấy số lượng followers
+        userRef.child("followers").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long followerCount = snapshot.getChildrenCount();
-                totalFollowers.setText(String.valueOf(followerCount));
+                if (snapshot.exists()) {
+                    totalFollowers.setText(String.valueOf(snapshot.getValue(Long.class)));
+                } else {
+                    totalFollowers.setText("0");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                totalFollowers.setText("1"); // Hiển thị mặc định nếu có lỗi
+                Log.e("Firebase", "Error fetching followers count: " + error.getMessage());
+                totalFollowers.setText("0");
             }
         });
 
-        // Đếm số lượng following
-        DatabaseReference followingRef = FirebaseDatabase.getInstance()
-                .getReference("Following")
-                .child(currentUser.getUid());
-
-        followingRef.addValueEventListener(new ValueEventListener() {
+        // Lấy số lượng following
+        userRef.child("following").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long followingCount = snapshot.getChildrenCount();
-                totalFollowing.setText(String.valueOf(followingCount));
+                if (snapshot.exists()) {
+                    totalFollowing.setText(String.valueOf(snapshot.getValue(Long.class)));
+                } else {
+                    totalFollowing.setText("0");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                totalFollowing.setText("1"); // Hiển thị mặc định nếu có lỗi
+                Log.e("Firebase", "Error fetching following count: " + error.getMessage());
+                totalFollowing.setText("0");
             }
         });
     }
-
-
 
     private void loadUserRecipes(String userId) {
         // Fetch and display the list of recipes created by the current user
@@ -167,7 +173,7 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle any errors here
+                Log.e("Firebase", "Error fetching recipes: " + error.getMessage());
             }
         });
     }
