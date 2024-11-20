@@ -14,10 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.Adapter.RecipeAdapter;
+import com.example.recipe_app.Adapter.RecipeAdapter; // Adapter cho công thức
 import com.example.recipe_app.Controller.Create_recipe;
 import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
+import com.example.recipe_app.Model.Account;
 import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,11 +47,26 @@ public class UserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        // Initialize views
-        initializeViews(view);
+        // Initialize the recipe list and RecyclerView
+        recipeList = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recipeAdapter = new RecipeAdapter(getContext(), recipeList);
+        recyclerView.setAdapter(recipeAdapter);
 
-        // Initialize RecyclerView and adapter
-        initializeRecyclerView();
+        // Initialize views
+        settingIcon = view.findViewById(R.id.setting_icon);
+        createRecipeButton = view.findViewById(R.id.btn_createRe);
+        followerTextView = view.findViewById(R.id.follower);
+        followingTextView = view.findViewById(R.id.follow);
+        profilePicture = view.findViewById(R.id.profilePicture);
+        username = view.findViewById(R.id.username);
+        totalFollowers = view.findViewById(R.id.total2); // TextView for followers count
+        totalFollowing = view.findViewById(R.id.total1); // TextView for following count
+
+        // Handle icon and button click events
+        settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
+        createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
 
         // Get the current logged-in user
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -75,34 +91,6 @@ public class UserFragment extends Fragment {
         return view;
     }
 
-    private void initializeViews(View view) {
-        // Link views to XML
-        settingIcon = view.findViewById(R.id.setting_icon);
-        createRecipeButton = view.findViewById(R.id.btn_createRe);
-        followerTextView = view.findViewById(R.id.follower);
-        followingTextView = view.findViewById(R.id.follow);
-        profilePicture = view.findViewById(R.id.profilePicture);
-        username = view.findViewById(R.id.username);
-        totalFollowers = view.findViewById(R.id.total2);
-        totalFollowing = view.findViewById(R.id.total1);
-
-        // Set onClick listeners
-        settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
-        createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
-    }
-
-    private void initializeRecyclerView() {
-        // Setup RecyclerView and Adapter
-        recipeList = new ArrayList<>();
-        recyclerView = getView().findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recipeAdapter = new RecipeAdapter(getContext(), recipeList);
-        recyclerView.setAdapter(recipeAdapter);
-
-        // Optimize RecyclerView
-        recyclerView.setHasFixedSize(true);
-    }
-
     private void loadUserInfo() {
         // Retrieve and display user's name
         userRef.child("name").get().addOnSuccessListener(dataSnapshot -> {
@@ -114,7 +102,7 @@ public class UserFragment extends Fragment {
         userRef.child("avatar").get().addOnSuccessListener(dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 String imageUrl = dataSnapshot.getValue(String.class);
-                Picasso.get().load(imageUrl).placeholder(R.drawable.icon_intro1).error(R.drawable.icon_intro1).into(profilePicture);
+                Picasso.get().load(imageUrl).into(profilePicture);
             } else {
                 profilePicture.setImageResource(R.drawable.icon_intro1);
             }
@@ -131,7 +119,7 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                totalFollowers.setText("0");
+                // Handle any errors here
             }
         });
 
@@ -144,7 +132,7 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                totalFollowing.setText("0");
+                // Handle any errors here
             }
         });
     }
@@ -158,7 +146,7 @@ public class UserFragment extends Fragment {
                 recipeList.clear();
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Recipe recipe = data.getValue(Recipe.class);
-                    if (recipe != null && "active".equalsIgnoreCase(recipe.getStatus())) {
+                    if (recipe != null && "active".equals(recipe.getStatus())) {
                         recipeList.add(recipe);
                     }
                 }
@@ -167,7 +155,7 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
+                // Handle any errors here
             }
         });
     }
