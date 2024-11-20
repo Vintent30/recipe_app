@@ -118,7 +118,7 @@
                 android:text="Đề xuất cho bạn về món ăn dinh dưỡng"
                 android:textSize="18sp" />
 
-            <!-- Suggested Recipes RecyclerView -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_horizontal"
                 android:paddingTop="10dp"
