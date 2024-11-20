@@ -110,32 +110,44 @@ public class UserFragment extends Fragment {
     }
 
     private void loadFollowerFollowingCounts() {
-        // Get followers count
-        userRef.child("followers").addValueEventListener(new ValueEventListener() {
+        // Đếm số lượng follower
+        DatabaseReference followersRef = FirebaseDatabase.getInstance()
+                .getReference("Followers")
+                .child(currentUser.getUid());
+
+        followersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                totalFollowers.setText(String.valueOf(snapshot.getChildrenCount()));
+                long followerCount = snapshot.getChildrenCount();
+                totalFollowers.setText(String.valueOf(followerCount));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle any errors here
+                totalFollowers.setText("0"); // Hiển thị mặc định nếu có lỗi
             }
         });
 
-        // Get following count
-        userRef.child("following").addValueEventListener(new ValueEventListener() {
+        // Đếm số lượng following
+        DatabaseReference followingRef = FirebaseDatabase.getInstance()
+                .getReference("Following")
+                .child(currentUser.getUid());
+
+        followingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                totalFollowing.setText(String.valueOf(snapshot.getChildrenCount()));
+                long followingCount = snapshot.getChildrenCount();
+                totalFollowing.setText(String.valueOf(followingCount));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle any errors here
+                totalFollowing.setText("0"); // Hiển thị mặc định nếu có lỗi
             }
         });
     }
+
+
 
     private void loadUserRecipes(String userId) {
         // Fetch and display the list of recipes created by the current user
