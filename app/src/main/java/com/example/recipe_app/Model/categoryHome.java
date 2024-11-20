@@ -6,19 +6,19 @@ public class categoryHome {
 
     private String nameCategory;
     private int imgForward;
-    private List<FoodHome> foodHomes;
+    private List<Recipe> foodHomes;
 
-    public categoryHome(String nameCategory, int imgForward, List<FoodHome> foodHomes) {
+    public categoryHome(String nameCategory, int imgForward, List<Recipe> foodHomes) {
         this.nameCategory = nameCategory;
         this.imgForward = imgForward;
         this.foodHomes = foodHomes;
     }
 
-    public List<FoodHome> getFoods() {
+    public List<Recipe> getFoods() {
         return foodHomes;
     }
 
-    public void setFoods(List<FoodHome> foodHomes) {
+    public void setFoods(List<Recipe> foodHomes) {
         this.foodHomes = foodHomes;
     }
 
