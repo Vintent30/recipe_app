@@ -124,7 +124,7 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                totalFollowers.setText("0"); // Hiển thị mặc định nếu có lỗi
+                totalFollowers.setText("1"); // Hiển thị mặc định nếu có lỗi
             }
         });
 
@@ -142,7 +142,7 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                totalFollowing.setText("0"); // Hiển thị mặc định nếu có lỗi
+                totalFollowing.setText("1"); // Hiển thị mặc định nếu có lỗi
             }
         });
     }
