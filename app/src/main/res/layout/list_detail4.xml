@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
+                android:paddingTop="40dp"
                 android:paddingBottom="8dp"
                 android:text="Đề xuất cho bạn về món ăn dinh dưỡng"
                 android:textSize="18sp" />
@@ -123,24 +123,11 @@
                 android:id="@+id/recycler_view_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
                 android:paddingBottom="8dp"
                 tools:listitem="@layout/item_horizontal_recipe" />
 
-            <!-- Popular Recipes Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="8dp"
-                android:text="Công thức phổ biến về món ăn dinh dưỡng"
-                android:textSize="18sp" />
 
-            <!-- Popular Recipes RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_popular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_popular_recipe" />
         </LinearLayout>
     </ScrollView>
 
