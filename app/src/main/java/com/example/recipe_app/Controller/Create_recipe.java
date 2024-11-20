@@ -127,6 +127,9 @@ public class Create_recipe extends AppCompatActivity {
             return;
         }
 
+        // Hiển thị thông báo chờ
+        Toast.makeText(this, "Đang tạo công thức, vui lòng chờ...", Toast.LENGTH_SHORT).show();
+
         String userId = currentUser.getUid();
         StorageReference fileRefImage = storageReference.child("images/" + System.currentTimeMillis() + ".jpg");
         StorageReference fileRefVideo = storageReference.child("videos/" + System.currentTimeMillis() + ".mp4");
@@ -153,11 +156,12 @@ public class Create_recipe extends AppCompatActivity {
                             categoryReference.child(selectedCategoryId).child("recipes").child(recipeId).setValue(true)
                                     .addOnCompleteListener(categoryTask -> {
                                         if (categoryTask.isSuccessful()) {
-                                            Toast.makeText(Create_recipe.this, "Tạo công thức thành công", Toast.LENGTH_SHORT).show();
-                                            // Trở lại màn hình chính hoặc nơi thích hợp
-                                            Intent intent = new Intent(Create_recipe.this, UserFragment.class); // Thay MainActivity bằng activity chính
+                                            // Chuyển Intent ngay lập tức
+                                            Intent intent = new Intent(Create_recipe.this, UserFragment.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
-                                            finish();
+
+                                            Toast.makeText(Create_recipe.this, "Tạo công thức thành công", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(Create_recipe.this, "Thất bại khi liên kết công thức với danh mục", Toast.LENGTH_SHORT).show();
                                         }
@@ -170,4 +174,5 @@ public class Create_recipe extends AppCompatActivity {
             })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải video lên", Toast.LENGTH_SHORT).show());
         })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải ảnh lên", Toast.LENGTH_SHORT).show());
     }
+
 }
