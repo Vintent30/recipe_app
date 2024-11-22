@@ -156,7 +156,7 @@ public class UserFragment extends Fragment {
     }
 
     private void loadUserRecipes(String userId) {
-        // Fetch and display the list of recipes created by the current user
+
         DatabaseReference recipeRef = FirebaseDatabase.getInstance().getReference("Recipes");
         recipeRef.orderByChild("userId").equalTo(userId).addValueEventListener(new ValueEventListener() {
             @Override
