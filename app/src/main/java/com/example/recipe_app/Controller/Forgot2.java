@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,61 +16,67 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.recipe_app.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import java.util.Random;
+import com.google.firebase.database.ValueEventListener;
+
 public class Forgot2 extends AppCompatActivity {
-
-    private EditText etNewPassword, etConfirmPassword;
-    private Button btnSendOtp;
-    private FirebaseDatabase database;
-    private DatabaseReference mDatabase;
-    private String phone;
-    private String otp;
-
+    private FirebaseAuth auth;
+    private String email;
+    private EditText otpEditText;
+    private TextView resendOtpTextView;
+    private static final long RESEND_OTP_INTERVAL = 30000; // 30 giây
+    private long lastOtpSentTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.forgot_password_2);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fg_p2), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        etNewPassword = findViewById(R.id.et_new_pass);
-        etConfirmPassword = findViewById(R.id.et_confirm_pass);
-        btnSendOtp = findViewById(R.id.btn_send_otp);
 
-        // Lấy số điện thoại từ Intent
-        phone = getIntent().getStringExtra("PHONE_NUMBER");
+        otpEditText = findViewById(R.id.et_otp);
+        Button verifyButton = findViewById(R.id.btn_verifyOtp);
+        resendOtpTextView = findViewById(R.id.tv_resend_otp);
 
-        database = FirebaseDatabase.getInstance();
-        mDatabase = database.getReference("Users");
+        auth = FirebaseAuth.getInstance();
+        email = getIntent().getStringExtra("email");
 
-        btnSendOtp.setOnClickListener(v -> {
-            String newPassword = etNewPassword.getText().toString().trim();
-            String confirmPassword = etConfirmPassword.getText().toString().trim();
+        // Gửi mã OTP khi vào màn hình OTP
+        sendOtp(email);
 
-            if (TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
-                Toast.makeText(Forgot2.this, "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
-            } else if (!newPassword.equals(confirmPassword)) {
-                Toast.makeText(Forgot2.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+        // Xác minh OTP
+        verifyButton.setOnClickListener(v -> verifyOtp());
+
+        // Gửi lại mã OTP
+        resendOtpTextView.setOnClickListener(v -> {
+            if (System.currentTimeMillis() - lastOtpSentTime >= RESEND_OTP_INTERVAL) {
+                sendOtp(email);
+                Toast.makeText(this, "Đã gửi lại mã OTP", Toast.LENGTH_SHORT).show();
             } else {
-                sendOtp(phone);
+                Toast.makeText(this, "Vui lòng chờ trước khi gửi lại mã OTP", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private void sendOtp(String phone) {
-        // Tạo mã OTP ngẫu nhiên
-        otp = String.valueOf(new Random().nextInt(999999));
-        // Gửi OTP đến số điện thoại (thay thế bằng cách gửi SMS thực tế)
-        Toast.makeText(this, "Mã OTP: " + otp, Toast.LENGTH_SHORT).show(); // Chỉ là ví dụ, thay bằng SMS API thực tế
 
-        Intent intent = new Intent(Forgot2.this, Forgot3.class);
-        intent.putExtra("PHONE_NUMBER", phone);
-        intent.putExtra("NEW_PASSWORD", etNewPassword.getText().toString().trim());
-        intent.putExtra("OTP", otp);
-        startActivity(intent);
+    private void sendOtp(String email) {
+        lastOtpSentTime = System.currentTimeMillis();
+        // TODO: Thực hiện gửi OTP đến email
+        Toast.makeText(this, "Mã OTP đã được gửi đến " + email, Toast.LENGTH_SHORT).show();
+    }
+
+    private void verifyOtp() {
+        String enteredOtp = otpEditText.getText().toString();
+
+        if (enteredOtp.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập mã OTP", Toast.LENGTH_SHORT).show();
+        } else {
+            // TODO: Kiểm tra mã OTP hợp lệ
+            Toast.makeText(this, "OTP hợp lệ", Toast.LENGTH_SHORT).show();
+            // Chuyển sang màn hình nhập mật khẩu mới nếu OTP đúng
+            Intent intent = new Intent(this, Forgot3.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

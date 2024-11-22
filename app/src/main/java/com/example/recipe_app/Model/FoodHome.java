@@ -2,21 +2,21 @@ package com.example.recipe_app.Model;
 
 public class FoodHome {
 
-    private int resourceId;
+    private String resourceId;
     private String title;
-    private String save;
+    private int save;
 
-    public FoodHome(int resourceId, String title, String save) {
+    public FoodHome(String resourceId, String title, int save) {
         this.resourceId = resourceId;
         this.title = title;
         this.save = save;
     }
 
-    public int getResourceId() {
+    public String getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(int resourceId) {
+    public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
     }
 
@@ -28,11 +28,11 @@ public class FoodHome {
         this.title = title;
     }
 
-    public String getSave() {
+    public int getSave() {
         return save;
     }
 
-    public void setSave(String save) {
+    public void setSave(int save) {
         this.save = save;
     }
 }
