@@ -2,7 +2,7 @@ package com.example.recipe_app.Controller;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,7 +28,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class Create_recipe extends AppCompatActivity {
-    private ImageView cookPicture, videoThumbnail;
+    private ImageView cookPicture, videoThumbnail, back;
     private Button saveRecipeButton;
     private Uri imageUri, videoUri;
     private EditText recipeName, recipeCalories, recipeDescription;
@@ -55,6 +55,7 @@ public class Create_recipe extends AppCompatActivity {
 
         // Initialize views
         cookPicture = findViewById(R.id.cookPicture);
+        back= findViewById(R.id.back_create);
         videoThumbnail = findViewById(R.id.Video);
         saveRecipeButton = findViewById(R.id.btn_save);
         recipeName = findViewById(R.id.et_cookName);
@@ -68,7 +69,17 @@ public class Create_recipe extends AppCompatActivity {
 
         // Set up save recipe button
         saveRecipeButton.setOnClickListener(v -> uploadRecipe());
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    // Nếu không còn fragment nào trong back stack, có thể gọi finish() hoặc xử lý khác
+                    finish();
+                }
+            }
+        });
         setupCategorySpinner();
     }
 
@@ -117,12 +128,25 @@ public class Create_recipe extends AppCompatActivity {
     }
 
     private void showVideoThumbnail(Uri videoUri) {
-        // Tạo thumbnail từ video
-        Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), MediaStore.Images.Thumbnails.MINI_KIND);
-        if (thumbnail != null) {
-            videoThumbnail.setImageBitmap(thumbnail);
-        } else {
-            Toast.makeText(this, "Không thể tạo ảnh đại diện cho video", Toast.LENGTH_SHORT).show();
+        try {
+            // Sử dụng MediaMetadataRetriever để tạo thumbnail từ URI
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(this, videoUri);
+
+            // Lấy bitmap của frame đầu tiên (timeUs = 0)
+            Bitmap thumbnail = retriever.getFrameAtTime(0);
+
+            // Hiển thị thumbnail
+            if (thumbnail != null) {
+                videoThumbnail.setImageBitmap(thumbnail);
+            } else {
+                Toast.makeText(this, "Không thể tạo ảnh đại diện cho video", Toast.LENGTH_SHORT).show();
+            }
+
+            retriever.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Lỗi khi tạo ảnh đại diện", Toast.LENGTH_SHORT).show();
         }
     }
 
