@@ -1,8 +1,11 @@
 package com.example.recipe_app.Controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.recipe_app.Fragment.UserFragment;
@@ -43,7 +45,6 @@ public class Create_recipe extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.create_recipre);
 
         // Initialize Firebase references
@@ -111,7 +112,17 @@ public class Create_recipe extends AppCompatActivity {
             cookPicture.setImageURI(imageUri);
         } else if (requestCode == PICK_VIDEO_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             videoUri = data.getData();
-            videoThumbnail.setImageURI(videoUri);
+            showVideoThumbnail(videoUri);
+        }
+    }
+
+    private void showVideoThumbnail(Uri videoUri) {
+        // Tạo thumbnail từ video
+        Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoUri.getPath(), MediaStore.Images.Thumbnails.MINI_KIND);
+        if (thumbnail != null) {
+            videoThumbnail.setImageBitmap(thumbnail);
+        } else {
+            Toast.makeText(this, "Không thể tạo ảnh đại diện cho video", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -156,7 +167,6 @@ public class Create_recipe extends AppCompatActivity {
                             categoryReference.child(selectedCategoryId).child("recipes").child(recipeId).setValue(true)
                                     .addOnCompleteListener(categoryTask -> {
                                         if (categoryTask.isSuccessful()) {
-                                            // Chuyển Intent ngay lập tức
                                             Intent intent = new Intent(Create_recipe.this, UserFragment.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
@@ -174,5 +184,4 @@ public class Create_recipe extends AppCompatActivity {
             })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải video lên", Toast.LENGTH_SHORT).show());
         })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải ảnh lên", Toast.LENGTH_SHORT).show());
     }
-
 }
