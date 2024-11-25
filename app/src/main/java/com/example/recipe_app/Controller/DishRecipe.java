@@ -1,5 +1,6 @@
 package com.example.recipe_app.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.example.recipe_app.R;
 
 public class DishRecipe extends AppCompatActivity {
     ImageView imageView;
+    ImageView chat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,13 @@ public class DishRecipe extends AppCompatActivity {
                 } else {
                     finish();
                 }
+            }
+        });
+        chat = findViewById(R.id.chat_layout);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DishRecipe.this, Chat.class));
             }
         });
     }

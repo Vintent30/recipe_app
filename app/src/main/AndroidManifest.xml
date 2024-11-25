@@ -46,6 +46,7 @@
         <activity android:name=".Controller.Detail_suggest" />
         <activity android:name=".Controller.RecipeActivity" />
         <activity android:name=".Controller.chat_community" />
+        <activity android:name=".Controller.Chat" />
 <!--        <activity android:name=".Controller.Sign_in" />-->
         <activity android:name=".Controller.introduce_1" />
         <activity android:name=".Controller.introduce_2" />

@@ -75,7 +75,8 @@
                 android:drawablePadding="10dp"
                 android:hint="Tìm kiếm"
                 android:inputType="text"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
