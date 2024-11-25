@@ -6,37 +6,39 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logo_app"
-        android:label="Cookease"
-        android:roundIcon="@drawable/logo_app"
+        android:icon="@mipmap/ic_launcher"
+        android:label="recipe"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Recipe_app"
         tools:targetApi="31">
         <activity
+            android:name=".Controller.Search"
+            android:exported="false" />
+        <activity
             android:name=".Controller.Sign_in"
-            android:exported="true"
-            >
-
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.MainActivity"/>
-<!--            <android:windowSoftInputMode="adjustPan"/>-->
+        <activity android:name=".Controller.MainActivity" /> <!-- <android:windowSoftInputMode="adjustPan"/> -->
         <activity android:name=".Controller.Sign_up" />
         <activity android:name=".Controller.Forgot1" />
-        <activity android:name=".Controller.Forgot2" />
         <activity android:name=".Controller.Forgot3" />
+        <activity android:name=".Controller.Forgot2" />
         <activity android:name=".Controller.Setting" />
         <activity android:name=".Controller.Create_recipe" />
         <activity android:name=".Controller.Detail_user" />
@@ -45,9 +47,7 @@
         <activity android:name=".Controller.DishRecipe" />
         <activity android:name=".Controller.Detail_suggest" />
         <activity android:name=".Controller.RecipeActivity" />
-        <activity android:name=".Controller.chat_community" />
-        <activity android:name=".Controller.Chat" />
-<!--        <activity android:name=".Controller.Sign_in" />-->
+        <activity android:name=".Controller.chat_community" /> <!-- <activity android:name=".Controller.Sign_in" /> -->
         <activity android:name=".Controller.introduce_1" />
         <activity android:name=".Controller.introduce_2" />
         <activity android:name=".Controller.Planer" />
@@ -56,8 +56,7 @@
         <activity android:name=".Controller.conratulation_2" />
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts"
-            />
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

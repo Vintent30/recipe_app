@@ -72,12 +72,6 @@
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-                <ImageView
-                    android:id="@+id/chat_layout"
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/chat"
-                    android:paddingRight="5dp"/>
 
                 <!-- Like Button -->
                 <ImageButton
@@ -85,7 +79,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/fv1"
+                    android:background="@drawable/heart_nomal"
                     android:contentDescription="Like"
                     tools:ignore="TouchTargetSizeCheck" />
 
@@ -200,6 +194,7 @@
 
             <VideoView
                 android:id="@+id/video_guide"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp" />
