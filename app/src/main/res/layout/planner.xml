@@ -96,7 +96,7 @@
             style="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="October 2024"
+            android:text="tháng 11 2024"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:gravity="center"
