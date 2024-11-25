@@ -29,7 +29,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:background="@color/orange"
             android:elevation="8dp"
             android:padding="10dp"
@@ -38,11 +38,12 @@
             <!-- Back Arrow -->
             <ImageView
                 android:id="@+id/backButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="start|center_vertical"
                 android:contentDescription="Back Icon"
                 android:padding="8dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/arrow_back"
                 app:tint="@android:color/white" />
 
@@ -53,8 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Chat"
+                android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 

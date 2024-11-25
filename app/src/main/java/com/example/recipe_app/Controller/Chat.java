@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chat extends AppCompatActivity {
-    ImageView buttonback;
+    ImageView backButton;
     RecyclerView recyclerViewChat;
     EditText editTextMessage;
     Button buttonSend;
@@ -47,7 +47,7 @@ public class Chat extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats/messages");
 
         // UI elements
-        buttonback = findViewById(R.id.backButton);
+
         recyclerViewChat = findViewById(R.id.recyclerViewChat);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
@@ -58,11 +58,15 @@ public class Chat extends AppCompatActivity {
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewChat.setAdapter(chatAdapter);
 
-        buttonback.setOnClickListener(view -> {
-            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                getSupportFragmentManager().popBackStack();
-            } else {
-                finish();
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    finish();
+                }
             }
         });
 

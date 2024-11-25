@@ -1,5 +1,6 @@
 package com.example.recipe_app.Controller;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +43,7 @@ public class DishRecipe extends AppCompatActivity {
     private  int followerCount;
     private  int followingCount;
     private DatabaseReference databaseReference2;
+    ImageView chat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -362,6 +364,13 @@ public class DishRecipe extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(DishRecipe.this, "Lỗi khi tải dữ liệu!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DishRecipe.this, Chat.class));
             }
         });
     }
