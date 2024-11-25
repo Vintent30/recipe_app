@@ -56,11 +56,6 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="45dp"
-                    android:src="@drawable/chat" />
 
                 <ImageView
                     android:id="@+id/Icon_calendar"
