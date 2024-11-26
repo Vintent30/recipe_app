@@ -3,62 +3,107 @@ package com.example.recipe_app.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipe_app.R;
+import com.bumptech.glide.Glide;
 import com.example.recipe_app.Model.ChatMessage;
+import com.example.recipe_app.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
-    private final List<ChatMessage> chatMessages; // Danh sách tin nhắn
-    private final String currentUserId; // ID của người dùng hiện tại
 
-    public ChatAdapter(List<ChatMessage> chatMessages, String currentUserId) {
+    private List<ChatMessage> chatMessages;
+
+    public ChatAdapter(List<ChatMessage> chatMessages) {
         this.chatMessages = chatMessages;
-        this.currentUserId = currentUserId;
     }
 
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_message, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
         return new ChatViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        ChatMessage message = chatMessages.get(position);
+//    @Override
+//    public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
+//        ChatMessage message = chatMessages.get(position);
+//
+//        // Hiển thị tin nhắn
+//        holder.messageText.setText(message.getMessageText());
+//
+//        // Hiển thị thông tin nguươi gưi
+//        holder.senderName.setText(message.getRecipeName());
+//        Glide.with(holder.itemView.getContext()).load(message.getRecipeImage()).into(holder.senderAvatar);
+//    }
+@Override
+public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
+    ChatMessage message = chatMessages.get(position);
 
-        // Kiểm tra nếu tin nhắn là của người dùng hiện tại
-        if (message.getSenderId().equals(currentUserId)) {
-            // Nếu người gửi là người dùng hiện tại, hiển thị tin nhắn đã gửi
-            holder.textViewMessage.setBackgroundResource(R.drawable.bg_message_sent);
-            holder.textViewMessage.setText("Message from: " + message.getSenderId()); // Hiển thị thông tin người gửi
-            holder.textViewMessage.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END); // Đưa tin nhắn sang phải
-        } else {
-            // Nếu người gửi là người nhận, hiển thị tin nhắn đã nhận
-            holder.textViewMessage.setBackgroundResource(R.drawable.bg_message_received);
-            holder.textViewMessage.setText("Message from: " + message.getSenderId()); // Hiển thị thông tin người gửi
-            holder.textViewMessage.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START); // Đưa tin nhắn sang trái
+    // Hiển thị tin nhắn
+    holder.messageText.setText(message.getMessageText());
+
+    // Truy vấn Firebase để lấy thông tin của người gửi
+    String senderId = message.getSenderId(); // Lấy senderId từ message
+    DatabaseReference senderRef = FirebaseDatabase.getInstance().getReference("Accounts").child(senderId);
+    senderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            if (snapshot.exists()) {
+                // Lấy tên và avatar người gửi từ Firebase
+                String senderName = snapshot.child("name").getValue(String.class);
+                String senderAvatar = snapshot.child("avatar").getValue(String.class);
+
+                // Hiển thị tên người gửi
+                holder.senderName.setText(senderName);
+
+                // Hiển thị avatar người gửi bằng Glide
+                Glide.with(holder.itemView.getContext())
+                        .load(senderAvatar)
+                        .into(holder.senderAvatar);
+            }
         }
-    }
 
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Toast.makeText(holder.itemView.getContext(), "Failed to load sender info", Toast.LENGTH_SHORT).show();
+        }
+    });
+
+    // Hiển thị thời gian tin nhắn (nếu có)
+    long timestamp = message.getTimestamp();
+    String time = new SimpleDateFormat("HH:mm").format(new Date(timestamp));
+    holder.timestamp.setText(time);
+}
     @Override
     public int getItemCount() {
-        return chatMessages.size(); // Trả về số lượng tin nhắn
+        return chatMessages.size();
     }
 
-    static class ChatViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewMessage;
+    public static class ChatViewHolder extends RecyclerView.ViewHolder {
 
-        ChatViewHolder(@NonNull View itemView) {
+        TextView messageText, senderName,timestamp;
+        ImageView senderAvatar;
+
+        public ChatViewHolder(View itemView) {
             super(itemView);
-            textViewMessage = itemView.findViewById(R.id.textViewMessage);
+            messageText = itemView.findViewById(R.id.textViewMessage);
+            senderName = itemView.findViewById(R.id.tvSenderName);
+            timestamp =itemView.findViewById(R.id.tvTimestamp);
+            senderAvatar = itemView.findViewById(R.id.imageViewAvatar);
         }
     }
 }
