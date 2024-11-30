@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipe_app.Model.ChatMessage;
+import com.example.recipe_app.Model.ChatHome;
 import com.example.recipe_app.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,12 +23,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHomeViewHolder>  {
-    private List<ChatMessage> chatMessages;
+public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHomeViewHolder> {
+    private List<ChatHome> chatHomes;
     private OnMessageClickListener onItemClickListener;
 
-    public ChatHomeAdapter(List<ChatMessage> chatMessages, OnMessageClickListener listener) {
-        this.chatMessages = chatMessages;
+    public ChatHomeAdapter(List<ChatHome> chatHomes, OnMessageClickListener listener) {
+        this.chatHomes = chatHomes;
         this.onItemClickListener = listener;
     }
 
@@ -41,73 +41,55 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
 
     @Override
     public void onBindViewHolder(@NonNull ChatHomeViewHolder holder, int position) {
-        ChatMessage chatMessage = chatMessages.get(position);
+        ChatHome chatHome = chatHomes.get(position);
 
-        // Lấy senderId từ tin nhắn
-        String senderId = chatMessage.getSenderId();  // Giả sử getSenderId() trả về UserId
+        // Lấy thông tin người gửi
+        String senderId = chatHome.getSenderId(); // senderId được lưu trong ChatHome
 
-        // Cập nhật preview và thời gian của tin nhắn
-        holder.messagePreview.setText(chatMessage.getMessageText());
-        holder.messageTime.setText(formatTimestamp(chatMessage.getTimestamp()));
+        // Cập nhật tên người gửi, avatar và preview tin nhắn
+        holder.messagePreview.setText(chatHome.getLastMessage());
+        holder.messageTime.setText(formatTimestamp(chatHome.getLastMessageTimestamp()));
 
         // Truy vấn Firebase để lấy thông tin người gửi (tên và avatar)
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts");
 
         // Truy vấn người gửi theo userId
-        userRef.orderByChild("userId").equalTo(senderId).addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.child(senderId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    // Vòng lặp để lấy thông tin người gửi
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        String senderName = dataSnapshot.child("name").getValue(String.class);
-                        String senderAvatar = dataSnapshot.child("avatar").getValue(String.class);
+                    String senderName = snapshot.child("name").getValue(String.class);
+                    String senderAvatar = snapshot.child("avatar").getValue(String.class);
 
-                        // Cập nhật tên người gửi vào view
-                        if (senderName != null && !senderName.isEmpty()) {
-                            holder.senderName.setText(senderName);
-                        } else {
-                            holder.senderName.setText("Unknown Sender");
-                        }
+                    // Cập nhật tên người gửi vào view
+                    holder.senderName.setText(senderName != null ? senderName : "Unknown Sender");
 
-                        // Cập nhật avatar người gửi nếu có
-                        if (senderAvatar != null && !senderAvatar.isEmpty()) {
-                            Glide.with(holder.itemView.getContext())
-                                    .load(senderAvatar)
-                                    .into(holder.senderAvatar);
-                        } else {
-                            // Sử dụng ảnh mặc định nếu không có avatar
-                            Glide.with(holder.itemView.getContext())
-                                    .load(R.drawable.hinh) // Thay ảnh mặc định của bạn
-                                    .into(holder.senderAvatar);
-                        }
-                    }
+                    // Cập nhật avatar người gửi
+                    Glide.with(holder.itemView.getContext())
+                            .load(senderAvatar != null ? senderAvatar : R.drawable.hinh) // Sử dụng ảnh mặc định nếu không có avatar
+                            .into(holder.senderAvatar);
                 } else {
-                    // Nếu không tìm thấy dữ liệu người gửi trong bảng Accounts
                     holder.senderName.setText("Unknown Sender");
                     Glide.with(holder.itemView.getContext())
-                            .load(R.drawable.hinh) // Thay ảnh mặc định của bạn
+                            .load(R.drawable.hinh) // Ảnh mặc định
                             .into(holder.senderAvatar);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý khi có lỗi trong truy vấn Firebase
                 Toast.makeText(holder.itemView.getContext(), "Failed to load sender info", Toast.LENGTH_SHORT).show();
             }
         });
 
+
         // Xử lý sự kiện click vào tin nhắn
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onMessageClick(chatMessage));
+        holder.itemView.setOnClickListener(v -> onItemClickListener.onMessageClick(chatHome));
     }
-
-
-
 
     @Override
     public int getItemCount() {
-        return chatMessages.size();
+        return chatHomes.size();
     }
 
     public static class ChatHomeViewHolder extends RecyclerView.ViewHolder {
@@ -124,7 +106,7 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
     }
 
     public interface OnMessageClickListener {
-        void onMessageClick(ChatMessage chatMessage);
+        void onMessageClick(ChatHome chatHome);
     }
 
     // Hàm định dạng thời gian (chỉ là ví dụ)
