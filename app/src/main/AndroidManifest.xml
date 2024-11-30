@@ -5,11 +5,13 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Recipe_app"
         tools:targetApi="31">
+        <!-- Dịch vụ FCM -->
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".Controller.Search"
             android:exported="false" />
@@ -34,6 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Controller.MyApplication" />
         <activity android:name=".Controller.MainActivity" /> <!-- <android:windowSoftInputMode="adjustPan"/> -->
         <activity android:name=".Controller.Sign_up" />
         <activity android:name=".Controller.Forgot1" />
@@ -50,6 +61,7 @@
         <activity android:name=".Controller.chat_community" />
         <activity android:name=".Controller.Chat" /><!-- <activity android:name=".Controller.Sign_in" /> -->
         <activity android:name=".Controller.introduce_1" />
+        <activity android:name=".Controller.ChatHome" />
         <activity android:name=".Controller.introduce_2" />
         <activity android:name=".Controller.Planer" />
         <activity android:name=".Controller.Comment" />
@@ -58,6 +70,13 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon_intro2" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/gray" />
     </application>
 
 </manifest>
