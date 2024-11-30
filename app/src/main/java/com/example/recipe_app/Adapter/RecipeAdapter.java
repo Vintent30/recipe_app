@@ -20,16 +20,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     private final Context context;
     private final List<Recipe> recipeList;
-    private final OnRecipeClickListener listener; // Listener for click events
 
-    public interface OnRecipeClickListener {
-        void onFoodClick(Recipe recipe);
-    }
-
-    public RecipeAdapter(Context context, List<Recipe> recipes, OnRecipeClickListener listener) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList) {
         this.context = context;
-        this.recipeList = recipes;
-        this.listener = listener;
+        this.recipeList = recipeList;
     }
 
     @NonNull
@@ -42,27 +36,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
-
-        // Set recipe data to UI components
         holder.recipeName.setText(recipe.getName());
         holder.recipeCategory.setText(recipe.getCategory());
 
-        // Load image using Picasso or set default image if null
+        // Tải ảnh với Picasso
         if (recipe.getImage() != null && !recipe.getImage().isEmpty()) {
-            Picasso.get()
-                    .load(recipe.getImage())
-                    .placeholder(R.drawable.image_fv3) // Placeholder image
-                    .into(holder.recipeImage);
+            Picasso.get().load(recipe.getImage()).placeholder(R.drawable.image_fv3).into(holder.recipeImage);
         } else {
-            holder.recipeImage.setImageResource(R.drawable.image_fv3); // Default image
+            holder.recipeImage.setImageResource(R.drawable.image_fv3); // Ảnh mặc định
         }
-
-        // Set click listener for the entire item view
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onFoodClick(recipe);
-            }
-        });
     }
 
     @Override
@@ -76,8 +58,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            // Initialize UI components
             recipeImage = itemView.findViewById(R.id.recipe_image);
             recipeName = itemView.findViewById(R.id.recipe_name);
             recipeCategory = itemView.findViewById(R.id.recipe_category);

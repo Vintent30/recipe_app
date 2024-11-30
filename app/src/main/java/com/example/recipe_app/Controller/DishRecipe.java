@@ -329,40 +329,41 @@ public class DishRecipe extends AppCompatActivity {
                         }
                     });
 
+                    // Cập nhật số lượng followers của người đăng công thức khi follow/unfollow
                     btnFollow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userID);
-                            DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId);
-
+                            databaseReference2 = FirebaseDatabase.getInstance().getReference("Accounts").child(userID);
+                            DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId); // Lấy tham chiếu tới tài khoản người đăng công thức
                             authorRef.child("followers").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     followerCount = snapshot.exists() ? snapshot.getValue(Integer.class) : 0; // Lấy số followers hiện tại
 
-                                    // Kiểm tra trạng thái follow trước khi thay đổi
                                     if (!isFollow) { // Nếu chưa follow
-                                        btnFollow.setText("Unfollow"); // Đổi nút thành Unfollow
+                                        btnFollow.setText("Unfollow");
                                         followerCount++; // Tăng followers của người đăng công thức
                                         followingCount++; // Tăng following của người dùng hiện tại
 
                                         // Cập nhật vào Firebase
                                         authorRef.child("followers").setValue(followerCount);
-                                        userRef.child("following").setValue(followingCount);
+                                        databaseReference2.child("following").setValue(followingCount);
 
-                                        updateUserFollows(userID, authorId, true); // Cập nhật trạng thái follow
+                                        updateUserFollows(userID, authorId, true);
                                         isFollow = true; // Đánh dấu là đã follow
                                     } else { // Nếu đã follow
-                                        btnFollow.setText("Follow"); // Đổi nút thành Follow
-                                        followerCount--; // Giảm followers của người đăng công thức
-                                        followingCount--; // Giảm following của người dùng hiện tại
+                                        btnFollow.setText("Follow");
+
+                                        // Kiểm tra followerCount và followingCount để không giảm xuống âm
+                                        if (followerCount > 0) followerCount--; // Giảm followers của người đăng công thức
+                                        if (followingCount > 0) followingCount--; // Giảm following của người dùng hiện tại
 
                                         // Cập nhật vào Firebase
                                         authorRef.child("followers").setValue(followerCount);
-                                        userRef.child("following").setValue(followingCount);
+                                        databaseReference2.child("following").setValue(followingCount);
 
-                                        updateUserFollows(userID, authorId, false); // Cập nhật trạng thái unfollow
+                                        updateUserFollows(userID, authorId, false);
                                         isFollow = false; // Đánh dấu là chưa follow
                                     }
                                 }

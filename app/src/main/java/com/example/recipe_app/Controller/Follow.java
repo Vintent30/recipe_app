@@ -65,7 +65,7 @@ public class Follow extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Giả sử tên người dùng được lưu dưới trường "fullName"
+
                     String fullName = dataSnapshot.child("name").getValue(String.class);
                     profileNameTextView.setText(fullName);  // Set tên vào TextView
                 }
