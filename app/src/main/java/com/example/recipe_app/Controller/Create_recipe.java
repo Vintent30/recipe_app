@@ -1,8 +1,11 @@
 package com.example.recipe_app.Controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.recipe_app.Fragment.UserFragment;
 import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +28,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class Create_recipe extends AppCompatActivity {
-    private ImageView cookPicture, videoThumbnail;
+    private ImageView cookPicture, videoThumbnail, back;
     private Button saveRecipeButton;
     private Uri imageUri, videoUri;
     private EditText recipeName, recipeCalories, recipeDescription;
@@ -42,7 +45,6 @@ public class Create_recipe extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.create_recipre);
 
         // Initialize Firebase references
@@ -53,6 +55,7 @@ public class Create_recipe extends AppCompatActivity {
 
         // Initialize views
         cookPicture = findViewById(R.id.cookPicture);
+        back= findViewById(R.id.back_create);
         videoThumbnail = findViewById(R.id.Video);
         saveRecipeButton = findViewById(R.id.btn_save);
         recipeName = findViewById(R.id.et_cookName);
@@ -60,13 +63,23 @@ public class Create_recipe extends AppCompatActivity {
         recipeDescription = findViewById(R.id.desc);
         categorySpinner = findViewById(R.id.categorySpinner);
 
-        // Set up image selection
+        // Set up image and video selection
         cookPicture.setOnClickListener(v -> selectImage());
         videoThumbnail.setOnClickListener(v -> selectVideo());
 
         // Set up save recipe button
         saveRecipeButton.setOnClickListener(v -> uploadRecipe());
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    // Nếu không còn fragment nào trong back stack, có thể gọi finish() hoặc xử lý khác
+                    finish();
+                }
+            }
+        });
         setupCategorySpinner();
     }
 
@@ -79,10 +92,7 @@ public class Create_recipe extends AppCompatActivity {
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCategory = parent.getItemAtPosition(position).toString();
-                // Giả định rằng danh mục được chọn có ID tương ứng (lấy từ cơ sở dữ liệu)
-                // Ở đây giả định ID của danh mục là position + 1 dưới dạng chuỗi
-                selectedCategoryId = String.valueOf(position + 1); // Lấy categoryId từ cơ sở dữ liệu
+                selectedCategoryId = String.valueOf(position + 1); // Giả định ID là position + 1
             }
 
             @Override
@@ -113,29 +123,57 @@ public class Create_recipe extends AppCompatActivity {
             cookPicture.setImageURI(imageUri);
         } else if (requestCode == PICK_VIDEO_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             videoUri = data.getData();
-            videoThumbnail.setImageURI(videoUri);
+            showVideoThumbnail(videoUri);
+        }
+    }
+
+    private void showVideoThumbnail(Uri videoUri) {
+        try {
+            // Sử dụng MediaMetadataRetriever để tạo thumbnail từ URI
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(this, videoUri);
+
+            // Lấy bitmap của frame đầu tiên (timeUs = 0)
+            Bitmap thumbnail = retriever.getFrameAtTime(0);
+
+            // Hiển thị thumbnail
+            if (thumbnail != null) {
+                videoThumbnail.setImageBitmap(thumbnail);
+            } else {
+                Toast.makeText(this, "Không thể tạo ảnh đại diện cho video", Toast.LENGTH_SHORT).show();
+            }
+
+            retriever.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Lỗi khi tạo ảnh đại diện", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void uploadRecipe() {
-        if (currentUser == null || imageUri == null || videoUri == null) {
+        if (currentUser == null) {
+            Toast.makeText(this, "Bạn cần đăng nhập để tạo công thức", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (imageUri == null || videoUri == null || recipeName.getText().toString().trim().isEmpty()
+                || recipeDescription.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin và chọn ảnh, video", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Hiển thị thông báo chờ
+        Toast.makeText(this, "Đang tạo công thức, vui lòng chờ...", Toast.LENGTH_SHORT).show();
 
         String userId = currentUser.getUid();
         StorageReference fileRefImage = storageReference.child("images/" + System.currentTimeMillis() + ".jpg");
         StorageReference fileRefVideo = storageReference.child("videos/" + System.currentTimeMillis() + ".mp4");
 
-        fileRefImage.putFile(imageUri).addOnSuccessListener(taskSnapshot -> fileRefImage.getDownloadUrl().addOnSuccessListener(uri -> {
-            String imageUrl = uri.toString();
-
-            fileRefVideo.putFile(videoUri).addOnSuccessListener(taskSnapshot1 -> fileRefVideo.getDownloadUrl().addOnSuccessListener(uri1 -> {
-                String videoUrl = uri1.toString();
-
+        fileRefImage.putFile(imageUri).addOnSuccessListener(taskSnapshot -> fileRefImage.getDownloadUrl().addOnSuccessListener(imageUrl -> {
+            fileRefVideo.putFile(videoUri).addOnSuccessListener(taskSnapshot1 -> fileRefVideo.getDownloadUrl().addOnSuccessListener(videoUrl -> {
                 String recipeId = databaseReference.push().getKey();
 
-                int calories = 0;
+                int calories;
                 try {
                     calories = Integer.parseInt(recipeCalories.getText().toString());
                 } catch (NumberFormatException e) {
@@ -145,17 +183,19 @@ public class Create_recipe extends AppCompatActivity {
 
                 Recipe recipe = new Recipe(recipeId, recipeName.getText().toString(), calories,
                         recipeDescription.getText().toString(), categorySpinner.getSelectedItem().toString(),
-                        imageUrl, videoUrl, "active", userId, selectedCategoryId, 0);
+                        imageUrl.toString(), videoUrl.toString(), "active", userId, selectedCategoryId, 0);
 
                 if (recipeId != null) {
                     databaseReference.child(recipeId).setValue(recipe).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            // Thêm recipeId vào danh mục đã chọn trong bảng Categories
                             categoryReference.child(selectedCategoryId).child("recipes").child(recipeId).setValue(true)
                                     .addOnCompleteListener(categoryTask -> {
                                         if (categoryTask.isSuccessful()) {
+                                            Intent intent = new Intent(Create_recipe.this, UserFragment.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+
                                             Toast.makeText(Create_recipe.this, "Tạo công thức thành công", Toast.LENGTH_SHORT).show();
-                                            finish();
                                         } else {
                                             Toast.makeText(Create_recipe.this, "Thất bại khi liên kết công thức với danh mục", Toast.LENGTH_SHORT).show();
                                         }
@@ -168,7 +208,4 @@ public class Create_recipe extends AppCompatActivity {
             })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải video lên", Toast.LENGTH_SHORT).show());
         })).addOnFailureListener(e -> Toast.makeText(Create_recipe.this, "Thất bại khi tải ảnh lên", Toast.LENGTH_SHORT).show());
     }
-
-
-
 }
