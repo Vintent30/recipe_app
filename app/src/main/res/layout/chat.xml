@@ -109,7 +109,7 @@
             android:clipToPadding="false"
             android:padding="10dp"
             android:scrollbars="vertical"
-            tools:listitem="@layout/item_message" />
+            tools:listitem="@layout/item_message_left" />
 
         <!-- Message Input Area -->
         <LinearLayout

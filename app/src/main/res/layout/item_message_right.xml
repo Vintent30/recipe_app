@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="vertical"
+    android:gravity="end"> <!-- Align everything to the right -->
+
+    <!-- User's message -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"> <!-- Right align the inner layout -->
+
+        <!-- Timestamp -->
+        <TextView
+            android:id="@+id/tvTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+
+            android:textSize="12sp"
+            android:textColor="#888"
+            android:layout_marginEnd="160dp"
+             /> <!-- Align timestamp to the right -->
+
+        <!-- Sender's name (we will hide this in the right layout) -->
+        <TextView
+            android:id="@+id/tvSenderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sender"
+            android:textSize="14sp"
+            android:textColor="#888"
+            android:layout_marginEnd="12dp"
+             /> <!-- Hide sender's name in sent messages -->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"> <!-- Right align the message content -->
+
+        <!-- Sender's avatar (we will hide this in the right layout) -->
+       <!-- Hide sender's avatar in sent messages -->
+
+        <!-- Message content -->
+        <TextView
+            android:id="@+id/textViewMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_message_sent"
+        android:layout_gravity="end" />
+        <ImageView
+            android:id="@+id/imageViewAvatar"
+            android:layout_width="37dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="end"/>
+    </LinearLayout>
+</LinearLayout>

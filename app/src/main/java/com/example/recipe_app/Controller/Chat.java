@@ -39,6 +39,7 @@ public class Chat extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private List<ChatMessage> chatMessages;
     private Button sendButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +65,10 @@ public class Chat extends AppCompatActivity {
         recipeAuthorTextView = findViewById(R.id.recipeAuthor);
         messageInput = findViewById(R.id.editTextMessage);
         chatRecyclerView = findViewById(R.id.recyclerViewChat);
-
+        sendButton = findViewById(R.id.buttonSend);
 
         chatMessages = new ArrayList<>();
-        chatAdapter = new ChatAdapter(chatMessages);
+        chatAdapter = new ChatAdapter(chatMessages, FirebaseAuth.getInstance().getCurrentUser().getUid());
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
 
@@ -83,7 +84,7 @@ public class Chat extends AppCompatActivity {
         recipeNameTextView.setText(recipeName);
         recipeAuthorTextView.setText(authorId); // Ban đầu hiển thị authorId, sau đó cập nhật sau khi lấy tên
 
-    // Lấy tên tác giả từ Firebase Database
+        // Lấy tên tác giả từ Firebase Database
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId);
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -108,7 +109,7 @@ public class Chat extends AppCompatActivity {
         loadMessages();
 
         // Xử lý sự kiện gửi tin nhắn
-        findViewById(R.id.buttonSend).setOnClickListener(v -> sendMessage());
+        sendButton.setOnClickListener(v -> sendMessage());
     }
 
     private void loadMessages() {
