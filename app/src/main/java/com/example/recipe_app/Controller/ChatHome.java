@@ -40,7 +40,7 @@ public class ChatHome extends AppCompatActivity {
         chatHomes = new ArrayList<>();
         adapter = new ChatHomeAdapter(chatHomes, chatHome -> {
             // Open chat interface when clicking a message
-            Intent intent = new Intent(ChatHome.this, Chat2.class);
+            Intent intent = new Intent(ChatHome.this, Chat.class);
             intent.putExtra("receiverId", chatHome.getSenderId());  // receiverId là người nhận (người chat với người dùng hiện tại)
             intent.putExtra("name", chatHome.getSenderName());  // Tên người nhận
             intent.putExtra("imageUrl", chatHome.getAvatarUrl());  // Ảnh đại diện người nhận
