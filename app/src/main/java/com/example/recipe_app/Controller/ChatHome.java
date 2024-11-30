@@ -72,8 +72,10 @@ public class ChatHome extends AppCompatActivity {
                         com.example.recipe_app.Model.ChatHome chatHome = messageSnapshot.getValue(com.example.recipe_app.Model.ChatHome.class);
 
                         if (chatHome != null && chatHome.getReceiverId().equals(currentUserId)) {
-                            // Add senderId if the receiver is the current user
-                            senderIds.add(chatHome.getSenderId());
+                            // Add senderId if the receiver is the current user and the sender is not the current user
+                            if (!chatHome.getSenderId().equals(currentUserId)) {
+                                senderIds.add(chatHome.getSenderId());
+                            }
                         }
                     }
                 }
@@ -130,5 +132,6 @@ public class ChatHome extends AppCompatActivity {
             });
         }
     }
+
 
 }
