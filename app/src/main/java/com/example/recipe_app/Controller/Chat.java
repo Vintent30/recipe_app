@@ -116,17 +116,15 @@ public class Chat extends AppCompatActivity {
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chatMessages.clear();
+                chatMessages.clear(); // Xóa danh sách cũ để nạp lại toàn bộ tin nhắn
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatMessage message = dataSnapshot.getValue(ChatMessage.class);
                     if (message != null) {
-                        // Kiểm tra nếu tin nhắn thuộc về người dùng hiện tại
-                        if (message.getSenderId().equals(currentUserId) || message.getReceiverId().equals(currentUserId)) {
-                            chatMessages.add(message);
-                        }
+                        chatMessages.add(message); // Thêm tất cả tin nhắn của cuộc trò chuyện
                     }
                 }
-                chatAdapter.notifyDataSetChanged();
+                chatAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+                chatRecyclerView.scrollToPosition(chatMessages.size() - 1); // Cuộn xuống tin nhắn cuối cùng
             }
 
             @Override
@@ -152,7 +150,8 @@ public class Chat extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("Messages").child(recipeId).child(messageId)
                 .setValue(chatMessage)
                 .addOnSuccessListener(aVoid -> {
-                    messageInput.setText("");
+                    messageInput.setText(""); // Xóa trường nhập sau khi gửi thành công
+                    chatRecyclerView.scrollToPosition(chatMessages.size() - 1); // Cuộn xuống tin nhắn mới nhất
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(Chat.this, "Failed to send message", Toast.LENGTH_SHORT).show();
