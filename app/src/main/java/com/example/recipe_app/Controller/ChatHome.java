@@ -27,7 +27,7 @@ public class ChatHome extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatHomeAdapter adapter;
     private List<com.example.recipe_app.Model.ChatHome> chatHomes;
-    private String currentUserId;  // Khai báo biến currentUserId ở phạm vi lớp
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,14 @@ public class ChatHome extends AppCompatActivity {
         chatHomes = new ArrayList<>();
         adapter = new ChatHomeAdapter(chatHomes, chatHome -> {
             // Open chat interface when clicking a message
-            Intent intent = new Intent(ChatHome.this, Chat.class);
-            intent.putExtra("receiverId", chatHome.getSenderId());
+            Intent intent = new Intent(ChatHome.this, Chat2.class);
+            intent.putExtra("receiverId", chatHome.getSenderId());  // receiverId là người nhận (người chat với người dùng hiện tại)
+            intent.putExtra("name", chatHome.getSenderName());  // Tên người nhận
+            intent.putExtra("imageUrl", chatHome.getAvatarUrl());  // Ảnh đại diện người nhận
+            intent.putExtra("recipeId", chatHome.getRecipeId());  // Truyền ID món ăn
+            intent.putExtra("recipeName", chatHome.getRecipeName());  // Truyền tên món ăn
+            intent.putExtra("recipeImage", chatHome.getRecipeImage());  // Truyền ảnh món ăn
+            intent.putExtra("authorId", chatHome.getSenderId());  // ID người gửi là tác giả món ăn
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
@@ -55,8 +61,7 @@ public class ChatHome extends AppCompatActivity {
             return;
         }
 
-        // Load chat messages for the current user
-        loadMessages();
+        loadMessages(); // Lấy các tin nhắn
     }
 
     private void loadMessages() {
@@ -72,7 +77,6 @@ public class ChatHome extends AppCompatActivity {
                         com.example.recipe_app.Model.ChatHome chatHome = messageSnapshot.getValue(com.example.recipe_app.Model.ChatHome.class);
 
                         if (chatHome != null && chatHome.getReceiverId().equals(currentUserId)) {
-                            // Add senderId if the receiver is the current user and the sender is not the current user
                             if (!chatHome.getSenderId().equals(currentUserId)) {
                                 senderIds.add(chatHome.getSenderId());
                             }
@@ -80,8 +84,7 @@ public class ChatHome extends AppCompatActivity {
                     }
                 }
 
-                // Fetch user information for each sender
-                fetchUsersInfo(senderIds);
+                fetchUsersInfo(senderIds); // Lấy thông tin người gửi
             }
 
             @Override
@@ -102,26 +105,37 @@ public class ChatHome extends AppCompatActivity {
                         String name = snapshot.child("name").getValue(String.class);
                         String avatar = snapshot.child("avatar").getValue(String.class);
 
-                        // Create a new chatHome object
                         com.example.recipe_app.Model.ChatHome chatHome = new com.example.recipe_app.Model.ChatHome();
-                        chatHome.setSenderId(senderId);  // Inherited from ChatMessage
-                        chatHome.setReceiverId(currentUserId);  // Inherited from ChatMessage
+                        chatHome.setSenderId(senderId);
+                        chatHome.setSenderName(name);  // Lấy tên người gửi
+                        chatHome.setAvatarUrl(avatar); // Lấy ảnh đại diện của người gửi
 
-                        // Set senderName instead of lastMessage
-                        chatHome.setSenderName(name); // Set sender's name here
-                        chatHome.setLastMessageTimestamp(System.currentTimeMillis()); // Timestamp for the preview
-                        chatHome.setAvatarUrl(avatar); // Use avatar as recipe image
+                        // Lấy thông tin món ăn từ Firebase
+                        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("Messages");
+                        messagesRef.child(senderId).orderByChild("receiverId").equalTo(currentUserId)
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                            // Lấy thông tin món ăn từ tin nhắn
+                                            String recipeId = dataSnapshot.child("recipeId").getValue(String.class);
+                                            String recipeName = dataSnapshot.child("recipeName").getValue(String.class);
+                                            String recipeImage = dataSnapshot.child("recipeImage").getValue(String.class);
 
-                        // Optionally, you can set a recipe ID, name, etc., if necessary
-                        chatHome.setRecipeId(""); // Can be set if needed
-                        chatHome.setRecipeName(""); // Can be set if needed
-                        chatHome.setRecipeImage(""); // Can be set if needed
+                                            chatHome.setRecipeId(recipeId);
+                                            chatHome.setRecipeName(recipeName);
+                                            chatHome.setRecipeImage(recipeImage);
 
-                        // Add the new chatHome object to the list
-                        chatHomes.add(chatHome);
+                                            chatHomes.add(chatHome);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
 
-                        // Notify adapter that data has changed
-                        adapter.notifyDataSetChanged();
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(getApplicationContext(), "Error loading messages.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
                 }
 
@@ -132,6 +146,5 @@ public class ChatHome extends AppCompatActivity {
             });
         }
     }
-
-
 }
+
