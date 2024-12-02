@@ -50,7 +50,7 @@ public class Chat extends AppCompatActivity {
         chatRecyclerView = findViewById(R.id.recyclerViewChat);
 
         chatMessages = new ArrayList<>();
-        chatAdapter = new ChatAdapter(chatMessages);
+        chatAdapter = new ChatAdapter(chatMessages,FirebaseAuth.getInstance().getCurrentUser().getUid());
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
 
