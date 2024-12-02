@@ -16,7 +16,7 @@
         android:padding="16dp">
         <!-- Back Arrow -->
         <ImageView
-            android:id="@+id/backButton"
+            android:id="@+id/backButtonHome"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="start|center_vertical"

@@ -45,14 +45,11 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
     public void onBindViewHolder(@NonNull ChatHomeViewHolder holder, int position) {
         ChatList chatList = chatLists.get(position);
 
-        // Lấy thông tin người gửi
+        // Set sender name and avatar
         String senderId = chatList.getSenderId();
 
-
-        // Truy vấn Firebase để lấy thông tin người gửi (tên và avatar)
+        // Fetch sender details (name and avatar) from Firebase
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts");
-
-        // Truy vấn người gửi theo userId
         userRef.child(senderId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -60,17 +57,15 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
                     String senderName = snapshot.child("name").getValue(String.class);
                     String senderAvatar = snapshot.child("avatar").getValue(String.class);
 
-                    // Cập nhật tên người gửi vào view
                     holder.senderName.setText(senderName != null ? senderName : "Unknown Sender");
 
-                    // Cập nhật avatar người gửi
                     Glide.with(holder.itemView.getContext())
-                            .load(senderAvatar != null ? senderAvatar : R.drawable.hinh) // Sử dụng ảnh mặc định nếu không có avatar
+                            .load(senderAvatar != null ? senderAvatar : R.drawable.hinh) // Default image if avatar is null
                             .into(holder.senderAvatar);
                 } else {
                     holder.senderName.setText("Unknown Sender");
                     Glide.with(holder.itemView.getContext())
-                            .load(R.drawable.hinh) // Ảnh mặc định
+                            .load(R.drawable.hinh) // Default image
                             .into(holder.senderAvatar);
                 }
             }
@@ -81,11 +76,15 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
             }
         });
 
-        // Xử lý sự kiện click vào tin nhắn
+        // Set last message and time
+        holder.messagePreview.setText(chatList.getLastMessage() != null ? chatList.getLastMessage() : "No message yet");
+
+        // Format and display last message timestamp
+        holder.messageTime.setText(formatTimestamp(chatList.getLastMessageTimestamp()));
+
+        // Handle message item click
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), Chat.class);
-
-            // Truyền thông tin vào Intent
             intent.putExtra("messageText", chatList.getMessageText());
             intent.putExtra("senderId", chatList.getSenderId());
             intent.putExtra("receiverId", chatList.getReceiverId());
@@ -94,12 +93,9 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
             intent.putExtra("recipeName", chatList.getRecipeName());
             intent.putExtra("authorId", chatList.getAuthorId());
             intent.putExtra("timestamp", chatList.getTimestamp());
-
-            // Bắt đầu Activity chat
             holder.itemView.getContext().startActivity(intent);
         });
     }
-
     @Override
     public int getItemCount() {
         return chatLists.size();

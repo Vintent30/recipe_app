@@ -57,6 +57,8 @@ public class ChatHome extends AppCompatActivity {
 
         // Load chat messages for the current user
         loadMessages();
+
+        findViewById(R.id.backButtonHome).setOnClickListener(v -> finish());
     }
 
     private void loadMessages() {
@@ -96,6 +98,10 @@ public class ChatHome extends AppCompatActivity {
             chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String lastMessage = null;
+                    long lastMessageTimestamp = 0;
+                    String lastSenderId = null;
+
                     for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                         // Lấy thông tin tin nhắn từ messageSnapshot
                         String senderId = messageSnapshot.child("senderId").getValue(String.class);
@@ -106,8 +112,14 @@ public class ChatHome extends AppCompatActivity {
                         String recipeImage = messageSnapshot.child("recipeImage").getValue(String.class);
                         String recipeName = messageSnapshot.child("recipeName").getValue(String.class);
 
+                        // Cập nhật tin nhắn cuối cùng và thời gian tin nhắn
+                        if (timestamp > lastMessageTimestamp) {
+                            lastMessage = messageText;
+                            lastMessageTimestamp = timestamp;
+                            lastSenderId = senderId;
+                        }
+
                         // Chỉ thêm vào danh sách nếu người nhận là currentUserId và người gửi không phải currentUserId
-                        // Và senderId chưa được xử lý trước đó
                         if (receiverId != null && receiverId.equals(currentUserId)
                                 && senderId != null && !senderId.equals(currentUserId)
                                 && !processedSenders.contains(senderId)) {
@@ -117,14 +129,16 @@ public class ChatHome extends AppCompatActivity {
                             ChatList chatList = new ChatList(
                                     senderId,       // senderId
                                     receiverId,     // receiverId
-                                    messageText,    // messageText
-                                    timestamp,      // timestamp
+                                    lastMessage,    // messageText (lastMessage)
+                                    lastMessageTimestamp, // timestamp (lastMessageTimestamp)
                                     recipeId,       // recipeId
                                     recipeName,     // recipeName
                                     recipeImage,    // recipeImage
-                                    senderId,       // authorId
+                                    lastSenderId,   // authorId (lastSenderId)
                                     null,           // avatarUrl (sẽ được cập nhật sau)
-                                    null            // senderName (sẽ được cập nhật sau)
+                                    null,            // senderName (sẽ được cập nhật sau)
+                                    lastMessage,    // lastMessage (new field)
+                                    lastMessageTimestamp // lastMessageTimestamp (new field)
                             );
 
                             // Lấy thông tin người gửi (senderId)
@@ -140,6 +154,7 @@ public class ChatHome extends AppCompatActivity {
             });
         }
     }
+
 
 
 
