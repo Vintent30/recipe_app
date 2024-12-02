@@ -1,5 +1,6 @@
 package com.example.recipe_app.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipe_app.Model.ChatHome;
+import com.example.recipe_app.Model.ChatList;
 import com.example.recipe_app.R;
+import com.example.recipe_app.Controller.Chat; // Import Activity Chat của bạn
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,11 +26,11 @@ import java.util.Date;
 import java.util.List;
 
 public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHomeViewHolder> {
-    private List<ChatHome> chatHomes;
+    private List<ChatList> chatLists;
     private OnMessageClickListener onItemClickListener;
 
-    public ChatHomeAdapter(List<ChatHome> chatHomes, OnMessageClickListener listener) {
-        this.chatHomes = chatHomes;
+    public ChatHomeAdapter(List<ChatList> chatLists, OnMessageClickListener listener) {
+        this.chatLists = chatLists;
         this.onItemClickListener = listener;
     }
 
@@ -41,14 +43,11 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
 
     @Override
     public void onBindViewHolder(@NonNull ChatHomeViewHolder holder, int position) {
-        ChatHome chatHome = chatHomes.get(position);
+        ChatList chatList = chatLists.get(position);
 
         // Lấy thông tin người gửi
-        String senderId = chatHome.getSenderId(); // senderId được lưu trong ChatHome
+        String senderId = chatList.getSenderId();
 
-        // Cập nhật tên người gửi, avatar và preview tin nhắn
-        holder.messagePreview.setText(chatHome.getLastMessage());
-        holder.messageTime.setText(formatTimestamp(chatHome.getLastMessageTimestamp()));
 
         // Truy vấn Firebase để lấy thông tin người gửi (tên và avatar)
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts");
@@ -82,14 +81,28 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
             }
         });
 
-
         // Xử lý sự kiện click vào tin nhắn
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onMessageClick(chatHome));
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), Chat.class);
+
+            // Truyền thông tin vào Intent
+            intent.putExtra("messageText", chatList.getMessageText());
+            intent.putExtra("senderId", chatList.getSenderId());
+            intent.putExtra("receiverId", chatList.getReceiverId());
+            intent.putExtra("recipeId", chatList.getRecipeId());
+            intent.putExtra("recipeImage", chatList.getRecipeImage());
+            intent.putExtra("recipeName", chatList.getRecipeName());
+            intent.putExtra("authorId", chatList.getAuthorId());
+            intent.putExtra("timestamp", chatList.getTimestamp());
+
+            // Bắt đầu Activity chat
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return chatHomes.size();
+        return chatLists.size();
     }
 
     public static class ChatHomeViewHolder extends RecyclerView.ViewHolder {
@@ -106,10 +119,10 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
     }
 
     public interface OnMessageClickListener {
-        void onMessageClick(ChatHome chatHome);
+        void onMessageClick(ChatList chatList);
     }
 
-    // Hàm định dạng thời gian (chỉ là ví dụ)
+    // Hàm định dạng thời gian
     private String formatTimestamp(long timestamp) {
         Date date = new Date(timestamp);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");

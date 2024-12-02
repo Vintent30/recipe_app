@@ -364,9 +364,9 @@ public class DishRecipe extends AppCompatActivity {
                         public void onClick(View v) {
                             // Truyền các chi tiết món ăn sang ChatActivity
                             Intent intent = new Intent(DishRecipe.this, Chat.class);
-                            intent.putExtra("name", name);  // Tên món ăn
+                            intent.putExtra("recipeName", name);  // Tên món ăn
                             intent.putExtra("recipeId", recipeId);  // ID món ăn
-                            intent.putExtra("imageUrl", imageUrl);  // URL hình ảnh
+                            intent.putExtra("recipeImage", imageUrl);  // URL hình ảnh
                             intent.putExtra("authorId", authorId);// ID tác giả
 
                             startActivity(intent);
