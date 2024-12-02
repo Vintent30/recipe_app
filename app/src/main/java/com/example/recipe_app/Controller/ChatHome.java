@@ -20,8 +20,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ChatHome extends AppCompatActivity {
@@ -95,15 +97,15 @@ public class ChatHome extends AppCompatActivity {
         for (String chatKey : chatKeys) {
             DatabaseReference chatRef = messagesRef.child(chatKey).child("messages");
 
-            chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            // Lấy tất cả tin nhắn từ cuộc trò chuyện
+            chatRef.orderByChild("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String lastMessage = null;
-                    long lastMessageTimestamp = 0;
-                    String lastSenderId = null;
+                    // Dùng HashMap để lưu tin nhắn mới nhất của từng sender
+                    Map<String, ChatList> senderLastMessages = new HashMap<>();
 
+                    // Lặp qua tất cả tin nhắn trong cuộc trò chuyện
                     for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
-                        // Lấy thông tin tin nhắn từ messageSnapshot
                         String senderId = messageSnapshot.child("senderId").getValue(String.class);
                         String receiverId = messageSnapshot.child("receiverId").getValue(String.class);
                         String messageText = messageSnapshot.child("messageText").getValue(String.class);
@@ -112,38 +114,35 @@ public class ChatHome extends AppCompatActivity {
                         String recipeImage = messageSnapshot.child("recipeImage").getValue(String.class);
                         String recipeName = messageSnapshot.child("recipeName").getValue(String.class);
 
-                        // Cập nhật tin nhắn cuối cùng và thời gian tin nhắn
-                        if (timestamp > lastMessageTimestamp) {
-                            lastMessage = messageText;
-                            lastMessageTimestamp = timestamp;
-                            lastSenderId = senderId;
+                        // Chỉ lấy tin nhắn nếu người nhận là người dùng hiện tại
+                        if (receiverId != null && receiverId.equals(currentUserId)) {
+                            // Cập nhật tin nhắn mới nhất từ mỗi người gửi
+                            if (!senderLastMessages.containsKey(senderId) || senderLastMessages.get(senderId).getTimestamp() < timestamp) {
+                                // Nếu chưa có tin nhắn từ senderId hoặc tin nhắn hiện tại mới hơn tin nhắn đã lưu
+                                ChatList lastMessage = new ChatList(
+                                        senderId,       // senderId
+                                        receiverId,     // receiverId
+                                        messageText,    // messageText
+                                        timestamp,      // timestamp
+                                        recipeId,       // recipeId
+                                        recipeName,     // recipeName
+                                        recipeImage,    // recipeImage
+                                        senderId,       // authorId (lastSenderId)
+                                        null,           // avatarUrl (sẽ được cập nhật sau)
+                                        null,           // senderName (sẽ được cập nhật sau)
+                                        messageText,    // lastMessage (new field)
+                                        timestamp       // lastMessageTimestamp (new field)
+                                );
+
+                                senderLastMessages.put(senderId, lastMessage);  // Cập nhật tin nhắn mới nhất từ senderId
+                            }
                         }
+                    }
 
-                        // Chỉ thêm vào danh sách nếu người nhận là currentUserId và người gửi không phải currentUserId
-                        if (receiverId != null && receiverId.equals(currentUserId)
-                                && senderId != null && !senderId.equals(currentUserId)
-                                && !processedSenders.contains(senderId)) {
-
-                            processedSenders.add(senderId); // Đánh dấu senderId đã xử lý
-
-                            ChatList chatList = new ChatList(
-                                    senderId,       // senderId
-                                    receiverId,     // receiverId
-                                    lastMessage,    // messageText (lastMessage)
-                                    lastMessageTimestamp, // timestamp (lastMessageTimestamp)
-                                    recipeId,       // recipeId
-                                    recipeName,     // recipeName
-                                    recipeImage,    // recipeImage
-                                    lastSenderId,   // authorId (lastSenderId)
-                                    null,           // avatarUrl (sẽ được cập nhật sau)
-                                    null,            // senderName (sẽ được cập nhật sau)
-                                    lastMessage,    // lastMessage (new field)
-                                    lastMessageTimestamp // lastMessageTimestamp (new field)
-                            );
-
-                            // Lấy thông tin người gửi (senderId)
-                            fetchUserInfo(senderId, chatList);
-                        }
+                    // Lặp qua các người gửi và lấy thông tin cho từng người
+                    for (ChatList chatList : senderLastMessages.values()) {
+                        // Lấy thông tin người gửi (senderId)
+                        fetchUserInfo(chatList.getSenderId(), chatList);  // Lấy thông tin người gửi
                     }
                 }
 
@@ -154,11 +153,6 @@ public class ChatHome extends AppCompatActivity {
             });
         }
     }
-
-
-
-
-
 
     private void fetchUserInfo(String userId, ChatList chatList) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);

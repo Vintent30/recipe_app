@@ -171,6 +171,4 @@ public class Chat extends AppCompatActivity {
                     Toast.makeText(Chat.this, "Failed to send message", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 }
