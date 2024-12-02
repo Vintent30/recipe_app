@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipe_app.Adapter.ChatHomeAdapter;
+import com.example.recipe_app.Model.ChatList;
 import com.example.recipe_app.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,8 +27,8 @@ import java.util.Set;
 public class ChatHome extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatHomeAdapter adapter;
-    private List<com.example.recipe_app.Model.ChatHome> chatHomes;
-    private String currentUserId;  // Khai báo biến currentUserId ở phạm vi lớp
+    private List<ChatList> chatLists;
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +38,10 @@ public class ChatHome extends AppCompatActivity {
         recyclerView = findViewById(R.id.chathome_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        chatHomes = new ArrayList<>();
-        adapter = new ChatHomeAdapter(chatHomes, chatHome -> {
-            // Open chat interface when clicking a message
+        chatLists = new ArrayList<>();
+        adapter = new ChatHomeAdapter(chatLists, chatList -> {
             Intent intent = new Intent(ChatHome.this, Chat.class);
-            intent.putExtra("receiverId", chatHome.getSenderId());
+            intent.putExtra("receiverId", chatList.getSenderId());
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
@@ -65,23 +65,18 @@ public class ChatHome extends AppCompatActivity {
         messagesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Set<String> senderIds = new HashSet<>();
+                Set<String> chatKeys = new HashSet<>();
 
                 for (DataSnapshot chatSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot messageSnapshot : chatSnapshot.getChildren()) {
-                        com.example.recipe_app.Model.ChatHome chatHome = messageSnapshot.getValue(com.example.recipe_app.Model.ChatHome.class);
+                    String chatKey = chatSnapshot.getKey();
 
-                        if (chatHome != null && chatHome.getReceiverId().equals(currentUserId)) {
-                            // Add senderId if the receiver is the current user and the sender is not the current user
-                            if (!chatHome.getSenderId().equals(currentUserId)) {
-                                senderIds.add(chatHome.getSenderId());
-                            }
-                        }
+                    if (chatKey != null && (chatKey.contains(currentUserId))) {
+                        chatKeys.add(chatKey);
                     }
                 }
 
-                // Fetch user information for each sender
-                fetchUsersInfo(senderIds);
+                // Now, load each chat's details based on chatKey
+                fetchChatsInfo(chatKeys);
             }
 
             @Override
@@ -91,47 +86,87 @@ public class ChatHome extends AppCompatActivity {
         });
     }
 
-    private void fetchUsersInfo(Set<String> senderIds) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Accounts");
+    private void fetchChatsInfo(Set<String> chatKeys) {
+        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("Messages");
+        Set<String> processedSenders = new HashSet<>(); // Set để kiểm tra trùng lặp senderId
 
-        for (String senderId : senderIds) {
-            usersRef.child(senderId).addListenerForSingleValueEvent(new ValueEventListener() {
+        for (String chatKey : chatKeys) {
+            DatabaseReference chatRef = messagesRef.child(chatKey).child("messages");
+
+            chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        String name = snapshot.child("name").getValue(String.class);
-                        String avatar = snapshot.child("avatar").getValue(String.class);
+                    for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
+                        // Lấy thông tin tin nhắn từ messageSnapshot
+                        String senderId = messageSnapshot.child("senderId").getValue(String.class);
+                        String receiverId = messageSnapshot.child("receiverId").getValue(String.class);
+                        String messageText = messageSnapshot.child("messageText").getValue(String.class);
+                        long timestamp = messageSnapshot.child("timestamp").getValue(Long.class);
+                        String recipeId = messageSnapshot.child("recipeId").getValue(String.class);
+                        String recipeImage = messageSnapshot.child("recipeImage").getValue(String.class);
+                        String recipeName = messageSnapshot.child("recipeName").getValue(String.class);
 
-                        // Create a new chatHome object
-                        com.example.recipe_app.Model.ChatHome chatHome = new com.example.recipe_app.Model.ChatHome();
-                        chatHome.setSenderId(senderId);  // Inherited from ChatMessage
-                        chatHome.setReceiverId(currentUserId);  // Inherited from ChatMessage
+                        // Chỉ thêm vào danh sách nếu người nhận là currentUserId và người gửi không phải currentUserId
+                        // Và senderId chưa được xử lý trước đó
+                        if (receiverId != null && receiverId.equals(currentUserId)
+                                && senderId != null && !senderId.equals(currentUserId)
+                                && !processedSenders.contains(senderId)) {
 
-                        // Set senderName instead of lastMessage
-                        chatHome.setSenderName(name); // Set sender's name here
-                        chatHome.setLastMessageTimestamp(System.currentTimeMillis()); // Timestamp for the preview
-                        chatHome.setAvatarUrl(avatar); // Use avatar as recipe image
+                            processedSenders.add(senderId); // Đánh dấu senderId đã xử lý
 
-                        // Optionally, you can set a recipe ID, name, etc., if necessary
-                        chatHome.setRecipeId(""); // Can be set if needed
-                        chatHome.setRecipeName(""); // Can be set if needed
-                        chatHome.setRecipeImage(""); // Can be set if needed
+                            ChatList chatList = new ChatList(
+                                    senderId,       // senderId
+                                    receiverId,     // receiverId
+                                    messageText,    // messageText
+                                    timestamp,      // timestamp
+                                    recipeId,       // recipeId
+                                    recipeName,     // recipeName
+                                    recipeImage,    // recipeImage
+                                    senderId,       // authorId
+                                    null,           // avatarUrl (sẽ được cập nhật sau)
+                                    null            // senderName (sẽ được cập nhật sau)
+                            );
 
-                        // Add the new chatHome object to the list
-                        chatHomes.add(chatHome);
-
-                        // Notify adapter that data has changed
-                        adapter.notifyDataSetChanged();
+                            // Lấy thông tin người gửi (senderId)
+                            fetchUserInfo(senderId, chatList);
+                        }
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getApplicationContext(), "Failed to load sender info: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Failed to load chat info: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
 
+
+
+
+    private void fetchUserInfo(String userId, ChatList chatList) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
+
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String name = snapshot.child("name").getValue(String.class);
+                    String avatar = snapshot.child("avatar").getValue(String.class);
+
+                    chatList.setSenderName(name);
+                    chatList.setAvatarUrl(avatar);
+
+                    chatLists.add(chatList);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Failed to load user info: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
