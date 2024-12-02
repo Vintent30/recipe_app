@@ -88,6 +88,7 @@ public class ChatHome extends AppCompatActivity {
 
     private void fetchChatsInfo(Set<String> chatKeys) {
         DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("Messages");
+        Set<String> processedSenders = new HashSet<>(); // Set để kiểm tra trùng lặp senderId
 
         for (String chatKey : chatKeys) {
             DatabaseReference chatRef = messagesRef.child(chatKey).child("messages");
@@ -106,7 +107,13 @@ public class ChatHome extends AppCompatActivity {
                         String recipeName = messageSnapshot.child("recipeName").getValue(String.class);
 
                         // Chỉ thêm vào danh sách nếu người nhận là currentUserId và người gửi không phải currentUserId
-                        if (receiverId != null && receiverId.equals(currentUserId) && senderId != null && !senderId.equals(currentUserId)) {
+                        // Và senderId chưa được xử lý trước đó
+                        if (receiverId != null && receiverId.equals(currentUserId)
+                                && senderId != null && !senderId.equals(currentUserId)
+                                && !processedSenders.contains(senderId)) {
+
+                            processedSenders.add(senderId); // Đánh dấu senderId đã xử lý
+
                             ChatList chatList = new ChatList(
                                     senderId,       // senderId
                                     receiverId,     // receiverId
@@ -133,6 +140,7 @@ public class ChatHome extends AppCompatActivity {
             });
         }
     }
+
 
 
 
