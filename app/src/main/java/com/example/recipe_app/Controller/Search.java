@@ -1,7 +1,6 @@
 package com.example.recipe_app.Controller;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,24 +45,7 @@ public class Search extends AppCompatActivity {
             return insets;
         });
         imageView = findViewById(R.id.btnback);
-        imageView.setOnClickListener(view -> {
-            // Sử dụng OnBackPressedDispatcher để xử lý hành động quay lại
-            this.getOnBackPressedDispatcher().onBackPressed();
-        });
-
-        edtSearch = findViewById(R.id.et_search);
-
-        // Chỉ xử lý khi nhấn phím Enter
-        edtSearch.setOnEditorActionListener((v, actionId, event) -> {
-            if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                String searchQuery = edtSearch.getText().toString().trim();
-                if (!searchQuery.isEmpty()) {
-                    fetchSearchResults(searchQuery); // Chỉ tìm kiếm khi có nội dung
-                }
-                return true; // Ngăn sự kiện tiếp tục lan
-            }
-            return false; // Cho phép xử lý mặc định nếu không phải phím Enter
-        });
+        imageView.setOnClickListener(view -> finish());
 
         // Khởi tạo TextView
         tvNoResults = findViewById(R.id.tv_no_results);
