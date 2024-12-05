@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipe_app.Adapter.HorizontalRecipeAdapter;
 import com.example.recipe_app.Model.Detail;
+import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +33,8 @@ public class ListDetail extends AppCompatActivity {
     private ImageView imageView;
     private RecyclerView recyclerViewHorizontal;
     private HorizontalRecipeAdapter adapter;
-    private List<Detail> horizontalList;
+    private List<Detail> detailList;
+    private List<Recipe> recipeList;
     private ProgressBar progressBar;
 
     @Override
@@ -90,8 +92,9 @@ public class ListDetail extends AppCompatActivity {
 
         recyclerViewHorizontal.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        horizontalList = new ArrayList<>();
-        adapter = new HorizontalRecipeAdapter(this, horizontalList);
+        detailList = new ArrayList<>();
+        recipeList = new ArrayList<>();
+        adapter = new HorizontalRecipeAdapter(this, detailList, recipeList);
         recyclerViewHorizontal.setAdapter(adapter);
 
         // Back button functionality
@@ -114,12 +117,20 @@ public class ListDetail extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 progressBar.setVisibility(View.GONE); // Hide ProgressBar once data is loaded
 
-                horizontalList.clear(); // Clear old data
+                detailList.clear(); // Clear old data
+                recipeList.clear();
+
                 if (snapshot.exists()) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Detail detail = dataSnapshot.getValue(Detail.class);
-                        if (detail != null) {
-                            horizontalList.add(detail); // Add detail to the list
+                        // Check if the data matches Recipe or Detail
+                        Recipe recipe = dataSnapshot.getValue(Recipe.class);
+                        if (recipe != null) {
+                            recipeList.add(recipe);
+                        } else {
+                            Detail detail = dataSnapshot.getValue(Detail.class);
+                            if (detail != null) {
+                                detailList.add(detail);
+                            }
                         }
                     }
                     adapter.notifyDataSetChanged(); // Notify adapter to refresh the data
