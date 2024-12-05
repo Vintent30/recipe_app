@@ -49,12 +49,20 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="53dp"
-                    android:layout_marginRight="72dp"
+                    android:layout_marginRight="45dp"
                     android:fontFamily="@font/holtwood_one_sc"
                     android:text="COOKEASE"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/Icon_chat"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/chat2" />
+
 
                 <ImageView
                     android:id="@+id/Icon_calendar"
@@ -76,7 +84,8 @@
                 android:hint="Tìm kiếm"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -88,13 +97,13 @@
 
     <Button
         android:id="@+id/chat_community"
-        android:layout_width="100dp"
-        android:layout_height="90dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="108dp"
-        android:background="@drawable/icon_chat"
+        android:background="@drawable/social"
         android:drawablePadding="8dp"
         android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"

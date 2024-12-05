@@ -5,5 +5,7 @@
     <color name="gray">#E1DEDE</color>
     <color name="orange">#F57804</color>
     <color name="red">#E92E21</color>
+    <color name="theme_color_80">#CC2176FF</color>
+    <color name="theme_color_8">#142176FF</color>
     <color name="light_orange">#FFB370</color>
 </resources>

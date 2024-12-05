@@ -2,7 +2,6 @@ package com.example.recipe_app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipe_app.Adapter.RecipeAdapter;
 import com.example.recipe_app.Controller.Create_recipe;
+import com.example.recipe_app.Controller.DishRecipe;
 import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
 import com.example.recipe_app.Model.Recipe;
@@ -51,9 +51,10 @@ public class UserFragment extends Fragment {
         recipeList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recipeAdapter = new RecipeAdapter(getContext(), recipeList);
-        recyclerView.setAdapter(recipeAdapter);
 
+        // Pass the click listener to the adapter
+        recipeAdapter = new RecipeAdapter(getContext(), recipeList, this::onFoodClick);
+        recyclerView.setAdapter(recipeAdapter);
 
         // Initialize views
         settingIcon = view.findViewById(R.id.setting_icon);
@@ -65,11 +66,11 @@ public class UserFragment extends Fragment {
         totalFollowers = view.findViewById(R.id.total2); // TextView for followers count
         totalFollowing = view.findViewById(R.id.total1); // TextView for following count
 
-        // Handle icon and button click events
+        // Handle follower and setting button clicks
+        followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
         settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
         createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
-        followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
-        totalFollowing.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
+
         // Get the current logged-in user
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -77,13 +78,9 @@ public class UserFragment extends Fragment {
             String userId = currentUser.getUid();
             userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
 
-            // Load user details like name and avatar
+            // Load user details
             loadUserInfo();
-
-            // Load followers and following counts
             loadFollowerFollowingCounts();
-
-            // Load user's recipes
             loadUserRecipes(userId);
         } else {
             username.setText("Người dùng chưa đăng nhập");
@@ -112,48 +109,29 @@ public class UserFragment extends Fragment {
     }
 
     private void loadFollowerFollowingCounts() {
-        if (currentUser == null) {
-            totalFollowers.setText("0");
-            totalFollowing.setText("0");
-            return;
-        }
-
-        String userId = currentUser.getUid();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userId);
-
-        // Lấy số lượng followers
-        userRef.child("followers").addListenerForSingleValueEvent(new ValueEventListener() {
+        // Get followers count
+        userRef.child("followers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    totalFollowers.setText(String.valueOf(snapshot.getValue(Long.class)));
-                } else {
-                    totalFollowers.setText("0");
-                }
+                totalFollowers.setText(String.valueOf(snapshot.getChildrenCount()));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Error fetching followers count: " + error.getMessage());
-                totalFollowers.setText("0");
+                // Handle any errors here
             }
         });
 
-        // Lấy số lượng following
-        userRef.child("following").addListenerForSingleValueEvent(new ValueEventListener() {
+        // Get following count
+        userRef.child("following").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    totalFollowing.setText(String.valueOf(snapshot.getValue(Long.class)));
-                } else {
-                    totalFollowing.setText("0");
-                }
+                totalFollowing.setText(String.valueOf(snapshot.getChildrenCount()));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Error fetching following count: " + error.getMessage());
-                totalFollowing.setText("0");
+                // Handle any errors here
             }
         });
     }
@@ -176,8 +154,18 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Error fetching recipes: " + error.getMessage());
+                // Handle any errors here
             }
         });
+    }
+
+    // Handle recipe item click
+    public void onFoodClick(Recipe food) {
+        Intent intent = new Intent(getActivity(), DishRecipe.class);
+        intent.putExtra("recipeId", food.getRecipeId());
+        intent.putExtra("food_title", food.getName());
+        intent.putExtra("food_description", food.getDescription());
+        intent.putExtra("food_image", food.getImage());
+        startActivity(intent);
     }
 }

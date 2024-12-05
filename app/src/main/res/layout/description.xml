@@ -72,6 +72,12 @@
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/chat"
+                    android:layout_width="40dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/chat_icon"
+                    android:paddingRight="10dp"/>
 
                 <!-- Like Button -->
                 <ImageButton

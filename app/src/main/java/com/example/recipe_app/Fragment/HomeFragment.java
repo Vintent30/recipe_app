@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipe_app.Adapter.CategoryHomeAdapter;
 import com.example.recipe_app.Adapter.FoodHomeAdapter;
+import com.example.recipe_app.Controller.ChatHome;
 import com.example.recipe_app.Controller.Detail_suggest;
 import com.example.recipe_app.Controller.DishRecipe;
 import com.example.recipe_app.Controller.Planer;
@@ -46,6 +47,8 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
     private EditText edtSearch;
     private ImageView imageView, imgCalen;
     private Button button;
+    private ImageView imgViewChat;
+
 
     List<Recipe> listRecommended = new ArrayList<>();
     List<Recipe> listPopularRecipes = new ArrayList<>();
@@ -78,6 +81,9 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
         // Set up button click listeners
         imageView = view.findViewById(R.id.Icon_calendar);
         imageView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Planer.class)));
+
+        imgViewChat = view.findViewById(R.id.Icon_chat);
+        imgViewChat.setOnClickListener(v -> startActivity(new Intent(getActivity(), ChatHome.class)));
 
         button = view.findViewById(R.id.chat_community);
         button.setOnClickListener(v -> startActivity(new Intent(getActivity(), chat_community.class)));
