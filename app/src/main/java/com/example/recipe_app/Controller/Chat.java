@@ -68,7 +68,7 @@ public class Chat extends AppCompatActivity {
             chatKey = currentUserId.compareTo(authorId) > 0 ? currentUserId + "_" + authorId : authorId + "_" + currentUserId;
         } else {
             // Xử lý lỗi nếu currentUserId hoặc authorId là null
-            Toast.makeText(this, "User ID or Author ID is null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ID người dùng hoặc ID tác giả là null", Toast.LENGTH_SHORT).show();
             finish(); // Hoặc xử lý theo yêu cầu
         }
 
@@ -89,7 +89,7 @@ public class Chat extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Chat.this, "Failed to load author information", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Chat.this, "Không thể tải thông tin tác giả.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -128,7 +128,7 @@ public class Chat extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Chat.this, "Failed to load messages", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Chat.this, "Không thể tải tin nhắn.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -168,7 +168,7 @@ public class Chat extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // Handle failure if any
-                    Toast.makeText(Chat.this, "Failed to send message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Chat.this, "Gửi tin nhắn không thành công.", Toast.LENGTH_SHORT).show();
                 });
     }
 }

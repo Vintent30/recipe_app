@@ -64,16 +64,16 @@ public class Sign_up extends AppCompatActivity {
                             databaseRef.child(userId).setValue(newAcc)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
-                                            Toast.makeText(Sign_up.this, "Registration successful.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Sign_up.this, "Đăng ký thành công.", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(Sign_up.this, Sign_in.class)); // Điều hướng đến màn hình đăng nhập
                                             finish();
                                         } else {
-                                            Toast.makeText(Sign_up.this, "Failed to save user info.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Sign_up.this, "Không thể lưu thông tin người dùng.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
                     } else {
-                        Toast.makeText(Sign_up.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Sign_up.this, "Đăng ký không thành công: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

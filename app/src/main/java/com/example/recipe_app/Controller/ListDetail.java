@@ -125,7 +125,7 @@ public class ListDetail extends AppCompatActivity {
                     adapter.notifyDataSetChanged(); // Notify adapter to refresh the data
                 } else {
                     // Notify user if no data found
-                    Toast.makeText(ListDetail.this, "No data found for this category.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListDetail.this, "Không tìm thấy dữ liệu cho danh mục này.", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -73,9 +73,9 @@ public class Sign_in extends AppCompatActivity {
                                         // Cập nhật mật khẩu trong Realtime Database nếu có thay đổi
                                         databaseRef.child(userId).child("password").setValue(password)
                                                 .addOnSuccessListener(aVoid ->
-                                                        Toast.makeText(Sign_in.this, "Login successful. Password updated.", Toast.LENGTH_SHORT).show())
+                                                        Toast.makeText(Sign_in.this, "Đăng nhập thành công. Mật khẩu đã được cập nhật.", Toast.LENGTH_SHORT).show())
                                                 .addOnFailureListener(e ->
-                                                        Toast.makeText(Sign_in.this, "Login successful, but failed to update password.", Toast.LENGTH_SHORT).show());
+                                                        Toast.makeText(Sign_in.this, "Đăng nhập thành công, nhưng không thể cập nhật mật khẩu.", Toast.LENGTH_SHORT).show());
                                     } else {
                                         Toast.makeText(Sign_in.this, "Login successful.", Toast.LENGTH_SHORT).show();
                                     }
@@ -85,7 +85,7 @@ public class Sign_in extends AppCompatActivity {
                         startActivity(new Intent(Sign_in.this, MainActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(Sign_in.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Sign_in.this, "Đăng nhập không thành công: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
