@@ -50,7 +50,7 @@
         android:background="@drawable/circle_background"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile"
+        android:src="@drawable/avatar_macdinh"
         app:layout_constraintBottom_toTopOf="@+id/username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"

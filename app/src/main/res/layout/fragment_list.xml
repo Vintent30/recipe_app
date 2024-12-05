@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/content_header"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="130dp"
         android:background="@color/orange"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,19 +46,6 @@
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="350dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/search"
-            android:drawableLeft="@drawable/baseline_search_24"
-            android:drawablePadding="10dp"
-            android:hint="Tìm kiếm"
-            android:inputType="text"
-            android:paddingLeft="10dp"
-            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!-- Thêm TextView "Danh mục món ăn" -->

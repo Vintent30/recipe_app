@@ -181,12 +181,12 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                             }
 
                             // Thêm vào listPopularRecipes nếu like > 3
-                            if (like > 3) {
+                            if (like > 5) {
                                 listPopularRecipes.add(food);
                             }
 
                             // Thêm vào listYouMightLike nếu có ít nhất 2 món cùng category trong UserLikes
-                            if (categoryMap.containsKey(category) && categoryMap.get(category).size() >= 1) {
+                            if (categoryMap.containsKey(category) && categoryMap.get(category).size() >= 2) {
                                 listYouMightLike.add(food);
                             }
                         }

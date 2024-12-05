@@ -34,7 +34,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="120dp">
-
                 <ImageView
                     android:id="@+id/btnback"
                     android:layout_width="40dp"
@@ -46,7 +45,7 @@
                     app:tint="@color/black" />
                 <EditText
                     android:id="@+id/et_search"
-                    android:layout_width="350dp"
+                    android:layout_width="330dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="20dp"

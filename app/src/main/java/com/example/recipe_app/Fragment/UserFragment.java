@@ -107,9 +107,9 @@ public class UserFragment extends Fragment {
                 String imageUrl = dataSnapshot.getValue(String.class);
                 Picasso.get().load(imageUrl).into(profilePicture);
             } else {
-                profilePicture.setImageResource(R.drawable.icon_intro1);
+                profilePicture.setImageResource(R.drawable.avatar_macdinh);
             }
-        }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.icon_intro1));
+        }).addOnFailureListener(e -> profilePicture.setImageResource(R.drawable.avatar_macdinh));
     }
 
     private void loadFollowerFollowingCounts() {

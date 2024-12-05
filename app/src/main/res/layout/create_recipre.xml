@@ -74,7 +74,7 @@
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/profile"
+                android:src="@drawable/img"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -251,7 +251,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/rice" />
+                            android:src="@drawable/playvd" />
 
                         <!-- TextView aligned to the right of ImageView -->
                         <TextView
