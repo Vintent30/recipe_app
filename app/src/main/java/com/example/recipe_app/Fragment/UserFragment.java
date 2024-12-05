@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipe_app.Adapter.RecipeAdapter;
 import com.example.recipe_app.Controller.Create_recipe;
+import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
 import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
@@ -53,6 +54,7 @@ public class UserFragment extends Fragment {
         recipeAdapter = new RecipeAdapter(getContext(), recipeList);
         recyclerView.setAdapter(recipeAdapter);
 
+
         // Initialize views
         settingIcon = view.findViewById(R.id.setting_icon);
         createRecipeButton = view.findViewById(R.id.btn_createRe);
@@ -66,7 +68,8 @@ public class UserFragment extends Fragment {
         // Handle icon and button click events
         settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
         createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
-
+        followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
+        totalFollowing.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
         // Get the current logged-in user
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 

@@ -211,7 +211,6 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
         });
     }
 
-
     // Handle category click
     @Override
     public void onCategoryForwardClick(String categoryTitle) {

@@ -7,21 +7,23 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.recipe_app.Fragment.FragmentFollower;
 import com.example.recipe_app.Fragment.FragmentFollowing;
+import com.google.firebase.auth.FirebaseAuth;
 
-public class ViewPagerAdaper extends FragmentPagerAdapter {
+public class FollowViewPagerAdaper extends FragmentPagerAdapter {
 
-    public ViewPagerAdaper(@NonNull FragmentManager fm) {
+    public FollowViewPagerAdaper(@NonNull FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         switch (position) {
             case 0:
-                return new FragmentFollowing(); // Fragment cho tab "Followers"
+                return new FragmentFollowing(currentUserId); // Tab "Following"
             case 1:
-                return new FragmentFollower(); // Fragment cho tab "Following"
+                return new FragmentFollower(currentUserId); // Tab "Follower"
             default:
                 return null;
         }

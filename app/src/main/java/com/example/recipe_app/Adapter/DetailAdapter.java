@@ -47,7 +47,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         holder.category.setText("Danh mục: " + recipe.getCategory());
 
         // Hiển thị lượt thích
-        holder.like.setText("Like: " +String.valueOf(recipe.getLike()));
+        holder.like.setText("Lượt thích: " +String.valueOf(recipe.getLike()));
 
         // Lấy URL hình ảnh từ Firebase
         String imageUrl = recipe.getImage();

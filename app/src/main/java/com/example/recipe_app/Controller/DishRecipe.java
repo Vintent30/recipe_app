@@ -151,29 +151,45 @@ public class DishRecipe extends AppCompatActivity {
     }
 
     private void updateUserFollows(String userID, String authorID, boolean isFollow) {
-        // Tham chiếu đến node "UserFollows" với cấu trúc userID/authorID
-        DatabaseReference userFollowRef = FirebaseDatabase.getInstance().getReference("UserFollows").child(userID).child(authorID);
+        // Tham chiếu đến node "UserFollows"
+        DatabaseReference userFollowsRef = FirebaseDatabase.getInstance().getReference("UserFollows").child(userID);
+        DatabaseReference authorFollowsRef = FirebaseDatabase.getInstance().getReference("UserFollows").child(authorID);
 
         if (isFollow) {
-            // Thêm hoặc cập nhật trạng thái follow
-            userFollowRef.setValue(true).addOnCompleteListener(task -> {
+            // Thêm authorID vào trường "following" của userID
+            userFollowsRef.child("following").child(authorID).setValue(true).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Toast.makeText(DishRecipe.this, "Bạn đã theo dõi người đăng!", Toast.LENGTH_SHORT).show();
+                    // Thêm userID vào trường "follower" của authorID
+                    authorFollowsRef.child("follower").child(userID).setValue(true).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Toast.makeText(DishRecipe.this, "Bạn đã theo dõi người đăng!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(DishRecipe.this, "Lỗi khi thêm người theo dõi!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(DishRecipe.this, "Lỗi khi theo dõi người đăng!", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            // Gỡ trạng thái follow
-            userFollowRef.removeValue().addOnCompleteListener(task -> {
+            // Gỡ authorID khỏi trường "following" của userID
+            userFollowsRef.child("following").child(authorID).removeValue().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Toast.makeText(DishRecipe.this, "Bạn đã hủy theo dõi người đăng!", Toast.LENGTH_SHORT).show();
+                    // Gỡ userID khỏi trường "follower" của authorID
+                    authorFollowsRef.child("follower").child(userID).removeValue().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Toast.makeText(DishRecipe.this, "Bạn đã hủy theo dõi người đăng!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(DishRecipe.this, "Lỗi khi hủy người theo dõi!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(DishRecipe.this, "Lỗi khi hủy theo dõi người đăng!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
+
     private void saveToUserLikes(String userId, String recipeId) {
         // Tham chiếu đến bảng Recipes
         DatabaseReference recipesRef = FirebaseDatabase.getInstance().getReference("Recipes").child(recipeId);
@@ -272,8 +288,8 @@ public class DishRecipe extends AppCompatActivity {
                             Toast.makeText(DishRecipe.this, "Lỗi khi kiểm tra trạng thái like!", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    // Kiểm tra trạng thái follow của người dùng
-                    DatabaseReference userFollowRef = FirebaseDatabase.getInstance().getReference("UserFollows").child(userID).child(authorId);
+                // Kiểm tra trạng thái follow của người dùng từ trường "following"
+                    DatabaseReference userFollowRef = FirebaseDatabase.getInstance().getReference("UserFollows").child(userID).child("following").child(authorId);
                     userFollowRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot userSnapshot) {
@@ -289,9 +305,11 @@ public class DishRecipe extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
+                            // Xử lý lỗi khi kiểm tra trạng thái follow
                             Toast.makeText(DishRecipe.this, "Lỗi khi kiểm tra trạng thái follow!", Toast.LENGTH_SHORT).show();
                         }
                     });
+
                     // Cập nhật tên tác giả từ bảng Accounts dựa trên userId
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId);
                     userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -311,40 +329,40 @@ public class DishRecipe extends AppCompatActivity {
                         }
                     });
 
-                    // Cập nhật số lượng followers của người đăng công thức khi follow/unfollow
                     btnFollow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            databaseReference2 = FirebaseDatabase.getInstance().getReference("Accounts").child(userID);
+                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userID);
+                            DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId);
 
-                            DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId); // Lấy tham chiếu tới tài khoản người đăng công thức
                             authorRef.child("followers").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     followerCount = snapshot.exists() ? snapshot.getValue(Integer.class) : 0; // Lấy số followers hiện tại
 
+                                    // Kiểm tra trạng thái follow trước khi thay đổi
                                     if (!isFollow) { // Nếu chưa follow
-                                        btnFollow.setText("Unfollow");
+                                        btnFollow.setText("Unfollow"); // Đổi nút thành Unfollow
                                         followerCount++; // Tăng followers của người đăng công thức
                                         followingCount++; // Tăng following của người dùng hiện tại
 
                                         // Cập nhật vào Firebase
                                         authorRef.child("followers").setValue(followerCount);
-                                        databaseReference2.child("following").setValue(followingCount);
+                                        userRef.child("following").setValue(followingCount);
 
-                                        updateUserFollows(userID, authorId, true);
+                                        updateUserFollows(userID, authorId, true); // Cập nhật trạng thái follow
                                         isFollow = true; // Đánh dấu là đã follow
                                     } else { // Nếu đã follow
-                                        btnFollow.setText("Follow");
+                                        btnFollow.setText("Follow"); // Đổi nút thành Follow
                                         followerCount--; // Giảm followers của người đăng công thức
                                         followingCount--; // Giảm following của người dùng hiện tại
 
                                         // Cập nhật vào Firebase
                                         authorRef.child("followers").setValue(followerCount);
-                                        databaseReference2.child("following").setValue(followingCount);
+                                        userRef.child("following").setValue(followingCount);
 
-                                        updateUserFollows(userID, authorId, false);
+                                        updateUserFollows(userID, authorId, false); // Cập nhật trạng thái unfollow
                                         isFollow = false; // Đánh dấu là chưa follow
                                     }
                                 }
@@ -356,6 +374,7 @@ public class DishRecipe extends AppCompatActivity {
                             });
                         }
                     });
+
                 }
             }
 
