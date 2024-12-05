@@ -85,7 +85,7 @@ public class ChatHome extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Unable to load messages: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Không thể tải tin nhắn.: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -154,7 +154,7 @@ public class ChatHome extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getApplicationContext(), "Failed to load chat info: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Không thể tải được thông tin chat: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -181,7 +181,7 @@ public class ChatHome extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Failed to load user info: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Không thể tải được thông tin người dùng: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
