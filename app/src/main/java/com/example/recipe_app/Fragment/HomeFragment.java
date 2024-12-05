@@ -139,12 +139,14 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
 
                             categoryMap.get(category).add(recipeId);
                         }
+
                         // Xử lý dữ liệu trong Recipes
                         for (DataSnapshot recipeSnapshot : dataSnapshot.getChildren()) {
                             String name = recipeSnapshot.child("name").getValue(String.class);
                             String imageUrl = recipeSnapshot.child("image").getValue(String.class);
                             String category = recipeSnapshot.child("category").getValue(String.class);
-                            Long caloriesLong = recipeSnapshot.child("calories").getValue(Long.class);
+                            Integer caloriesObj = recipeSnapshot.child("calories").getValue(Integer.class);
+                            int calories = (caloriesObj != null) ? caloriesObj : 0; // Gán 0 nếu giá trị null
                             String recipeId = recipeSnapshot.child("recipeId").getValue(String.class);
                             String recipeUserId = recipeSnapshot.child("userId").getValue(String.class);
 
@@ -152,7 +154,7 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                             if (currentUserId.equals(recipeUserId)) {
                                 continue;
                             }
-                            int calories = (caloriesLong != null) ? caloriesLong.intValue() : 0;
+
                             // Lấy trường like dưới dạng Long
                             Long likeLong = recipeSnapshot.child("like").getValue(Long.class);
                             int like = (likeLong != null) ? likeLong.intValue() : 0; // Kiểm tra nếu likeLong là null thì gán 0
@@ -183,7 +185,7 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                             }
 
                             // Thêm vào listYouMightLike nếu có ít nhất 2 món cùng category trong UserLikes
-                            if (categoryMap.containsKey(category) && categoryMap.get(category).size() >= 2) {
+                            if (categoryMap.containsKey(category) && categoryMap.get(category).size() >= 1) {
                                 listYouMightLike.add(food);
                             }
                         }
