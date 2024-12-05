@@ -24,6 +24,15 @@ import java.util.List;
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.FavouriteViewHolder> {
     private Context context;
     private List<Favourite> favouriteList;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public FavouriteAdapter(Context context, List<Favourite> favouriteList) {
         this.context = context;
@@ -34,7 +43,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     @Override
     public FavouriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
-        return new FavouriteViewHolder(view);
+        return new FavouriteViewHolder(view, listener);
     }
 
     @Override
@@ -102,12 +111,21 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
         ImageView imageView, likeIcon;
         TextView itemTitle, itemSubtitle;
 
-        public FavouriteViewHolder(@NonNull View itemView) {
+        public FavouriteViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             likeIcon = itemView.findViewById(R.id.likeIcon);
             itemTitle = itemView.findViewById(R.id.itemTitle);
             itemSubtitle = itemView.findViewById(R.id.itemSubtitle);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 }
