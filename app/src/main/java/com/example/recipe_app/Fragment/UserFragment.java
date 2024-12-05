@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipe_app.Adapter.RecipeAdapter;
 import com.example.recipe_app.Controller.Create_recipe;
+import com.example.recipe_app.Controller.DishRecipe;
 import com.example.recipe_app.Controller.Follow;
 import com.example.recipe_app.Controller.Setting;
 import com.example.recipe_app.Model.Recipe;
@@ -51,7 +52,7 @@ public class UserFragment extends Fragment {
         recipeList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recipeAdapter = new RecipeAdapter(getContext(), recipeList);
+        recipeAdapter = new RecipeAdapter(getContext(), recipeList, this::onFoodClick);
         recyclerView.setAdapter(recipeAdapter);
 
 
@@ -179,5 +180,14 @@ public class UserFragment extends Fragment {
                 Log.e("Firebase", "Error fetching recipes: " + error.getMessage());
             }
         });
+    }
+    // Handle recipe item click
+    public void onFoodClick(Recipe food) {
+        Intent intent = new Intent(getActivity(), DishRecipe.class);
+        intent.putExtra("recipeId", food.getRecipeId());
+        intent.putExtra("food_title", food.getName());
+        intent.putExtra("food_description", food.getDescription());
+        intent.putExtra("food_image", food.getImage());
+        startActivity(intent);
     }
 }
