@@ -21,9 +21,11 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
 
     private Context context;
     private List<Recipe> recipeList;
+    private OnDetailClickListener mListener;
     // Constructor nhận context và danh sách món ăn
-    public DetailAdapter(Context context) {
+    public DetailAdapter(Context context,OnDetailClickListener listener) {
         this.context = context;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -56,6 +58,12 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         Glide.with(context)
                 .load(imageUrl)
                 .into(holder.Image);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onFoodClick(recipe);
+            }
+        });
     }
 
     // Cập nhật danh sách món ăn
@@ -85,5 +93,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
             like = itemView.findViewById(R.id.tv_like);
             Image = itemView.findViewById(R.id.food_image);
         }
+    }
+    public interface OnDetailClickListener {
+        void onFoodClick(Recipe recipe);
     }
 }

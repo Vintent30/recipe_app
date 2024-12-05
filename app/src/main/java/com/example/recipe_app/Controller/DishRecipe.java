@@ -87,7 +87,6 @@ public class DishRecipe extends AppCompatActivity {
         // Lấy recipeId từ Intent
         recipeId = getIntent().getStringExtra("recipeId");
 
-
         // Tham chiếu đến Firebase Database
         databaseReference = FirebaseDatabase.getInstance().getReference("Recipes").child(recipeId);
 

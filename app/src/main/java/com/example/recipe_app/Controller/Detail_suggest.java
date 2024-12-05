@@ -1,5 +1,6 @@
 package com.example.recipe_app.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -59,7 +60,7 @@ public class Detail_suggest extends AppCompatActivity {
         });
         // Khởi tạo các View
         recyclerView = findViewById(R.id.rcv_detail_sg);  // Khởi tạo RecyclerView
-        detailAdapter = new DetailAdapter(this);
+        detailAdapter = new DetailAdapter(this, this::onFoodClick);
         // Khởi tạo RecyclerView và LayoutManager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);  // Gán LayoutManager cho RecyclerView
@@ -120,5 +121,12 @@ public class Detail_suggest extends AppCompatActivity {
         });
     }
 
-
+    public void onFoodClick(Recipe food) {
+        Intent intent = new Intent(Detail_suggest.this, DishRecipe.class);
+        intent.putExtra("recipeId", food.getRecipeId());
+        intent.putExtra("food_title", food.getName());
+        intent.putExtra("food_description", food.getDescription());
+        intent.putExtra("food_image", food.getImage());
+        startActivity(intent);
+    }
 }
