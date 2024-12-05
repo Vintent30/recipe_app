@@ -329,6 +329,7 @@ public class DishRecipe extends AppCompatActivity {
                         }
                     });
 
+                    // Cập nhật số lượng followers của người đăng công thức khi follow/unfollow
                     btnFollow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
