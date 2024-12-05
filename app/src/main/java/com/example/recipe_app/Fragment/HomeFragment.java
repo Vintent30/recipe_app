@@ -94,9 +94,10 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
             if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 String searchQuery = edtSearch.getText().toString().trim();
                 if (!searchQuery.isEmpty()) {
-                    // Open Search Results Activity with the search query
-                    Intent intent = new Intent(getActivity(), Search.class);
+                    // Mở Search Activity với từ khóa tìm kiếm
+                    Intent intent = new Intent(getActivity(), Search.class); // Sử dụng getActivity() thay vì HomeFragment.this
                     intent.putExtra("search_query", searchQuery);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
                 return true;

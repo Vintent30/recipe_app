@@ -1,6 +1,7 @@
 package com.example.recipe_app.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.recipe_app.Controller.DishRecipe;
 import com.example.recipe_app.Model.Recipe;
 import com.example.recipe_app.R;
 
@@ -35,6 +37,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.SearchViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
+
         // Thiết lập tên món ăn
         holder.name.setText(recipe.getName());
 
@@ -45,7 +48,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.category.setText("Danh mục: " + recipe.getCategory());
 
         // Hiển thị lượt thích
-        holder.like.setText("Like: " +String.valueOf(recipe.getLike()));
+        holder.like.setText("Like: " + String.valueOf(recipe.getLike()));
 
         // Lấy URL hình ảnh từ Firebase
         String imageUrl = recipe.getImage();
@@ -54,6 +57,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         Glide.with(context)
                 .load(imageUrl)
                 .into(holder.Image);
+
+        // Sự kiện click
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DishRecipe.class);
+            intent.putExtra("recipeId", recipe.getRecipeId());
+            intent.putExtra("food_title", recipe.getName());
+            intent.putExtra("food_description", recipe.getDescription());
+            intent.putExtra("food_image", recipe.getImage());
+            context.startActivity(intent);
+        });
     }
 
     // Cập nhật danh sách món ăn

@@ -102,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Cung cấp đầy đủ và cân đối các chất dinh dưỡng cần thiết cho cơ thể, bao gồm protein, carbohydrate, chất béo, vitamin, khoáng chất và nước. Mục tiêu của các món dinh dưỡng là giúp duy trì sức khỏe tốt, hỗ trợ sự phát triển và phục hồi cơ thể, cũng như phòng ngừa các bệnh lý liên quan đến dinh dưỡng."
+                    android:text="Món ăn vặt là các món nhẹ, dễ tiêu hóa, cung cấp năng lượng nhanh chóng và giúp giải trí giữa các bữa chính. Chúng thường kết hợp các nguyên liệu dinh dưỡng như trái cây, hạt hay bánh quy, giúp bổ sung vitamin và năng lượng cho cơ thể."
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
