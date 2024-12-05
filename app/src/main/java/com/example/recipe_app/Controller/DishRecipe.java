@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class DishRecipe extends AppCompatActivity {
     private  int followingCount;
     private DatabaseReference databaseReference2;
     ImageView chat;
-
+    RoundedImageView roundedImageAuthor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class DishRecipe extends AppCompatActivity {
         vdRecipe = findViewById(R.id.video_guide);
         imgLike = findViewById(R.id.like_button);// Thêm ImageView cho nút like
         chat = findViewById(R.id.chat);
-
+        roundedImageAuthor = findViewById(R.id.avatarAuthor);
         // Lấy recipeId từ Intent
         recipeId = getIntent().getStringExtra("recipeId");
 
@@ -322,9 +323,20 @@ public class DishRecipe extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot userSnapshot) {
                             if (userSnapshot.exists()) {
                                 String authorName = userSnapshot.child("name").getValue(String.class);
-                                tvAuthor.setText(authorName); // Cập nhật tên tác giả lên giao diện
+                                String authorImage = userSnapshot.child("avatar").getValue(String.class); // URL ảnh
+
+                                // Cập nhật tên tác giả lên giao diện
+                                tvAuthor.setText(authorName);
+
+                                // Sử dụng Glide để tải hình ảnh
+                                Glide.with(DishRecipe.this)
+                                        .load(authorImage) // URL của ảnh
+                                        .placeholder(R.drawable.hinh) // Ảnh tạm thời khi tải
+                                        .error(R.drawable.hinh) // Ảnh khi xảy ra lỗi
+                                        .into(roundedImageAuthor); // ImageView cần hiển thị
                             } else {
                                 tvAuthor.setText("Unknown Author");
+                                roundedImageAuthor.setImageResource(R.drawable.hinh); // Hiển thị ảnh mặc định
                             }
                         }
 

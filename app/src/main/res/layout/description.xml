@@ -144,6 +144,7 @@
 
                 <!-- Avatar -->
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/avatarAuthor"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginEnd="8dp"
