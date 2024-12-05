@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -183,7 +182,7 @@ public class Create_recipe extends AppCompatActivity {
 
                 Recipe recipe = new Recipe(recipeId, recipeName.getText().toString(), calories,
                         recipeDescription.getText().toString(), categorySpinner.getSelectedItem().toString(),
-                        imageUrl.toString(), videoUrl.toString(), "inactive", userId, selectedCategoryId, 0);
+                        imageUrl.toString(), videoUrl.toString(), "active", userId, selectedCategoryId, 0);
 
                 if (recipeId != null) {
                     databaseReference.child(recipeId).setValue(recipe).addOnCompleteListener(task -> {

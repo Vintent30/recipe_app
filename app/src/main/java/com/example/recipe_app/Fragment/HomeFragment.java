@@ -49,14 +49,12 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
     private Button button;
     private ImageView imgViewChat;
 
-
     List<Recipe> listRecommended = new ArrayList<>();
     List<Recipe> listPopularRecipes = new ArrayList<>();
     List<Recipe> listYouMightLike = new ArrayList<>();
     public HomeFragment() {
         // Required empty public constructor
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -149,8 +147,11 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                             int calories = (caloriesObj != null) ? caloriesObj : 0; // Gán 0 nếu giá trị null
                             String recipeId = recipeSnapshot.child("recipeId").getValue(String.class);
                             String recipeUserId = recipeSnapshot.child("userId").getValue(String.class);
+                            String status = recipeSnapshot.child("status").getValue(String.class);
 
-
+                            if (!"active".equalsIgnoreCase(status)) {
+                                continue;
+                            }
                             if (currentUserId.equals(recipeUserId)) {
                                 continue;
                             }
