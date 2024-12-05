@@ -1,5 +1,6 @@
 package com.example.recipe_app.Controller;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +43,8 @@ public class DishRecipe extends AppCompatActivity {
     private  int followerCount;
     private  int followingCount;
     private DatabaseReference databaseReference2;
+    ImageView chat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +79,8 @@ public class DishRecipe extends AppCompatActivity {
         btnFollow = findViewById(R.id.follow_button);
         tvIngredients = findViewById(R.id.ingredients);
         vdRecipe = findViewById(R.id.video_guide);
-        imgLike = findViewById(R.id.like_button);// Thêm ImageView cho nút like
+        imgLike = findViewById(R.id.like_button);
+        chat = findViewById(R.id.chat);
 
         // Lấy recipeId từ Intent
         recipeId = getIntent().getStringExtra("recipeId");
@@ -121,7 +125,6 @@ public class DishRecipe extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     // Lưu trạng thái like của người dùng đối với một công thức
@@ -356,12 +359,32 @@ public class DishRecipe extends AppCompatActivity {
                             });
                         }
                     });
+                    chat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Truyền các chi tiết món ăn sang ChatActivity
+                            Intent intent = new Intent(DishRecipe.this, Chat.class);
+                            intent.putExtra("recipeName", name);  // Tên món ăn
+                            intent.putExtra("recipeId", recipeId);  // ID món ăn
+                            intent.putExtra("recipeImage", imageUrl);  // URL hình ảnh
+                            intent.putExtra("authorId", authorId);// ID tác giả
+
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(DishRecipe.this, "Lỗi khi tải dữ liệu!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DishRecipe.this, Chat.class));
             }
         });
     }
