@@ -1,7 +1,6 @@
 package com.example.recipe_app.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +20,18 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
 
     private Context context;
     private List<Recipe> recipeList;
-    private OnDetailClickListener mListener;
-    // Constructor nhận context và danh sách món ăn
-    public DetailAdapter(Context context,OnDetailClickListener listener) {
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(String recipeId); // Callback khi item được click
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public DetailAdapter(Context context) {
         this.context = context;
-        this.mListener = listener;
     }
 
     @NonNull
@@ -38,49 +44,33 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
     @Override
     public void onBindViewHolder(@NonNull DetailViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
-        Log.d("DetailAdapter", "Binding recipe: " + recipe.getName());
-        // Thiết lập tên món ăn
+
         holder.name.setText(recipe.getName());
-
-        // Hiển thị thông tin calo
-        holder.calory.setText("Calo: " + String.valueOf(recipe.getCalories()));
-
-        // Hiển thị danh mục món ăn
+        holder.calory.setText("Calo: " + recipe.getCalories());
         holder.category.setText("Danh mục: " + recipe.getCategory());
+        holder.like.setText("Lượt thích: " + recipe.getLike());
 
-        // Hiển thị lượt thích
-        holder.like.setText("Lượt thích: " +String.valueOf(recipe.getLike()));
-
-        // Lấy URL hình ảnh từ Firebase
-        String imageUrl = recipe.getImage();
-
-        // Tải ảnh từ URL vào ImageView sử dụng Glide
         Glide.with(context)
-                .load(imageUrl)
+                .load(recipe.getImage())
                 .into(holder.Image);
 
         holder.itemView.setOnClickListener(v -> {
-            if (mListener != null) {
-                mListener.onFoodClick(recipe);
+            if (listener != null) {
+                listener.onItemClick(recipe.getRecipeId()); // Gửi recipeId về qua listener
             }
         });
     }
 
-    // Cập nhật danh sách món ăn
     public void setData(List<Recipe> recipeList) {
         this.recipeList = recipeList;
-        notifyDataSetChanged();  // Đảm bảo adapter cập nhật lại RecyclerView
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        if(recipeList != null) {
-            return recipeList.size();
-        }// Trả về số lượng món ăn trong danh sách
-        return  0;
+        return recipeList != null ? recipeList.size() : 0;
     }
 
-    // Lớp ViewHolder để ánh xạ các View
     public static class DetailViewHolder extends RecyclerView.ViewHolder {
         TextView name, calory, category, like;
         ImageView Image;
@@ -93,8 +83,5 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
             like = itemView.findViewById(R.id.tv_like);
             Image = itemView.findViewById(R.id.food_image);
         }
-    }
-    public interface OnDetailClickListener {
-        void onFoodClick(Recipe recipe);
     }
 }

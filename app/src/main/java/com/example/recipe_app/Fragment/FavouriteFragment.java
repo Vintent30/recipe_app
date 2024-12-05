@@ -1,5 +1,6 @@
 package com.example.recipe_app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.recipe_app.Adapter.FavouriteAdapter;
 import com.example.recipe_app.Model.Favourite;
 import com.example.recipe_app.R;
+import com.example.recipe_app.Controller.DishRecipe;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +38,7 @@ public class FavouriteFragment extends Fragment {
     private DatabaseReference database;
     private List<Favourite> favouriteList = new ArrayList<>();
     private Spinner spinner;
-    private boolean isSpinnerInitialized = false; // Tránh kích hoạt spinner khi khởi tạo lần đầu
+    private boolean isSpinnerInitialized = false;
 
     public FavouriteFragment() {
         // Default constructor
@@ -48,7 +50,7 @@ public class FavouriteFragment extends Fragment {
 
         // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2 columns
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         // Initialize Firebase database
         database = FirebaseDatabase.getInstance().getReference();
@@ -63,49 +65,32 @@ public class FavouriteFragment extends Fragment {
     }
 
     private void setupSpinner() {
-        // Các tùy chọn sắp xếp
         String[] sortingOptions = {"Sắp xếp theo tên", "Sắp xếp theo calo"};
 
-        // Adapter cho Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sortingOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        // Xử lý sự kiện khi chọn mục trong Spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (isSpinnerInitialized) {
                     switch (position) {
-                        case 0: // Sắp xếp theo tên
-                            Collections.sort(favouriteList, new Comparator<Favourite>() {
-                                @Override
-                                public int compare(Favourite f1, Favourite f2) {
-                                    return f1.getName().compareTo(f2.getName());
-                                }
-                            });
+                        case 0:
+                            Collections.sort(favouriteList, Comparator.comparing(Favourite::getName));
                             break;
-
-                        case 1: // Sắp xếp theo calo
-                            Collections.sort(favouriteList, new Comparator<Favourite>() {
-                                @Override
-                                public int compare(Favourite f1, Favourite f2) {
-                                    return Integer.compare(f1.getCalories(), f2.getCalories());
-                                }
-                            });
+                        case 1:
+                            Collections.sort(favouriteList, Comparator.comparingInt(Favourite::getCalories));
                             break;
                     }
-                    // Cập nhật lại adapter sau khi sắp xếp
                     favouriteAdapter.notifyDataSetChanged();
                 } else {
-                    isSpinnerInitialized = true; // Bỏ qua lần đầu Spinner khởi tạo
+                    isSpinnerInitialized = true;
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Không làm gì nếu không chọn
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -133,11 +118,16 @@ public class FavouriteFragment extends Fragment {
                     favouriteList.add(favourite);
                 }
 
-                // Khởi tạo adapter sau khi dữ liệu được tải
                 favouriteAdapter = new FavouriteAdapter(getContext(), favouriteList);
                 recyclerView.setAdapter(favouriteAdapter);
 
-                // Cài đặt Spinner sau khi dữ liệu đã được tải
+                favouriteAdapter.setOnItemClickListener(position -> {
+                    Favourite selectedFavourite = favouriteList.get(position);
+                    Intent intent = new Intent(getContext(), DishRecipe.class);
+                    intent.putExtra("recipeId", selectedFavourite.getRecipeId());
+                    startActivity(intent);
+                });
+
                 setupSpinner();
             }
 

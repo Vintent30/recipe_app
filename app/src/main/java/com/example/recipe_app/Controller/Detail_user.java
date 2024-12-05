@@ -119,7 +119,7 @@ public class Detail_user extends AppCompatActivity {
                         Glide.with(Detail_user.this).load(avatarUrl).into(profilePicture);
                     }
                 } else {
-                    Toast.makeText(Detail_user.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Detail_user.this, "Không thể tải dữ liệu người dùng.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -168,7 +168,7 @@ public class Detail_user extends AppCompatActivity {
                         });
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(Detail_user.this, "Failed to upload image.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Detail_user.this, "Tải lên hình ảnh không thành công.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -202,15 +202,15 @@ public class Detail_user extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 progressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(Detail_user.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Detail_user.this, "Cập nhật hồ sơ thành công.", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(Detail_user.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Detail_user.this, "Cập nhật hồ sơ không thành công.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(Detail_user.this, "Failed to update password.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Detail_user.this, "Cập nhật mật khẩu không thành công.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -224,9 +224,9 @@ public class Detail_user extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
-                        Toast.makeText(Detail_user.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Detail_user.this, "Cập nhật hồ sơ thành công.", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(Detail_user.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Detail_user.this, "Cập nhật hồ sơ không thành công.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
