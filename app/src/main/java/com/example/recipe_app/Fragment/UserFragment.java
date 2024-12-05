@@ -70,7 +70,7 @@ public class UserFragment extends Fragment {
         settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
         createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
         followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
-        totalFollowing.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
+        followingTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
         // Get the current logged-in user
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
