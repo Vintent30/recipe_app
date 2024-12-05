@@ -46,7 +46,7 @@ public class FoodHomeAdapter extends RecyclerView.Adapter<FoodHomeAdapter.FoodVi
                 .into(holder.imgFood);
 
         holder.tvTitle.setText(foodHome.getName());
-        holder.tvSave.setText("Lượt calories: "+String.valueOf(foodHome.getCalories()));
+        holder.tvSave.setText("Lượt calories: "+String.valueOf(foodHome.getLike()));
 
         // Bắt sự kiện click
         holder.itemView.setOnClickListener(v -> {
