@@ -145,7 +145,8 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                             String name = recipeSnapshot.child("name").getValue(String.class);
                             String imageUrl = recipeSnapshot.child("image").getValue(String.class);
                             String category = recipeSnapshot.child("category").getValue(String.class);
-                            int calories = recipeSnapshot.child("calories").getValue(Integer.class);
+                            Integer caloriesObj = recipeSnapshot.child("calories").getValue(Integer.class);
+                            int calories = (caloriesObj != null) ? caloriesObj : 0; // Gán 0 nếu giá trị null
                             String recipeId = recipeSnapshot.child("recipeId").getValue(String.class);
                             String recipeUserId = recipeSnapshot.child("userId").getValue(String.class);
 
@@ -184,7 +185,7 @@ public class HomeFragment extends Fragment implements CategoryHomeAdapter.OnCate
                             }
 
                             // Thêm vào listYouMightLike nếu có ít nhất 2 món cùng category trong UserLikes
-                            if (categoryMap.containsKey(category) && categoryMap.get(category).size() >= 3) {
+                            if (categoryMap.containsKey(category) && categoryMap.get(category).size() >= 1) {
                                 listYouMightLike.add(food);
                             }
                         }
