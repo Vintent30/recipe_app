@@ -68,6 +68,7 @@ public class UserFragment extends Fragment {
 
         // Handle follower and setting button clicks
         followerTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
+        followingTextView.setOnClickListener(v -> startActivity(new Intent(getActivity(), Follow.class)));
         settingIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), Setting.class)));
         createRecipeButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), Create_recipe.class)));
 
