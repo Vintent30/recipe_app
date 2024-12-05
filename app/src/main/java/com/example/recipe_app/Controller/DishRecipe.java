@@ -334,38 +334,34 @@ public class DishRecipe extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            databaseReference2 = FirebaseDatabase.getInstance().getReference("Accounts").child(userID);
-                            DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId); // Lấy tham chiếu tới tài khoản người đăng công thức
+                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Accounts").child(userID);
+                            DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("Accounts").child(authorId);
+
                             authorRef.child("followers").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     followerCount = snapshot.exists() ? snapshot.getValue(Integer.class) : 0; // Lấy số followers hiện tại
 
                                     if (!isFollow) { // Nếu chưa follow
-                                        btnFollow.setText("Unfollow");
+                                        btnFollow.setText("Unfollow"); // Đổi nút thành Unfollow
                                         followerCount++; // Tăng followers của người đăng công thức
                                         followingCount++; // Tăng following của người dùng hiện tại
-
-                                        // Cập nhật vào Firebase
-                                        authorRef.child("followers").setValue(followerCount);
-                                        databaseReference2.child("following").setValue(followingCount);
-
-                                        updateUserFollows(userID, authorId, true);
-                                        isFollow = true; // Đánh dấu là đã follow
                                     } else { // Nếu đã follow
-                                        btnFollow.setText("Follow");
-
-                                        // Kiểm tra followerCount và followingCount để không giảm xuống âm
-                                        if (followerCount > 0) followerCount--; // Giảm followers của người đăng công thức
-                                        if (followingCount > 0) followingCount--; // Giảm following của người dùng hiện tại
-
-                                        // Cập nhật vào Firebase
-                                        authorRef.child("followers").setValue(followerCount);
-                                        databaseReference2.child("following").setValue(followingCount);
-
-                                        updateUserFollows(userID, authorId, false);
-                                        isFollow = false; // Đánh dấu là chưa follow
+                                        btnFollow.setText("Follow"); // Đổi nút thành Follow
+                                        // Chỉ giảm nếu followerCount và followingCount lớn hơn 0
+                                        if (followerCount > 0) followerCount--;
+                                        if (followingCount > 0) followingCount--;
                                     }
+
+                                    // Cập nhật giá trị vào Firebase
+                                    authorRef.child("followers").setValue(followerCount);
+                                    userRef.child("following").setValue(followingCount);
+
+                                    // Cập nhật trạng thái follow hoặc unfollow
+                                    updateUserFollows(userID, authorId, !isFollow);
+
+                                    // Cập nhật trạng thái
+                                    isFollow = !isFollow;
                                 }
 
                                 @Override
