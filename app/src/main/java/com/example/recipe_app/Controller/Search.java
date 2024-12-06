@@ -34,6 +34,7 @@ public class Search extends AppCompatActivity {
     ImageView imageView;
     private EditText edtSearch;
     private TextView tvNoResults;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +45,15 @@ public class Search extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         imageView = findViewById(R.id.btnback);
-        imageView.setOnClickListener(view -> finish());
+        imageView.setOnClickListener(view -> {
+            onBackPressed();
+        });
 
-        // Khởi tạo TextView
+
+        // Initialize TextView
         tvNoResults = findViewById(R.id.tv_no_results);
-
 
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.rcv_search);
@@ -69,6 +73,7 @@ public class Search extends AppCompatActivity {
         // Fetch data from Firebase
         fetchSearchResults(searchQuery);
     }
+
     private void fetchSearchResults(String searchQuery) {
         mDatabase.child("Recipes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -87,13 +92,13 @@ public class Search extends AppCompatActivity {
 
                 // Update the adapter with the search results
                 searchAdapter.setData(searchResults);
-                // Hiển thị hoặc ẩn TextView dựa trên kết quả
+                // Show or hide TextView based on results
                 if (searchResults.isEmpty()) {
-                    tvNoResults.setVisibility(View.VISIBLE); // Hiển thị "Không tìm thấy kết quả"
-                    recyclerView.setVisibility(View.GONE);  // Ẩn danh sách
+                    tvNoResults.setVisibility(View.VISIBLE); // Show "No results found"
+                    recyclerView.setVisibility(View.GONE);  // Hide the list
                 } else {
-                    tvNoResults.setVisibility(View.GONE);   // Ẩn thông báo
-                    recyclerView.setVisibility(View.VISIBLE); // Hiển thị danh sách
+                    tvNoResults.setVisibility(View.GONE);   // Hide "No results found"
+                    recyclerView.setVisibility(View.VISIBLE); // Show the list
                 }
             }
 
@@ -103,5 +108,4 @@ public class Search extends AppCompatActivity {
             }
         });
     }
-
 }
