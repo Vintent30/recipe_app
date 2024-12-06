@@ -330,12 +330,12 @@ public class DishRecipe extends AppCompatActivity {
                                 // Sử dụng Glide để tải hình ảnh
                                 Glide.with(DishRecipe.this)
                                         .load(authorImage) // URL của ảnh
-                                        .placeholder(R.drawable.hinh) // Ảnh tạm thời khi tải
-                                        .error(R.drawable.hinh) // Ảnh khi xảy ra lỗi
+                                        .placeholder(R.drawable.avatar_macdinh) // Ảnh tạm thời khi tải
+                                        .error(R.drawable.avatar_macdinh) // Ảnh khi xảy ra lỗi
                                         .into(roundedImageAuthor); // ImageView cần hiển thị
                             } else {
                                 tvAuthor.setText("Unknown Author");
-                                roundedImageAuthor.setImageResource(R.drawable.hinh); // Hiển thị ảnh mặc định
+                                roundedImageAuthor.setImageResource(R.drawable.avatar_macdinh); // Hiển thị ảnh mặc định
                             }
                         }
 

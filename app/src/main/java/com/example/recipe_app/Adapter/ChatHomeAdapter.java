@@ -60,12 +60,12 @@ public class ChatHomeAdapter extends RecyclerView.Adapter<ChatHomeAdapter.ChatHo
                     holder.senderName.setText(senderName != null ? senderName : "Unknown Sender");
 
                     Glide.with(holder.itemView.getContext())
-                            .load(senderAvatar != null ? senderAvatar : R.drawable.hinh) // Default image if avatar is null
+                            .load(senderAvatar != null ? senderAvatar : R.drawable.avatar_macdinh) // Default image if avatar is null
                             .into(holder.senderAvatar);
                 } else {
                     holder.senderName.setText("Unknown Sender");
                     Glide.with(holder.itemView.getContext())
-                            .load(R.drawable.hinh) // Default image
+                            .load(R.drawable.avatar_macdinh) // Default image
                             .into(holder.senderAvatar);
                 }
             }
