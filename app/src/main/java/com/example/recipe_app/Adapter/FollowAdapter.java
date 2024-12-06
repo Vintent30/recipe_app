@@ -50,8 +50,8 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
         // Load avatar image using Glide or any other image loading library
         Glide.with(context)
                 .load(user.getAvatarUrl())
-                .placeholder(R.drawable.hinh)
-                .error(R.drawable.hinh)
+                .placeholder(R.drawable.avatar_macdinh)
+                .error(R.drawable.avatar_macdinh)
                 .into(holder.userAvatarImageView);
 
         // Check if the current user is already following this user
