@@ -5,6 +5,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -24,6 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Recipe_app"
         tools:targetApi="31">
+        <activity
+            android:name=".Controller.Create_Post"
+            android:exported="false" />
         <!-- Dịch vụ FCM -->
         <service
             android:name=".MyFirebaseMessagingService"
@@ -32,6 +36,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".Controller.Search"
             android:exported="false" />
@@ -59,7 +64,7 @@
         <activity android:name=".Controller.Detail_suggest" />
         <activity android:name=".Controller.RecipeActivity" />
         <activity android:name=".Controller.chat_community" />
-        <activity android:name=".Controller.Chat" /><!-- <activity android:name=".Controller.Sign_in" /> -->
+        <activity android:name=".Controller.Chat" /> <!-- <activity android:name=".Controller.Sign_in" /> -->
         <activity android:name=".Controller.introduce_1" />
         <activity android:name=".Controller.ChatHome" />
         <activity android:name=".Controller.introduce_2" />
@@ -67,10 +72,10 @@
         <activity android:name=".Controller.Comment" />
         <activity android:name=".Controller.introduce" />
         <activity android:name=".Controller.conratulation_2" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_intro2" />

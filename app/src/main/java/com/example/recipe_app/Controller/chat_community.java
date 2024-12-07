@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.example.recipe_app.R;
 
 public class chat_community extends AppCompatActivity {
     ImageView imageView;
+    LinearLayout linearLayoutPost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,15 @@ public class chat_community extends AppCompatActivity {
                 } else {
                     finish();
                 }
+            }
+        });
+        linearLayoutPost = findViewById(R.id.add_post);
+        linearLayoutPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Chuyển sang giao diện khác (Comment Activity)
+                Intent intent = new Intent(chat_community.this, Create_Post.class);
+                startActivity(intent);
             }
         });
 
