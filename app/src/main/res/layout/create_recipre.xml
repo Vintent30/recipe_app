@@ -54,6 +54,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/edit_image"
                 android:layout_width="31dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="132dp"
@@ -64,7 +65,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/cookPicture_create"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.955"
+                app:layout_constraintVertical_bias="0.948"
                 tools:ignore="MissingConstraints,UnknownId" />
 
             <com.makeramen.roundedimageview.RoundedImageView
@@ -77,9 +78,10 @@
                 android:src="@drawable/img"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
                 app:riv_corner_radius="90dp"
                 tools:ignore="MissingConstraints" />
 
