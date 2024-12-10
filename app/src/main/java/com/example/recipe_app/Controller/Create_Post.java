@@ -3,6 +3,7 @@ package com.example.recipe_app.Controller;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,7 +29,7 @@ public class Create_Post extends AppCompatActivity {
     private Button btnSave;
 
     private Uri selectedImageUri;
-
+    ImageView back_create_btn;
     // Firebase instances
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
@@ -57,6 +58,18 @@ public class Create_Post extends AppCompatActivity {
 
         // Bắt sự kiện lưu bài đăng khi nhấn vào btn_save
         btnSave.setOnClickListener(v -> savePost());
+
+        back_create_btn = findViewById(R.id.back_create);
+        back_create_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    finish();
+                }
+            }
+        });
     }
 
     // Mở thư viện ảnh để người dùng chọn ảnh
