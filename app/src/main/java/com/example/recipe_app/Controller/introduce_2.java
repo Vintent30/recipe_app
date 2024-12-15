@@ -29,7 +29,7 @@ public class introduce_2 extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(introduce_2.this, Sign_in.class));
+                startActivity(new Intent(introduce_2.this, Sign_up.class));
             }
         });
     }

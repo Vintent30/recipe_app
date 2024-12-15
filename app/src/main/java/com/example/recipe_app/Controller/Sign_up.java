@@ -41,7 +41,7 @@ public class Sign_up extends AppCompatActivity {
         registerButton.setOnClickListener(v -> registerUser());
 
         btnback1 = findViewById(R.id.Sign_in_by_acc);
-        btnback1.setOnClickListener(view -> startActivity(new Intent(Sign_up.this, MainActivity.class)));
+        btnback1.setOnClickListener(view -> startActivity(new Intent(Sign_up.this, Sign_in.class)));
     }
 
     private void registerUser() {
